@@ -1,0 +1,52 @@
+{
+  "name": "Catalog",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "build": "ng build catalog --configuration production",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@abp/ng.core": "~10.6.0",
+    "@abp/ng.oauth": "~10.6.0",
+    "@abp/ng.theme.shared": "~10.6.0",
+    "@abp/ng.components": "~10.6.0",
+    "@volo/abp.commercial.ng.ui": "~10.6.0",
+    "@angular/animations": "~22.0.2",
+    "@angular/aria": "~22.0.2",
+    "@angular/common": "~22.0.2",
+    "@angular/compiler": "~22.0.2",
+    "@angular/core": "~22.0.2",
+    "@angular/forms": "~22.0.2",
+    "@angular/localize": "~22.0.2",
+    "@angular/platform-browser": "~22.0.2",
+    "@angular/platform-browser-dynamic": "~22.0.2",
+    "@angular/router": "~22.0.2",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.1.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@abp/ng.schematics": "~10.6.0",
+    "@angular/build": "~22.0.0",
+    "@angular-eslint/builder": "~22.0.0",
+    "@angular-eslint/schematics": "~22.0.0",
+    "@angular-eslint/eslint-plugin": "~22.0.0",
+    "@angular-eslint/eslint-plugin-template": "~22.0.0",
+    "@angular-eslint/template-parser": "~22.0.0",
+    "@angular/cli": "~22.0.0",
+    "@angular/compiler-cli": "~22.0.0",
+    "@angular/language-service": "~22.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.23.0",
+    "jsdom": "^27.1.0",
+    "ng-packagr": "~22.0.0",
+    "typescript": "~6.0.3",
+    "vitest": "^4.0.0"
+  }
+}

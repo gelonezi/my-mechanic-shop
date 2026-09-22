@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>MyMechanicShop.Catalog</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.6.0"/>
+    <ProjectReference Include="..\MyMechanicShop.Catalog.Application.Contracts\MyMechanicShop.Catalog.Application.Contracts.csproj" />
+    <ProjectReference Include="..\MyMechanicShop.Catalog.Application\MyMechanicShop.Catalog.Application.csproj" />
+  </ItemGroup>
+
+</Project>

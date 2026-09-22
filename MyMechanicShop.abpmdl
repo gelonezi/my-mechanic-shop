@@ -1,0 +1,114 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    },
+    "Volo.Abp.BlobStoring.Database": {
+      "version": "10.6.0",
+      "isInstalled": true,
+      "creationTime": "09/05/2026 19:55:49 +00:00"
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "MyMechanicShop.Application": {
+      "path": "src/MyMechanicShop.Application/MyMechanicShop.Application.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Application.Tests": {
+      "path": "test/MyMechanicShop.Application.Tests/MyMechanicShop.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.Domain.Shared": {
+      "path": "src/MyMechanicShop.Domain.Shared/MyMechanicShop.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Application.Contracts": {
+      "path": "src/MyMechanicShop.Application.Contracts/MyMechanicShop.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.HttpApi": {
+      "path": "src/MyMechanicShop.HttpApi/MyMechanicShop.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.HttpApi.Client": {
+      "path": "src/MyMechanicShop.HttpApi.Client/MyMechanicShop.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.EntityFrameworkCore.Tests": {
+      "path": "test/MyMechanicShop.EntityFrameworkCore.Tests/MyMechanicShop.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.EntityFrameworkCore": {
+      "path": "src/MyMechanicShop.EntityFrameworkCore/MyMechanicShop.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.TestBase": {
+      "path": "test/MyMechanicShop.TestBase/MyMechanicShop.TestBase.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.Domain.Tests": {
+      "path": "test/MyMechanicShop.Domain.Tests/MyMechanicShop.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/MyMechanicShop.HttpApi.Client.ConsoleTestApp/MyMechanicShop.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.DbMigrator": {
+      "path": "src/MyMechanicShop.DbMigrator/MyMechanicShop.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.HttpApi.Host": {
+      "path": "src/MyMechanicShop.HttpApi.Host/MyMechanicShop.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Domain": {
+      "path": "src/MyMechanicShop.Domain/MyMechanicShop.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

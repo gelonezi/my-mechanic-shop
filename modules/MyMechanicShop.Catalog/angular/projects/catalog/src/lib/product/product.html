@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">{{ 'Catalog::Menu:Products' | abpLocalization }}</h5>
+      </div>
+      <div class="text-end col col-md-6">
+        <button id="create" class="btn btn-primary" type="button" (click)="createProduct()">
+          <i class="fa fa-plus me-1"></i>
+          <span>{{ 'Catalog::NewProduct' | abpLocalization }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable [rows]="products().items" [count]="products().totalCount" [list]="list" default>
+      <ngx-datatable-column [name]="'Catalog::Name' | abpLocalization" prop="name" />
+      <ngx-datatable-column [name]="'Catalog::Price' | abpLocalization" prop="price">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {{ row.price | currency }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'Catalog::StockCount' | abpLocalization" prop="stockCount" />
+
+      <!-- Actions last so the buttons sit on the right-hand edge of the row.
+           sortable=false because there is nothing to sort by, and a fixed width keeps
+           the buttons from stretching as the table resizes. -->
+      <ngx-datatable-column
+        [name]="'Catalog::Actions' | abpLocalization"
+        [maxWidth]="150"
+        [width]="150"
+        [sortable]="false"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div class="d-flex gap-2 justify-content-end">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              [title]="'AbpUi::Edit' | abpLocalization"
+              (click)="editProduct(row.id)"
+            >
+              <i class="fa fa-pen" aria-hidden="true"></i>
+              <span class="visually-hidden">{{ 'AbpUi::Edit' | abpLocalization }}</span>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-danger"
+              [title]="'AbpUi::Delete' | abpLocalization"
+              (click)="deleteProduct(row)"
+            >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+              <span class="visually-hidden">{{ 'AbpUi::Delete' | abpLocalization }}</span>
+            </button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+<abp-modal [(visible)]="isModalOpen">
+  <ng-template #abpHeader>
+    <h3>
+      {{ (selectedProductId() ? 'AbpUi::Edit' : 'Catalog::NewProduct') | abpLocalization }}
+    </h3>
+  </ng-template>
+
+  <ng-template #abpBody>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="mt-2">
+        <label class="form-label" for="product-name">{{ 'Catalog::Name' | abpLocalization }}</label>
+        <input type="text" id="product-name" class="form-control" formControlName="name" autofocus />
+      </div>
+
+      <div class="mt-2">
+        <label class="form-label" for="product-price">{{ 'Catalog::Price' | abpLocalization }}</label>
+        <input type="number" id="product-price" class="form-control" formControlName="price" />
+      </div>
+
+      <div class="mt-2">
+        <label class="form-label" for="product-stock">{{ 'Catalog::StockCount' | abpLocalization }}</label>
+        <input type="number" id="product-stock" class="form-control" formControlName="stockCount" />
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" abpClose>
+      {{ 'AbpUi::Cancel' | abpLocalization }}
+    </button>
+    <button class="btn btn-primary" type="button" (click)="save()" [disabled]="form.invalid">
+      {{ 'AbpUi::Save' | abpLocalization }}
+    </button>
+  </ng-template>
+</abp-modal>

@@ -1,0 +1,14 @@
+{
+  "culture": "pt-BR",
+  "texts": {
+    "MyAccount": "Minha conta",
+    "SamplePageMessage": "Uma página de amostra para o módulo Catalog",
+    "Menu:Catalog": "Catálogo",
+    "Menu:Products": "Produtos",
+    "Name": "Nome",
+    "Price": "Preço",
+    "StockCount": "Estoque",
+    "Actions": "Ações",
+    "NewProduct": "Novo produto"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "MyMechanicShop.Catalog.Domain": {
+      "path": "src/MyMechanicShop.Catalog.Domain/MyMechanicShop.Catalog.Domain.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.Application.Contracts": {
+      "path": "src/MyMechanicShop.Catalog.Application.Contracts/MyMechanicShop.Catalog.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.Application": {
+      "path": "src/MyMechanicShop.Catalog.Application/MyMechanicShop.Catalog.Application.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.EntityFrameworkCore": {
+      "path": "src/MyMechanicShop.Catalog.EntityFrameworkCore/MyMechanicShop.Catalog.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.HttpApi": {
+      "path": "src/MyMechanicShop.Catalog.HttpApi/MyMechanicShop.Catalog.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.HttpApi.Client": {
+      "path": "src/MyMechanicShop.Catalog.HttpApi.Client/MyMechanicShop.Catalog.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.TestBase": {
+      "path": "test/MyMechanicShop.Catalog.TestBase/MyMechanicShop.Catalog.TestBase.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.Catalog.EntityFrameworkCore.Tests": {
+      "path": "test/MyMechanicShop.Catalog.EntityFrameworkCore.Tests/MyMechanicShop.Catalog.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.Catalog.Domain.Tests": {
+      "path": "test/MyMechanicShop.Catalog.Domain.Tests/MyMechanicShop.Catalog.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.Catalog.Application.Tests": {
+      "path": "test/MyMechanicShop.Catalog.Application.Tests/MyMechanicShop.Catalog.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "MyMechanicShop.Catalog.Domain.Shared": {
+      "path": "src/MyMechanicShop.Catalog.Domain.Shared/MyMechanicShop.Catalog.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.Catalog.Installer": {
+       "path": "src/MyMechanicShop.Catalog.Installer/MyMechanicShop.Catalog.Installer.abppkg",
+       "folder": "src"
+    }
+  }
+}

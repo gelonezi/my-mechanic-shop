@@ -1,0 +1,23 @@
+<Solution>
+    <Configurations>
+        <Platform Name="Any CPU" />
+    </Configurations>
+
+    <Folder Name="/src/">
+        <Project Path="src/MyMechanicShop.Catalog.Domain.Shared/MyMechanicShop.Catalog.Domain.Shared.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.Domain/MyMechanicShop.Catalog.Domain.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.Application.Contracts/MyMechanicShop.Catalog.Application.Contracts.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.Application/MyMechanicShop.Catalog.Application.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.EntityFrameworkCore/MyMechanicShop.Catalog.EntityFrameworkCore.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.HttpApi/MyMechanicShop.Catalog.HttpApi.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.HttpApi.Client/MyMechanicShop.Catalog.HttpApi.Client.csproj" />
+        <Project Path="src/MyMechanicShop.Catalog.Installer/MyMechanicShop.Catalog.Installer.csproj" />
+    </Folder>
+    
+    <Folder Name="/test/">
+        <Project Path="test/MyMechanicShop.Catalog.TestBase/MyMechanicShop.Catalog.TestBase.csproj" />
+        <Project Path="test/MyMechanicShop.Catalog.EntityFrameworkCore.Tests/MyMechanicShop.Catalog.EntityFrameworkCore.Tests.csproj" />
+        <Project Path="test/MyMechanicShop.Catalog.Domain.Tests/MyMechanicShop.Catalog.Domain.Tests.csproj" />
+        <Project Path="test/MyMechanicShop.Catalog.Application.Tests/MyMechanicShop.Catalog.Application.Tests.csproj" />
+    </Folder>
+</Solution>
