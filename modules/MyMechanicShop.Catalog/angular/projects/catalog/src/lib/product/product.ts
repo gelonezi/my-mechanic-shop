@@ -36,7 +36,6 @@ import { Products } from '../proxy';
     CurrencyPipe,
   ],
   templateUrl: './product.html',
-  styleUrl: './product.css',
   /* ListService is provided PER COMPONENT, not in root: its state is this page's
    * current page/sort/filter. A root-provided one would leak paging between pages. */
   providers: [ListService],

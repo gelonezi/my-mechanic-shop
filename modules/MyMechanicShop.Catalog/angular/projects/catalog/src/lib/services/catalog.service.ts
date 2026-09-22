@@ -7,7 +7,7 @@ import { RestService } from '@abp/ng.core';
 export class CatalogService {
   apiName = 'Catalog';
 
-  private restService = inject(RestService);
+  private readonly restService = inject(RestService);
 
   sample() {
     return this.restService.request<void, any>(

@@ -9,7 +9,7 @@ import { AuthService, LocalizationPipe } from '@abp/ng.core';
   imports: [LocalizationPipe]
 })
 export class HomeComponent {
-  private authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
   get hasLoggedIn(): boolean {
     return this.authService.isAuthenticated

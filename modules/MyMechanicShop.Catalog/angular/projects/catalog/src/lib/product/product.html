@@ -69,7 +69,7 @@
     <form [formGroup]="form" (ngSubmit)="save()">
       <div class="mt-2">
         <label class="form-label" for="product-name">{{ 'Catalog::Name' | abpLocalization }}</label>
-        <input type="text" id="product-name" class="form-control" formControlName="name" autofocus />
+        <input type="text" id="product-name" class="form-control" formControlName="name" ngbAutofocus />
       </div>
 
       <div class="mt-2">
