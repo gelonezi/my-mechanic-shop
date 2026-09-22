@@ -1,6 +1,6 @@
 ﻿namespace MyMechanicShop.Catalog;
 
-public class CatalogRemoteServiceConsts
+public static class CatalogRemoteServiceConsts
 {
     public const string RemoteServiceName = "Catalog";
 

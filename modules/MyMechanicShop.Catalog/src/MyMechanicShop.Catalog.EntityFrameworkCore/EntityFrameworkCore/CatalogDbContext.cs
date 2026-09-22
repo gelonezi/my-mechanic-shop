@@ -10,10 +10,10 @@ public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) : AbpD
 {
     public DbSet<Product> Products { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
 
-        builder.ConfigureCatalog();
+        modelBuilder.ConfigureCatalog();
     }
 }

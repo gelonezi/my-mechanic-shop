@@ -2,7 +2,7 @@
 
 namespace MyMechanicShop.Catalog.Permissions;
 
-public class CatalogPermissions
+public static class CatalogPermissions
 {
     public const string GroupName = "Catalog";
 

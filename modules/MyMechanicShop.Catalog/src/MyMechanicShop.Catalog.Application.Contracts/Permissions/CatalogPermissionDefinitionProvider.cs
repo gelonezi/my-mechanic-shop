@@ -8,7 +8,7 @@ public class CatalogPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(CatalogPermissions.GroupName, L("Permission:Catalog"));
+        context.AddGroup(CatalogPermissions.GroupName, L("Permission:Catalog"));
     }
 
     private static LocalizableString L(string name)
