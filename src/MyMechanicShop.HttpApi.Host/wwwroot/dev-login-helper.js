@@ -39,7 +39,7 @@
         input;
 
       if (container === input || container.classList.contains("input-group")) {
-        container.insertAdjacentElement("afterend", hint);
+        container.after(hint);
       } else {
         container.appendChild(hint);
       }

@@ -53,7 +53,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
         await MigrateDatabaseSchemaAsync();
         await SeedDataAsync();
 
-        Logger.LogInformation($"Successfully completed host database migrations.");
+        Logger.LogInformation("Successfully completed host database migrations.");
 
         if (MultiTenancyConsts.IsEnabled)
         {
@@ -82,7 +82,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
                     await SeedDataAsync(tenant);
                 }
 
-                Logger.LogInformation($"Successfully completed {tenant.Name} tenant database migrations.");
+                Logger.LogInformation("Successfully completed {TenantName} tenant database migrations.", tenant.Name);
             }
 
             Logger.LogInformation("Successfully completed all database migrations.");
@@ -92,8 +92,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
 
     private async Task MigrateDatabaseSchemaAsync(Tenant? tenant = null)
     {
-        Logger.LogInformation(
-            $"Migrating schema for {(tenant == null ? "host" : tenant.Name + " tenant")} database...");
+        Logger.LogInformation("Migrating schema for {Database} database...", DescribeDatabase(tenant));
         
         foreach (var migrator in _dbSchemaMigrators)
         {
@@ -103,7 +102,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
 
     private async Task SeedDataAsync(Tenant? tenant = null)
     {
-        Logger.LogInformation($"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed...");
+        Logger.LogInformation("Executing {Database} database seed...", DescribeDatabase(tenant));
         
         await _dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
             .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName,
@@ -111,6 +110,11 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
             .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName,
                 MyMechanicShopConsts.AdminPasswordDefaultValue)
         );
+    }
+
+    private static string DescribeDatabase(Tenant? tenant)
+    {
+        return tenant == null ? "host" : tenant.Name + " tenant";
     }
 
     private bool AddInitialMigrationIfNotExist()
@@ -141,7 +145,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
         }
         catch (Exception e)
         {
-            Logger.LogWarning("Couldn't determinate if any migrations exist : " + e.Message);
+            Logger.LogWarning(e, "Couldn't determine if any migrations exist");
             return false;
         }
     }
@@ -186,9 +190,9 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
         {
             Process.Start(procStartInfo);
         }
-        catch (Exception)
+        catch (Exception e)
         {
-            throw new Exception("Couldn't run ABP CLI...");
+            throw new InvalidOperationException("Couldn't run ABP CLI...", e);
         }
     }
 
@@ -198,7 +202,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
 
         if (slnDirectoryPath == null)
         {
-            throw new Exception("Solution folder not found!");
+            throw new InvalidOperationException("Solution folder not found!");
         }
 
         var srcDirectoryPath = Path.Combine(slnDirectoryPath, "src");
@@ -207,7 +211,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
             .FirstOrDefault(d => d.EndsWith(".EntityFrameworkCore"));
     }
 
-    private string? GetSolutionDirectoryPath()
+    private static string? GetSolutionDirectoryPath()
     {
         var currentDirectory = new DirectoryInfo(Directory.GetCurrentDirectory());
 
