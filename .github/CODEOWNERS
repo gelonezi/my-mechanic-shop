@@ -1,0 +1,20 @@
+# Code owners for MyMechanicShop.
+#
+# INTENTIONALLY INACTIVE while this repo has a single collaborator.
+#
+# The `main` ruleset sets require_code_owner_review: true. That rule is inert only
+# because this file declares no owners. Uncommenting the line below would make
+# @gelonezi's approval mandatory on every pull request immediately — and GitHub does
+# not allow a pull request author to approve their own PR. As the sole author, you
+# would be unable to merge anything.
+#
+# Uncomment the moment a second collaborator with write access joins. From then on it
+# does exactly what it looks like: no PR touching these paths merges without your
+# approval, regardless of who else reviews it.
+
+# *  @gelonezi
+
+# Finer-grained ownership worth splitting out later, once the modules have owners:
+# /src/MyMechanicShop.DbMigrator/  @gelonezi   # migrations are single-owner by design
+# /.claude/                        @gelonezi
+# /CLAUDE.md                       @gelonezi

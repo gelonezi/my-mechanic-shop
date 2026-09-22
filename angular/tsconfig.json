@@ -1,0 +1,33 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022", "dom", "esnext.disposable"],
+    /* Local module libraries. Points at the ng-packagr OUTPUT, not the source,
+       so the host consumes exactly the package it would get from npm once the
+       module is deployed separately. Run `yarn ng build catalog` in
+       modules/MyMechanicShop.Catalog/angular after changing the library. */
+    "paths": {
+      "@my-mechanic-shop/catalog": [
+        "../modules/MyMechanicShop.Catalog/angular/dist/catalog"
+      ],
+      "@my-mechanic-shop/catalog/*": [
+        "../modules/MyMechanicShop.Catalog/angular/dist/catalog/*"
+      ]
+    },
+    "useDefineForClassFields": false
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false
+  }
+}

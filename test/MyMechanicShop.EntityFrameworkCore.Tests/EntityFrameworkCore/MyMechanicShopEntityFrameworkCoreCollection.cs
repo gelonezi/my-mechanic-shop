@@ -1,0 +1,6 @@
+﻿using Xunit;
+
+namespace MyMechanicShop.EntityFrameworkCore;
+
+[CollectionDefinition(MyMechanicShopTestConsts.CollectionDefinitionName)]
+public class MyMechanicShopEntityFrameworkCoreCollection : ICollectionFixture<MyMechanicShopEntityFrameworkCoreFixture>;

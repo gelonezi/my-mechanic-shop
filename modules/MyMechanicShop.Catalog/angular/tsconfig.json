@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "paths": {
+      "@my-mechanic-shop/catalog": ["./projects/catalog/src/public-api.ts"],
+      "@my-mechanic-shop/catalog/config": [
+        "./projects/catalog/config/src/public-api.ts"
+      ]
+    }
+  }
+}

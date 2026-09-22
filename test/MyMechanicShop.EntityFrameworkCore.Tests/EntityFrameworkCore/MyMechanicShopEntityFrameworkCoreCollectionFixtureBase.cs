@@ -1,0 +1,6 @@
+﻿using MyMechanicShop.EntityFrameworkCore;
+using Xunit;
+
+namespace MyMechanicShop.EntityFrameworkCore;
+
+public class MyMechanicShopEntityFrameworkCoreCollectionFixtureBase : ICollectionFixture<MyMechanicShopEntityFrameworkCoreFixture>;

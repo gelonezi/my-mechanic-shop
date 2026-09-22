@@ -1,0 +1,60 @@
+# Single source of truth for the entire repository: the .NET host, every local
+# module under modules/, and both Angular workspaces.
+#
+# Do NOT add per-project .editorconfig files. The directory-scoped sections
+# below already reach into modules/**, so adding a module needs no work here.
+root = true
+
+# ─────────────────────────────── C# ───────────────────────────────
+[*.cs]
+indent_style = space
+indent_size = 4
+
+# Keep every attribute section on its own line instead of letting
+# Rider/ReSharper pull short ones up next to the member. Without this the
+# defaults (if_owner_is_single_line + max_attribute_length_for_same_line = 38)
+# collapse [Required] [StringLength(100)] onto the property declaration.
+# These are JetBrains-only properties; Roslyn ignores them and never joins
+# attribute lines on its own.
+resharper_place_type_attribute_on_same_line = never
+resharper_place_method_attribute_on_same_line = never
+resharper_place_accessorholder_attribute_on_same_line = never
+resharper_place_accessor_attribute_on_same_line = never
+resharper_place_field_attribute_on_same_line = never
+resharper_place_record_field_attribute_on_same_line = never
+
+# ──────────────────────── MSBuild / XML config ────────────────────
+[*.{csproj,props,targets,config,xml}]
+indent_style = space
+indent_size = 2
+
+# ───────────────────────── Angular workspaces ─────────────────────
+# Formerly angular/.editorconfig and modules/<Name>/angular/.editorconfig,
+# both stock Angular CLI defaults. Scoped by directory rather than promoted
+# to [*] so that trim_trailing_whitespace does not rewrite the C# tree.
+[angular/**]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[angular/**.ts]
+quote_type = single
+
+# Same block for every module's Angular workspace (* = the module name).
+[modules/*/angular/**]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[modules/*/angular/**.ts]
+quote_type = single
+
+# ──────────────────────────── Markdown ────────────────────────────
+# Last, so it also relaxes .md files inside the Angular trees above.
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false

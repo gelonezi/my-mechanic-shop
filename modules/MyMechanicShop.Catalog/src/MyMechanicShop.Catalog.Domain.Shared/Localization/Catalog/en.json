@@ -1,0 +1,14 @@
+{
+  "culture": "en",
+  "texts": {
+    "MyAccount":  "My account",
+    "SamplePageMessage": "A sample page for the Catalog module",
+    "Menu:Catalog": "Catalog",
+    "Menu:Products": "Products",
+    "Name": "Name",
+    "Price": "Price",
+    "StockCount": "Stock",
+    "Actions": "Actions",
+    "NewProduct": "New product"
+  }
+}
