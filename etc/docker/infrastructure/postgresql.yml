@@ -1,0 +1,42 @@
+# Local PostgreSQL for development. Registered in the run profile's `containers` section, so
+# `abp run` starts it with the applications; on its own:
+#
+#   docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait
+#
+# One server holds every module's database (MyMechanicShop, MyMechanicShopCatalog); the
+# host's startup migration creates them.
+#
+# Development only, and passwordless on purpose: `trust` auth means no credential exists to
+# commit (SonarQube flags passwords in connection strings as vulnerabilities, secrets:S6698),
+# and the port is bound to 127.0.0.1 so only this machine can reach it (connection strings use
+# Host=127.0.0.1, not localhost, which tries IPv6 ::1 first and costs ~2 s per connection
+# on Windows). The auth method is
+# written into pg_hba.conf by initdb, i.e. only when the volume is first created — changing
+# it needs `docker compose -f etc/docker/infrastructure/postgresql.yml down -v`.
+
+# Same project name `abp run` derives from the run profile's containers.serviceName, so
+# manual `docker compose` commands and `abp run` manage the same container.
+name: mymechanicshop-containers
+
+services:
+  postgresql:
+    image: postgres:18
+    container_name: mymechanicshop-postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      # postgres 18+ keeps PGDATA under /var/lib/postgresql/<major>/docker, so mount the parent.
+      - postgresql-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+volumes:
+  postgresql-data:
+    name: mymechanicshop-postgresql-data

@@ -16,6 +16,15 @@ if ($LASTEXITCODE -ne 0) {
     exit -1
 }
 
+# The DbMigrator job below needs PostgreSQL; --wait returns once its healthcheck passes.
+Write-StudioStep "Starting PostgreSQL"
+docker compose -f (Join-Path $solutionRoot "etc/docker/infrastructure/postgresql.yml") up -d --wait
+
+if ($LASTEXITCODE -ne 0) {
+    [Console]::Error.WriteLine("docker compose up FAILED with exit code $LASTEXITCODE (is Docker Desktop running?)")
+    exit -1
+}
+
 $jobs = @()
 
 Write-StudioStep "Installing client-side libraries"

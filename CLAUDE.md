@@ -1,7 +1,7 @@
 # MyMechanicShop
 
-ABP Framework 10.6.0 on .NET 10. Layered DDD (`app` template), Angular UI, SQLite,
-multi-tenancy on. Scaffolded with ABP Studio CLI 3.1.1.
+ABP Framework 10.6.0 on .NET 10. Layered DDD (`app` template), Angular UI, PostgreSQL
+(Docker), multi-tenancy on. Scaffolded with ABP Studio CLI 3.1.1 — on SQLite, since replaced.
 
 General ABP conventions live in `.claude/rules/framework/` and `.claude/rules/template/`,
 scoped by `paths:`. This repo's own conventions live in `.claude/rules/project/` under the
@@ -16,13 +16,13 @@ same mechanism — this file keeps only what is true regardless of which file yo
 | Auto API controller naming; Swagger tag vs URL; proxy generation | `project/auto-api-controllers.md` | `*HttpApiModule*.cs`, `*AppService*.cs`, `*.abprun.json` |
 | Two Angular workspaces; module UI ships as an npm package | `project/angular-workspaces.md` | `angular/**`, `public-api.ts` |
 | Test discovery; one in-memory database per module | `project/testing.md` | `test/**`, `*Tests*/**`, `*TestModule*.cs` |
-| `.editorconfig`, `.gitignore`, SQLite files | `project/repo-config-files.md` | `.editorconfig`, `.gitignore`, `*.db` |
+| `.editorconfig`, `.gitignore` | `project/repo-config-files.md` | `.editorconfig`, `.gitignore` |
 
 Four failures documented in those rules are **silent** — they report success or nothing at
 all. Worth knowing they exist before the rule that explains them loads:
 
 - a module's database can be created empty while the migrator logs
-  *"Successfully completed all database migrations"* (check the tables, not just `.db` sizes)
+  *"Successfully completed all database migrations"* (check that its tables exist)
 - registering a module in `angular/scripts/symlink-config.ps1` makes `ng build <lib>`
   die with exit 1 and **no output**
 - `dotnet test` exits 0 for a project that discovers no tests
@@ -31,12 +31,14 @@ all. Worth knowing they exist before the rule that explains them loads:
 
 ## Commands
 
-`abp run` from the repo root is the primary way to start the solution. It builds the .NET
-projects and starts every entry under `applications` in the `Default` run profile
-(`etc/abp-studio/run-profiles/Default.abprun.json`), all at once:
+`abp run` from the repo root is the primary way to start the solution. Docker Desktop must
+be running. It builds the .NET projects, starts the `containers` of the `Default` run
+profile (`etc/abp-studio/run-profiles/Default.abprun.json`), then every entry under
+`applications`, all at once:
 
 | Application | What it is |
 | --- | --- |
+| *Containers* | `etc/docker/infrastructure/postgresql.yml` — PostgreSQL 18 on localhost:5432 |
 | `MyMechanicShop.HttpApi.Host` | the API on https://localhost:44390 |
 | `MyMechanicShop.Angular` | `angular/start.ps1` → `ng serve` on http://localhost:4200 |
 | `MyMechanicShop.Catalog.Angular` | `ng build catalog --watch`, keeping `dist/catalog` current |

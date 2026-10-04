@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -9,7 +10,7 @@ namespace MyMechanicShop.EntityFrameworkCore;
 /* Design-time factory for the Catalog module's DbContext.
  *
  * It lives in src, not in the module, because src owns every migration for every
- * database. The module's EF project stays provider-agnostic (no Sqlite, no
+ * database. The module's EF project stays provider-agnostic (no provider package, no
  * Microsoft.EntityFrameworkCore.Design, no Migrations folder).
  *
  * Generate Catalog migrations from THIS project:
@@ -24,12 +25,15 @@ public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbCont
 {
     public CatalogDbContext CreateDbContext(string[] args)
     {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         var configuration = BuildConfiguration();
 
         MyMechanicShopEfCoreEntityExtensionMappings.Configure();
 
         var builder = new DbContextOptionsBuilder<CatalogDbContext>()
-            .UseSqlite(
+            .UseNpgsql(
                 configuration.GetConnectionString("Catalog"),
                 b => b.MigrationsAssembly(typeof(MyMechanicShopDbContext).Assembly.GetName().Name));
 

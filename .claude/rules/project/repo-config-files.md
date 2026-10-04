@@ -2,7 +2,6 @@
 paths:
   - "**/.editorconfig"
   - "**/.gitignore"
-  - "**/*.db"
 ---
 
 # Repo config files: one of each, at the root
@@ -43,6 +42,3 @@ paths:
 - `appsettings.secrets.json` is ignored everywhere. It is what ABP's
   `AddAppSettingsSecretsJson()` loads, so it is where real connection strings and
   OpenIddict client secrets belong — never commit one.
-- SQLite databases live at the repo root, one per module — `MyMechanicShop.db` (Default)
-  and `MyMechanicShopCatalog.db` (Catalog) — and are gitignored via `MyMechanicShop*.db`.
-  They are local environment state: delete them and `src/MyMechanicShop.DbMigrator`
