@@ -19,7 +19,23 @@
       "kubernetesService": ".*-angular$",
       "execution": {
         "order": 2
-      }    
+      }
+    },
+    "MyMechanicShop.Catalog.Angular": {
+      "type": "cli",
+      "workingDirectory": "../../../modules/MyMechanicShop.Catalog/angular",
+      "startCommand": "./watch.ps1",
+      "execution": {
+        "order": 1
+      }
+    },
+    "MyMechanicShop.Catalog.Proxies": {
+      "type": "cli",
+      "workingDirectory": "../../scripts",
+      "startCommand": "./generate-catalog-proxies.ps1",
+      "execution": {
+        "order": 0
+      }
     }
   },
   "containers": {
