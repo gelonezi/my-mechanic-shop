@@ -1,74 +1,160 @@
 # MyMechanicShop
 
-## About this solution
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gelonezi_my-mechanic-shop)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=security_rating)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=security_rating)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=reliability_rating)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=reliability_rating)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=sqale_rating)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=sqale_rating)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=vulnerabilities)](https://sonarcloud.io/project/issues?id=gelonezi_my-mechanic-shop&resolved=false&types=VULNERABILITY)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=bugs)](https://sonarcloud.io/project/issues?id=gelonezi_my-mechanic-shop&resolved=false&types=BUG)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=code_smells)](https://sonarcloud.io/project/issues?id=gelonezi_my-mechanic-shop&resolved=false&types=CODE_SMELL)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=duplicated_lines_density)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=ncloc)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=ncloc)
+[![CodeQL](https://github.com/gelonezi/my-mechanic-shop/actions/workflows/codeql.yml/badge.svg)](https://github.com/gelonezi/my-mechanic-shop/actions/workflows/codeql.yml)
 
-This is a layered startup solution based on [Domain Driven Design (DDD)](https://abp.io/docs/latest/framework/architecture/domain-driven-design) practises. All the fundamental ABP modules are already installed. Check the [Application Startup Template](https://abp.io/docs/latest/solution-templates/layered-web-application) documentation for more info.
+A study project: a **modular monolith** for a mechanic shop, built on the
+[ABP Framework](https://abp.io) layered (`app`) template with Domain-Driven Design. Each
+business area is a local ABP module with its own database; the first one, **Catalog**,
+manages products.
 
-### Pre-requirements
+| | |
+| --- | --- |
+| Backend | ABP Framework 10.6, .NET 10, EF Core |
+| Frontend | Angular 22 with ABP's Angular packages, LeptonX Lite theme |
+| Database | PostgreSQL 18 in Docker — one database per module |
+| Auth | OpenIddict (ABP Account module), multi-tenancy enabled |
+| Tooling | ABP Studio CLI 3.1 (`abp run`), yarn |
 
-* [.NET10.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
+## Prerequisites
 
-### Configurations
+* [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet)
+* [Node.js](https://nodejs.org/en) `^22.22.3` or `^24.15.0` (Angular 22's requirement); yarn is
+  fetched through `npx`
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/), **running**
+* ABP Studio CLI: `dotnet tool install -g Volo.Abp.Studio.Cli`
 
-The solution comes with a default configuration that works out of the box. However, you may consider to change the following configuration before running your solution:
-
-* Check the `ConnectionStrings` in `appsettings.json` files under the `MyMechanicShop.HttpApi.Host` and `MyMechanicShop.DbMigrator` projects and change it if you need.
-
-### Before running the application
-
-* Run `abp install-libs` command on your solution folder to install client-side package dependencies. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution.
-* Run `MyMechanicShop.DbMigrator` to create the initial database. This step is also automatically done when you create a new solution, if you didn't especially disabled it. This should be done in the first run. It is also needed if a new database migration is added to the solution later.
-
-#### Generating a Signing Certificate
-
-In the production environment, you need to use a production signing certificate. ABP Framework sets up signing and encryption certificates in your application and expects an `openiddict.pfx` file in your application.
-
-To generate a signing certificate, you can use the following command:
+## Getting started
 
 ```bash
-dotnet dev-certs https -v -ep openiddict.pfx -p ccf70ee2-d3bb-447c-98bf-3c07a3ffec89
+git clone https://github.com/gelonezi/my-mechanic-shop.git
+cd my-mechanic-shop
+./etc/scripts/initialize-solution.ps1   # once per clone
+abp run
 ```
 
-> `ccf70ee2-d3bb-447c-98bf-3c07a3ffec89` is the password of the certificate, you can change it to any password you want.
+`initialize-solution.ps1` builds the solution, starts PostgreSQL, runs `abp install-libs`
+(the host's `wwwroot/libs` is not committed), migrates and seeds the databases with the
+DbMigrator, and creates the `openiddict.pfx` certificate.
 
-It is recommended to use **two** RSA certificates, distinct from the certificate(s) used for HTTPS: one for encryption, one for signing.
+Then open **http://localhost:4200** and log in as `admin`, with ABP's default admin password
+(`MyMechanicShopConsts.AdminPasswordDefaultValue`). The API and Swagger UI are on
+**https://localhost:44390**.
 
-For more information, please refer to: [OpenIddict Certificate Configuration](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+Stop with **Ctrl+C** and wait for *All applications stopped* before running `abp run` again.
 
-> Also, see the [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment) documentation for more information.
+## What `abp run` starts
 
-### Solution structure
+`abp run` uses the `Default` run profile, [`etc/abp-studio/run-profiles/Default.abprun.json`](etc/abp-studio/run-profiles/Default.abprun.json).
+It builds the .NET projects, starts the containers, then all applications:
 
-This is a layered monolith application that consists of the following applications:
+| Entry | What it does |
+| --- | --- |
+| *Containers* | [`etc/docker/infrastructure/postgresql.yml`](etc/docker/infrastructure/postgresql.yml) — PostgreSQL 18 on `127.0.0.1:5432`; removed on Ctrl+C, data kept in a Docker volume |
+| `MyMechanicShop.HttpApi.Host` | the API; in Development it **migrates and seeds the databases on startup** |
+| `MyMechanicShop.Angular` | `ng serve` on http://localhost:4200 |
+| `MyMechanicShop.Catalog.Angular` | `ng build catalog --watch`, rebuilding the Catalog UI library on every change |
+| `MyMechanicShop.Catalog.Proxies` | waits for the host, regenerates Catalog's Angular proxies, then exits (shown as *Stopped*) |
 
-* `angular`: Angular application.
-* `MyMechanicShop.DbMigrator`: A console application which applies the migrations and also seeds the initial data. It is useful on development as well as on production environment.
-* `MyMechanicShop.HttpApi.Host`: ASP.NET Core API application that is used to expose the APIs to the clients.
+`abp run --no-build` skips the .NET build. The runner hides each application's console
+output: an entry stuck on *Starting* means its process failed — run its command by hand to
+see why.
 
-#### Test Projects
+## Database
 
-The `test` folder contains the following test projects:
+PostgreSQL 18 runs in Docker with two databases on one server:
 
-* `MyMechanicShop.Application.Tests`: Application layer tests.
-* `MyMechanicShop.Domain.Tests`: Domain layer tests.
-* `MyMechanicShop.EntityFrameworkCore.Tests`: Entity Framework Core integration tests.
+| Database | Connection string | Owner |
+| --- | --- | --- |
+| `MyMechanicShop` | `Default` | ABP's framework modules (Identity, OpenIddict, tenants, …) |
+| `MyMechanicShopCatalog` | `Catalog` | the Catalog module |
 
-## Deploying the application
+* The local server is **passwordless on purpose** (`trust` auth, reachable from this machine
+  only), so no credential is committed. Real environments supply connection strings through
+  environment variables (`ConnectionStrings__Default`) or an `appsettings.secrets.json`, which
+  is gitignored.
+* Reset everything: `docker compose -f etc/docker/infrastructure/postgresql.yml down -v`. The
+  next host start recreates and reseeds both databases.
+* Add a migration, from `src/MyMechanicShop.EntityFrameworkCore`:
 
-Deploying an ABP application follows the same process as deploying any .NET or ASP.NET Core application. However, there are important considerations to keep in mind. For detailed guidance, refer to ABP's [deployment documentation](https://abp.io/docs/latest/Deployment/Index).
+  ```bash
+  dotnet ef migrations add <Name> --context MyMechanicShopDbContext --output-dir Migrations/ABP
+  dotnet ef migrations add <Name> --context CatalogDbContext --output-dir Migrations/Catalog
+  ```
 
-### Additional resources
+* Outside Development the host does not migrate: run `src/MyMechanicShop.DbMigrator`
+  (`etc/scripts/migrate-database.ps1`) before starting it.
 
-#### Internal Resources
+## Solution structure
 
-You can find detailed setup and configuration guide(s) for your solution below:
+```
+├── src/                          host application (layered: Domain.Shared → Domain →
+│   │                             Application.Contracts → Application → HttpApi → Host)
+│   ├── MyMechanicShop.HttpApi.Host     the API, run by abp run
+│   ├── MyMechanicShop.DbMigrator       migrates and seeds every database
+│   └── MyMechanicShop.EntityFrameworkCore   DbContexts and the migrations of every module
+├── modules/
+│   └── MyMechanicShop.Catalog/   local ABP module: its own layered projects, tests and
+│       └── angular/              Angular library (@my-mechanic-shop/catalog)
+├── angular/                      the Angular application
+├── test/                         host test projects
+└── etc/
+    ├── abp-studio/run-profiles/  what abp run starts
+    ├── docker/infrastructure/    PostgreSQL compose file
+    └── scripts/                  initialize-solution.ps1, migrate-database.ps1
+```
 
-* [Angular](./angular/README.md)
+The Angular app consumes each module's UI as a built npm package (`dist/`), exactly as it
+would from a registry; `abp run` keeps it rebuilt.
 
-#### External Resources
+## Tests
 
-You can see the following resources to learn more about your solution and the ABP Framework:
+```bash
+dotnet test MyMechanicShop.slnx
+```
 
-* [Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
-* [Application Startup Template](https://abp.io/docs/latest/startup-templates/application/index)
+Tests use SQLite **in memory** — one database per module — so they need no Docker.
+
+## Workflow and code quality
+
+* `main` is protected: every change goes through a pull request, squash-merged, with titles
+  following [Conventional Commits](https://www.conventionalcommits.org) (`feat:`, `fix:`,
+  `refactor:`, `chore:`, `docs:`, …).
+* Pull requests are checked by **CodeQL** (C# and TypeScript) and
+  **[SonarQube Cloud](https://sonarcloud.io/project/overview?id=gelonezi_my-mechanic-shop)**
+  automatic analysis; the badges at the top link to each metric. Generated code — EF
+  migrations and Angular proxies — is excluded in [`.sonarcloud.properties`](.sonarcloud.properties).
+  Automatic analysis does not collect test coverage, so there is no coverage badge.
+
+  [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=gelonezi_my-mechanic-shop)
+* This repository's conventions, including the traps found along the way, are documented in
+  [`CLAUDE.md`](CLAUDE.md) and [`.claude/rules/project/`](.claude/rules/project/).
+
+## Deploying
+
+Deploying follows ABP's [deployment documentation](https://abp.io/docs/latest/Deployment/Index).
+Production needs its own signing certificate: ABP expects an `openiddict.pfx` file, which
+can be created with
+
+```bash
+dotnet dev-certs https -v -ep openiddict.pfx -p <certificate password>
+```
+
+and whose password is read from `AuthServer:CertificatePassPhrase`. Two RSA certificates,
+distinct from the HTTPS one (one for encryption, one for signing), are recommended — see
+[OpenIddict certificate configuration](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+and ABP's [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment).
+
+## Resources
+
+* [Angular application README](angular/README.md)
+* [ABP layered application template](https://abp.io/docs/latest/solution-templates/layered-web-application)
+* [ABP Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
