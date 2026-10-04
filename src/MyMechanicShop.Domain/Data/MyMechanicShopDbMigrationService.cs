@@ -150,14 +150,14 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
         }
     }
 
-    private bool DbMigrationsProjectExists()
+    private static bool DbMigrationsProjectExists()
     {
         var dbMigrationsProjectFolder = GetEntityFrameworkCoreProjectFolderPath();
 
         return dbMigrationsProjectFolder != null;
     }
 
-    private bool MigrationsFolderExists()
+    private static bool MigrationsFolderExists()
     {
         var dbMigrationsProjectFolder = GetEntityFrameworkCoreProjectFolderPath();
 
@@ -196,7 +196,7 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
         }
     }
 
-    private string? GetEntityFrameworkCoreProjectFolderPath()
+    private static string? GetEntityFrameworkCoreProjectFolderPath()
     {
         var slnDirectoryPath = GetSolutionDirectoryPath();
 
