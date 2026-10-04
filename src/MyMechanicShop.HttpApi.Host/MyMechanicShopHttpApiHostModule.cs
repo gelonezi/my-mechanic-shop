@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using OpenIddict.Validation.AspNetCore;
 using OpenIddict.Server.AspNetCore;
+using MyMechanicShop.Data;
 using MyMechanicShop.EntityFrameworkCore;
 using MyMechanicShop.MultiTenancy;
 using MyMechanicShop.HealthChecks;
@@ -253,6 +255,16 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
         context.Services.AddMyMechanicShopHealthChecks();
     }
 
+
+    public override async Task OnPreApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        if (context.GetEnvironment().IsDevelopment())
+        {
+            await context.ServiceProvider
+                .GetRequiredService<MyMechanicShopDbMigrationService>()
+                .MigrateAsync();
+        }
+    }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {

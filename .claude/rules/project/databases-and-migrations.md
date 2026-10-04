@@ -65,6 +65,11 @@ while leaving a 0-byte database. **After a migrator run, check the `.db` file si
 0-byte file means no DDL ever executed. This cost three debugging runs; every future module
 migrator hits it identically.
 
+The size check only holds once the database is closed. SQLite runs in WAL mode, so while
+the host is up — and after it is killed rather than stopped — the `.db` stays at 4 KB with
+everything in `.db-wal`. The DbMigrator exits, so its runs leave full-size files. With the
+host running, check `__EFMigrationsHistory` and the tables instead.
+
 ### Adding a module database
 
 1. Connection string in both `appsettings.json` files.
@@ -84,7 +89,21 @@ already covers new contexts.
 
 ### Running the migrator
 
-`etc/scripts/migrate-database.ps1` does `Set-Location` into the project and then a bare
+**In Development the host runs it.** `MyMechanicShopHttpApiHostModule.OnPreApplicationInitializationAsync`
+calls `MyMechanicShopDbMigrationService.MigrateAsync()` — the DbMigrator's own service, so
+migrations, schema migrators and seed contributors are unchanged; only the trigger moved.
+Reason: `abp run` starts every application at once and its *Start and Wait For Ready*
+action does not wait for a process to exit (tested), so a DbMigrator app in the run profile
+races the host. The pre-initialization phase completes before any module's
+`OnApplicationInitialization` touches the database and before the host listens.
+
+The seed reads `OpenIddict:Applications` (the `_App` and `_Swagger` clients). That section
+lives in the DbMigrator's `appsettings.json` **and** the host's `appsettings.Development.json`;
+keep them in sync. Without it in the host, a fresh database gets no OpenIddict clients and
+login fails.
+
+Everywhere else — production, CI, or migrating without starting the host — run the
+DbMigrator. `etc/scripts/migrate-database.ps1` does `Set-Location` into the project and then a bare
 `dotnet run`. **That `Set-Location` is load-bearing**: the connection strings are relative
 (`Data Source=../../MyMechanicShop.db;`), so they resolve against the *working directory*.
 From the project folder `../../` is the repo root; from the repo root it is `C:\`. Rider's

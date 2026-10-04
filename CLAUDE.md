@@ -22,7 +22,7 @@ Four failures documented in those rules are **silent** — they report success o
 all. Worth knowing they exist before the rule that explains them loads:
 
 - a module's database can be created empty while the migrator logs
-  *"Successfully completed all database migrations"* (check `.db` file sizes)
+  *"Successfully completed all database migrations"* (check the tables, not just `.db` sizes)
 - registering a module in `angular/scripts/symlink-config.ps1` makes `ng build <lib>`
   die with exit 1 and **no output**
 - `dotnet test` exits 0 for a project that discovers no tests
@@ -49,9 +49,11 @@ abp run --no-build      # skip the build step
 ```
 
 **`abp run` ignores the profile's `tasks` and `workflows`** — those are ABP Studio
-(GUI/agent) features. It does **not** migrate the database: run
-`etc/scripts/migrate-database.ps1` after adding a migration. The workflow's
-`GenerateAngularProxies` step for the host's own `app` proxies never runs either.
+(GUI/agent) features, and it cannot hold one app back until another exits. So the
+database is migrated by the **host itself**: in Development, `MyMechanicShopHttpApiHostModule`
+runs the DbMigrator's own migration service before it starts listening (~3 s per start
+when there is nothing to migrate). Any launcher gets this, not only `abp run`. The
+workflow's `GenerateAngularProxies` step for the host's own `app` proxies never runs.
 Its runner hides each app's console output and needs a real terminal: it crashes on
 `set_CursorVisible` when started without one.
 
@@ -66,7 +68,7 @@ dotnet test  MyMechanicShop.slnx          # 4 tests; see the Tests section
 
 ```
 etc/scripts/initialize-solution.ps1        # prepare the solution for development
-etc/scripts/migrate-database.ps1           # dotnet run in src/MyMechanicShop.DbMigrator
+etc/scripts/migrate-database.ps1           # dotnet run in src/MyMechanicShop.DbMigrator (non-Development, or without the host)
 ```
 
 Angular is **yarn, not npm**: both workspaces ship a `yarn.lock` and no
