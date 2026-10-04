@@ -18,21 +18,29 @@ same mechanism — this file keeps only what is true regardless of which file yo
 | Test discovery; one in-memory database per module | `project/testing.md` | `test/**`, `*Tests*/**`, `*TestModule*.cs` |
 | `.editorconfig`, `.gitignore`, SQLite files | `project/repo-config-files.md` | `.editorconfig`, `.gitignore`, `*.db` |
 
-Three failures documented in those rules are **silent** — they report success. Worth
-knowing they exist before the rule that explains them loads:
+Four failures documented in those rules are **silent** — they report success or nothing at
+all. Worth knowing they exist before the rule that explains them loads:
 
 - a module's database can be created empty while the migrator logs
   *"Successfully completed all database migrations"* (check `.db` file sizes)
 - registering a module in `angular/scripts/symlink-config.ps1` makes `ng build <lib>`
   die with exit 1 and **no output**
 - `dotnet test` exits 0 for a project that discovers no tests
+- under `abp run`, an app stuck on *Starting* means its process failed — the runner hides
+  app output; run its command by hand (e.g. `yarn start` in `angular/`) to see the error
 
 ## Commands
 
-`abp run` from the repo root is the primary way to start the solution. It uses the
-`Default` run profile (`etc/abp-studio/run-profiles/Default.abprun.json`), which does
-more than launch the two apps: it builds, runs the *Migrate Database* task, and
-regenerates the Angular proxies into `angular/` against https://localhost:44390.
+`abp run` from the repo root is the primary way to start the solution. It builds the .NET
+projects and starts every entry under `applications` in the `Default` run profile
+(`etc/abp-studio/run-profiles/Default.abprun.json`), all at once:
+
+| Application | What it is |
+| --- | --- |
+| `MyMechanicShop.HttpApi.Host` | the API on https://localhost:44390 |
+| `MyMechanicShop.Angular` | `angular/start.ps1` → `ng serve` on http://localhost:4200 |
+| `MyMechanicShop.Catalog.Angular` | `ng build catalog --watch`, keeping `dist/catalog` current |
+| `MyMechanicShop.Catalog.Proxies` | waits for the host, regenerates Catalog's proxies, exits (*Stopped*) |
 
 ```
 abp run                 # Default profile
@@ -40,12 +48,16 @@ abp run -p Default      # profile named explicitly
 abp run --no-build      # skip the build step
 ```
 
-It starts `src/MyMechanicShop.HttpApi.Host` on https://localhost:44390 and the Angular
-app on http://localhost:4200 (through `angular/start.ps1`).
+**`abp run` ignores the profile's `tasks` and `workflows`** — those are ABP Studio
+(GUI/agent) features. It does **not** migrate the database: run
+`etc/scripts/migrate-database.ps1` after adding a migration. The workflow's
+`GenerateAngularProxies` step for the host's own `app` proxies never runs either.
+Its runner hides each app's console output and needs a real terminal: it crashes on
+`set_CursorVisible` when started without one.
 
 Do not substitute a hand-rolled `dotnet run` plus a dev server for this — that skips the
-database migration and the proxy generation. The commands below are for narrower jobs,
-not for running the app.
+library watcher and the Catalog proxy generation. The commands below are for narrower
+jobs, not for running the app.
 
 ```
 dotnet build MyMechanicShop.slnx

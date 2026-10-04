@@ -30,7 +30,21 @@ Four things wire the library into the host, all of them required:
 1. `angular/tsconfig.json` `paths` maps `@my-mechanic-shop/catalog` and
    `@my-mechanic-shop/catalog/*` to `../modules/MyMechanicShop.Catalog/angular/dist/catalog`
    — the **ng-packagr output**, not the source, so the host consumes exactly the package it
-   would get from npm. Cost: `yarn ng build catalog` after every library change.
+   would get from npm. Cost: the library must be rebuilt after every change. `abp run`
+   pays it: the `MyMechanicShop.Catalog.Angular` app in the run profile is
+   `modules/<Name>/angular/watch.ps1`, a long-running `ng build catalog --watch` that
+   rewrites `dist/` on every source change (regenerated proxies included), and the host's
+   `ng serve` recompiles from there (verified: a template edit is served within ~1 s).
+   Outside `abp run`, `yarn ng build catalog` by hand.
+
+   **`"deleteDestPath": false` in the library's `ng-package.json` is load-bearing.** By
+   default ng-packagr empties `dist/` at the start of every build. `abp run` starts the
+   watcher and `ng serve` at the same moment, so `ng serve` compiled against the empty
+   folder, failed with `TS2307: Cannot find module '@my-mechanic-shop/catalog'` — and stayed
+   failed after `dist/` was rewritten: it caches the failed resolution. Under `abp run`,
+   whose runner hides app output, that showed only as Angular stuck on *Starting*.
+   The same applies on a fresh clone, where `dist/` does not exist yet: if :4200 fails to
+   resolve the package, restart the Angular app once the watcher's first build is done.
 2. `angular/src/environments/environment.ts` *and* `environment.prod.ts` each need a
    `Catalog` entry, because the generated services declare `apiName = 'Catalog'`. **This is
    the microservice seam**: when Catalog becomes its own pod, these urls are what change.

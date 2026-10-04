@@ -55,9 +55,21 @@ Every flag is load-bearing: `-m` defaults to `app` and silently skips the module
 puts the output in the library rather than in `dev-app`; `-a Catalog` sets the `apiName` the
 generated services declare, which must match the `Catalog` entry in *both* environment files.
 
-`Default.abprun.json` deliberately has **no** `GenerateAngularProxies` action for Catalog —
-that action type only carries url/module/workingDirectory and cannot express `--target`, so
-it would generate into the wrong project. The host's own `app` proxies still run from it.
+`abp run` runs exactly that command on every start, as the `MyMechanicShop.Catalog.Proxies`
+application in `Default.abprun.json` → `etc/scripts/generate-catalog-proxies.ps1` (also fine to
+run by hand). It is an **application**, not a workflow step, for two verified reasons:
+
+- `abp run` starts `applications` only and ignores `tasks` and `workflows`, so a `RunTask`
+  never fires. Applications all start at once, which is why the script polls
+  `/health-status` before generating.
+- The workflow's `GenerateAngularProxies` action only carries url/module/service type/working
+  directory — no `-s`, `--target` or `-a` — so it would generate into `dev-app` with the default
+  `apiName` anyway.
+
+The generator deletes and rewrites `proxy/products/` and writes some files CRLF, some LF. The
+script normalizes the folder to LF afterwards and `.gitattributes` pins `**/proxy/**` to
+`eol=lf`, so an unchanged API leaves `git status` clean; a real API change is a real diff.
+The library watcher picks the rewrite up and `ng serve` reloads.
 
 Keep the urls in `dev-app/src/environments/environment.ts` as plain string literals. The
 schematic parses that file statically, so a `const` indirection fails with
