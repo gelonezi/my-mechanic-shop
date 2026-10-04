@@ -25,8 +25,8 @@ Module tests are self-contained and run from the module's own solution. Keep it 
 
 ## Tests
 
-`dotnet test MyMechanicShop.slnx` runs **5 tests**: 3 in
-`MyMechanicShop.EntityFrameworkCore.Tests`, 2 in
+`dotnet test MyMechanicShop.slnx` runs **4 tests**: 3 in
+`MyMechanicShop.EntityFrameworkCore.Tests`, 1 in
 `MyMechanicShop.Catalog.EntityFrameworkCore.Tests`.
 
 `Domain.Tests` and `Application.Tests` report *"no tests available"* and that is

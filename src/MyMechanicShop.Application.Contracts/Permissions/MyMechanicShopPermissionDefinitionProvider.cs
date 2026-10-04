@@ -1,7 +1,6 @@
 using MyMechanicShop.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
-using Volo.Abp.MultiTenancy;
 
 namespace MyMechanicShop.Permissions;
 
@@ -9,10 +8,10 @@ public class MyMechanicShopPermissionDefinitionProvider : PermissionDefinitionPr
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(MyMechanicShopPermissions.GroupName);
+        context.AddGroup(MyMechanicShopPermissions.GroupName);
 
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(MyMechanicShopPermissions.MyPermission1, L("Permission:MyPermission1"));
+        // Define your own permissions on the group that AddGroup returns.
+        // See https://abp.io/docs/latest/framework/fundamentals/authorization
     }
 
     private static LocalizableString L(string name)

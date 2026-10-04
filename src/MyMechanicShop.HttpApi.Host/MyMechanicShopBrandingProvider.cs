@@ -8,7 +8,7 @@ namespace MyMechanicShop;
 [Dependency(ReplaceServices = true)]
 public class MyMechanicShopBrandingProvider : DefaultBrandingProvider
 {
-    private IStringLocalizer<MyMechanicShopResource> _localizer;
+    private readonly IStringLocalizer<MyMechanicShopResource> _localizer;
 
     public MyMechanicShopBrandingProvider(IStringLocalizer<MyMechanicShopResource> localizer)
     {

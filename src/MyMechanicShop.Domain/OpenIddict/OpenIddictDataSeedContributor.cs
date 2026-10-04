@@ -66,7 +66,7 @@ public class OpenIddictDataSeedContributor : OpenIddictDataSeedContributorBase, 
             var appClientRootUrl = configurationSection["MyMechanicShop_App:RootUrl"]?.TrimEnd('/');
             await CreateOrUpdateApplicationAsync(
                 applicationType: OpenIddictConstants.ApplicationTypes.Web,
-                name: appClientId!,
+                name: appClientId,
                 type: OpenIddictConstants.ClientTypes.Public,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
                 displayName: "Console Test / Angular Application",
@@ -101,7 +101,7 @@ public class OpenIddictDataSeedContributor : OpenIddictDataSeedContributorBase, 
 
             await CreateOrUpdateApplicationAsync(
                 applicationType: OpenIddictConstants.ApplicationTypes.Web,
-                name: swaggerClientId!,
+                name: swaggerClientId,
                 type: OpenIddictConstants.ClientTypes.Public,
                 consentType: OpenIddictConstants.ConsentTypes.Implicit,
                 displayName: "Swagger Application",

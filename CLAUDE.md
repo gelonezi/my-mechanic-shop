@@ -49,7 +49,7 @@ not for running the app.
 
 ```
 dotnet build MyMechanicShop.slnx
-dotnet test  MyMechanicShop.slnx          # 5 tests; see the Tests section
+dotnet test  MyMechanicShop.slnx          # 4 tests; see the Tests section
 ```
 
 ```

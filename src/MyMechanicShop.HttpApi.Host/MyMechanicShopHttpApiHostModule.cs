@@ -140,7 +140,7 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
         }
     }
 
-    private void ConfigureAuthentication(ServiceConfigurationContext context)
+    private static void ConfigureAuthentication(ServiceConfigurationContext context)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
@@ -226,7 +226,7 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
             });
     }
 
-    private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+    private static void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
     {
         context.Services.AddCors(options =>
         {
@@ -248,7 +248,7 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
         });
     }
 
-    private void ConfigureHealthChecks(ServiceConfigurationContext context)
+    private static void ConfigureHealthChecks(ServiceConfigurationContext context)
     {
         context.Services.AddMyMechanicShopHealthChecks();
     }

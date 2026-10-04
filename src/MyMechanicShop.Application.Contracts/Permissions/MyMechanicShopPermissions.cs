@@ -4,8 +4,5 @@ public static class MyMechanicShopPermissions
 {
     public const string GroupName = "MyMechanicShop";
 
-
-    
-    //Add your own permission names. Example:
-    //public const string MyPermission1 = GroupName + ".MyPermission1";
+    // Add your own permission names here, prefixed with GroupName.
 }
