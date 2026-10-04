@@ -358,13 +358,6 @@ testem.log
 Thumbs.db
 
 # ═════════════════════ MyMechanicShop ════════════════════════
-# Local SQLite databases. One per module (MyMechanicShop.db, MyMechanicShopCatalog.db,
-# …) — all rebuilt from scratch by src/MyMechanicShop.DbMigrator, so they are local
-# environment state, not source.
-MyMechanicShop*.db
-*.db-shm
-*.db-wal
-
 # Claude Code — personal configurations
 .claude/settings.local.json
 CLAUDE.local.md

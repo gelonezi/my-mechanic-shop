@@ -55,6 +55,11 @@ topology. Sharing one database would let a test join across a module boundary an
 certifying coupling that fails in production — worse once modules talk over events instead
 of tables. No migrations are involved here; tables are created directly from each model.
 
+These stay **SQLite in memory** although the application runs on PostgreSQL — ABP's own
+templates do the same. The test modules override the EF module's `UseNpgsql` with
+`UseSqlite`, so tests need no Docker; the trade-off is that provider-specific behaviour
+(SQL translation, case sensitivity, timestamp types) is not exercised by them.
+
 Adding a module: new `AbpUnitTestSqliteDatabase`, `CreateTables` for its DbContext, map its
 `ConnectionStringName`, and dispose it in `OnApplicationShutdown`.
 

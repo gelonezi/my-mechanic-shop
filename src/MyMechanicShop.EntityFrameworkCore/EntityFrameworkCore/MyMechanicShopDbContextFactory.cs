@@ -12,12 +12,15 @@ public class MyMechanicShopDbContextFactory : IDesignTimeDbContextFactory<MyMech
 {
     public MyMechanicShopDbContext CreateDbContext(string[] args)
     {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         var configuration = BuildConfiguration();
-        
+
         MyMechanicShopEfCoreEntityExtensionMappings.Configure();
 
         var builder = new DbContextOptionsBuilder<MyMechanicShopDbContext>()
-            .UseSqlite(configuration.GetConnectionString("Default"));
+            .UseNpgsql(configuration.GetConnectionString("Default"));
         
         return new MyMechanicShopDbContext(builder.Options);
     }

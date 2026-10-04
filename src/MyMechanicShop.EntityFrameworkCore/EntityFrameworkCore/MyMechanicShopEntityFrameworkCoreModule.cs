@@ -1,11 +1,10 @@
 using MyMechanicShop.Catalog.EntityFrameworkCore;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Uow;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.Sqlite;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
@@ -23,7 +22,7 @@ namespace MyMechanicShop.EntityFrameworkCore;
     typeof(MyMechanicShopDomainModule),
     typeof(AbpPermissionManagementEntityFrameworkCoreModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
-    typeof(AbpEntityFrameworkCoreSqliteModule),
+    typeof(AbpEntityFrameworkCorePostgreSqlModule),
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule),
@@ -36,6 +35,8 @@ public class MyMechanicShopEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
+        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         MyMechanicShopEfCoreEntityExtensionMappings.Configure();
     }
@@ -72,14 +73,8 @@ public class MyMechanicShopEntityFrameworkCoreModule : AbpModule
              * Adding a module: give it a connection string, add an
              * IMyMechanicShopDbSchemaMigrator for its DbContext, and generate its
              * migrations into Migrations/<Module>/ here. Nothing to change in this block. */
-            options.UseSqlite(b =>
+            options.UseNpgsql(b =>
                 b.MigrationsAssembly(typeof(MyMechanicShopDbContext).Assembly.GetName().Name));
-        });
-        
-        context.Services.AddAlwaysDisableUnitOfWorkTransaction();
-        Configure<AbpUnitOfWorkDefaultOptions>(options =>
-        {
-            options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
         });
     }
 }

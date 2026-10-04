@@ -39,7 +39,10 @@
     }
   },
   "containers": {
-    "serviceName": "MyMechanicShop-Containers",
+    "files": {
+      "../../docker/infrastructure/postgresql.yml": {}
+    },
+    "serviceName": "MyMechanicShop-Containers"
   },
   "tasks":{
     "Initialize Solution":{
