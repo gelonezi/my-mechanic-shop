@@ -87,7 +87,6 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
 
             Logger.LogInformation("Successfully completed all database migrations.");
         }
-        Logger.LogInformation("You can safely end this process...");
     }
 
     private async Task MigrateDatabaseSchemaAsync(Tenant? tenant = null)

@@ -41,7 +41,7 @@ public static class HealthChecksBuilderExtensions
         });
     }
 
-    private static IServiceCollection ConfigureHealthCheckEndpoint(this IServiceCollection services, string path)
+    private static void ConfigureHealthCheckEndpoint(this IServiceCollection services, string path)
     {
         services.Configure<AbpEndpointRouterOptions>(options =>
         {
@@ -57,11 +57,9 @@ public static class HealthChecksBuilderExtensions
                     });
             });
         });
-
-        return services;
     }
 
-    private static IServiceCollection MapHealthChecksUiEndpoints(this IServiceCollection services, Action<global::HealthChecks.UI.Configuration.Options>? setupOption = null)
+    private static void MapHealthChecksUiEndpoints(this IServiceCollection services, Action<global::HealthChecks.UI.Configuration.Options>? setupOption = null)
     {
         services.Configure<AbpEndpointRouterOptions>(routerOptions =>
         {
@@ -70,7 +68,5 @@ public static class HealthChecksBuilderExtensions
                 endpointContext.Endpoints.MapHealthChecksUI(setupOption);
             });
         });
-
-        return services;
     }
 }
