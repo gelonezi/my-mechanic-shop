@@ -31,7 +31,7 @@ public sealed class NameVo : ValueObject
     {
         var trimmed = value?.Trim();
         Check.NotNullOrWhiteSpace(trimmed, nameof(value), NameConsts.MaxLength);
-        return new NameVo(trimmed!);
+        return new NameVo(trimmed);
     }
 
     public override string ToString() => Value;
