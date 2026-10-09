@@ -1,0 +1,33 @@
+{
+  "culture": "en",
+  "texts": {
+    "Enum:ProductUnit.0": "Undefined",
+    "Enum:ProductUnit.1": "Unit",
+    "Enum:ProductUnit.2": "Pair",
+    "Enum:ProductUnit.3": "Kit",
+    "Enum:ProductUnit.4": "Box",
+    "Enum:ProductUnit.5": "Package",
+    "Enum:ProductUnit.10": "Gram",
+    "Enum:ProductUnit.11": "Kilogram",
+    "Enum:ProductUnit.20": "Milliliter",
+    "Enum:ProductUnit.21": "Liter",
+    "Enum:ProductUnit.22": "Cubic meter",
+    "Enum:ProductUnit.30": "Centimeter",
+    "Enum:ProductUnit.31": "Meter",
+    "Enum:ProductUnit.40": "Square meter",
+
+    "Enum:ServiceUnit.0": "Undefined",
+    "Enum:ServiceUnit.1": "Flat rate",
+    "Enum:ServiceUnit.10": "Hour",
+    "Enum:ServiceUnit.20": "Kilometer",
+
+    "Enum:Currency.0": "Undefined",
+    "Enum:Currency.986": "Brazilian real",
+    "Enum:Currency.840": "US dollar",
+    "Enum:Currency.978": "Euro",
+
+    "Enum:EanFormat.0": "Undefined",
+    "Enum:EanFormat.8": "EAN-8",
+    "Enum:EanFormat.13": "EAN-13"
+  }
+}
