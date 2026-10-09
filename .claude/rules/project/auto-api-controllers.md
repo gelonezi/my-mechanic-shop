@@ -14,8 +14,12 @@ four settings matter; `RootPath` and `RemoteServiceName` put the two `CatalogRem
 to work — before, both were dead and the module published under the generic `app` root path
 while `CatalogHttpApiClientModule` registered its proxies under `"Catalog"`.
 
-Current result: `ProductAppService` → Swagger tag **`Product`**, route
-**`/api/catalog/products`**.
+Current result:
+
+| App service | Swagger tag | Route |
+| --- | --- | --- |
+| `ProductAppService` | **`Product`** | **`/api/catalog/products`** |
+| `StoreProductAppService` | **`StoreProduct`** | **`/api/catalog/store-products`** |
 
 That split is deliberate and follows ABP's own rule, which holds with no counterexamples in
 this solution: **entity CRUD controllers get a singular tag and a plural URL**
@@ -27,9 +31,16 @@ collections, so they are not counterexamples.
 The class name drives the tag; `UrlControllerNameNormalizer` rewrites only the URL:
 
 ```csharp
-opts.UrlControllerNameNormalizer = ctx =>
-    ctx.ControllerName == "Product" ? "products" : ctx.ControllerName;
+opts.UrlControllerNameNormalizer = ctx => ctx.ControllerName switch
+{
+    "Product" => "products",
+    "StoreProduct" => "store-products",
+    _ => ctx.ControllerName,
+};
 ```
+
+Every new entity app service needs its arm; without one, its URL falls back to the singular
+name. Multi-word names get the kebab-case plural (`store-products`).
 
 Two traps, both found the hard way by diffing the live `/swagger/v1/swagger.json`:
 
@@ -66,7 +77,9 @@ run by hand). It is an **application**, not a workflow step, for two verified re
   directory — no `-s`, `--target` or `-a` — so it would generate into `dev-app` with the default
   `apiName` anyway.
 
-The generator deletes and rewrites `proxy/products/` and writes some files CRLF, some LF. The
+The generator deletes and rewrites one folder per controller (`proxy/products/`,
+`proxy/store-products/`), plus one per namespace of the enums the DTOs use — `ProductUnit` and
+`Currency` come from the Shared Kernel — and writes some files CRLF, some LF. The
 script normalizes the folder to LF afterwards and `.gitattributes` pins `**/proxy/**` to
 `eol=lf`, so an unchanged API leaves `git status` clean; a real API change is a real diff.
 The library watcher picks the rewrite up and `ng serve` reloads.

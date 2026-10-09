@@ -20,8 +20,13 @@ public class CatalogHttpApiModule : AbpModule
                 {
                     opts.RootPath = CatalogRemoteServiceConsts.ModuleName;
                     opts.RemoteServiceName = CatalogRemoteServiceConsts.RemoteServiceName;
-                    opts.UrlControllerNameNormalizer = ctx =>
-                        ctx.ControllerName == "Product" ? "products" : ctx.ControllerName;
+                    // Singular Swagger tag (from the class name), plural URL — ABP's own convention.
+                    opts.UrlControllerNameNormalizer = ctx => ctx.ControllerName switch
+                    {
+                        "Product" => "products",
+                        "StoreProduct" => "store-products",
+                        _ => ctx.ControllerName,
+                    };
                 });
         });
     }

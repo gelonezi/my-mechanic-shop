@@ -28,6 +28,8 @@
 
     "Enum:EanFormat.0": "Undefined",
     "Enum:EanFormat.8": "EAN-8",
-    "Enum:EanFormat.13": "EAN-13"
+    "Enum:EanFormat.13": "EAN-13",
+
+    "InvalidEan": "The {0} field is not a valid EAN-8 or EAN-13 barcode."
   }
 }

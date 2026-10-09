@@ -6,9 +6,24 @@
     "Menu:Catalog": "Catálogo",
     "Menu:Products": "Produtos",
     "Name": "Nome",
+    "Brand": "Marca",
+    "Ean": "EAN",
+    "Description": "Descrição",
+    "Unit": "Unidade",
     "Price": "Preço",
-    "StockCount": "Estoque",
     "Actions": "Ações",
-    "NewProduct": "Novo produto"
+    "NewProduct": "Novo produto",
+
+    "Permission:Catalog": "Catálogo",
+    "Permission:Products": "Produtos",
+    "Permission:Products.Create": "Criar",
+    "Permission:Products.Edit": "Editar",
+    "Permission:Products.Delete": "Excluir",
+    "Permission:StoreProducts": "Produtos da loja",
+    "Permission:StoreProducts.Activate": "Ativar",
+    "Permission:StoreProducts.Edit": "Alterar preço",
+    "Permission:StoreProducts.Deactivate": "Desativar",
+
+    "Catalog:ProductAlreadyActive": "Este produto já está ativo na sua loja."
   }
 }
