@@ -27,7 +27,7 @@ public sealed class DescriptionVo : ValueObject
     {
         var trimmed = value?.Trim();
         Check.NotNullOrWhiteSpace(trimmed, nameof(value), DescriptionConsts.MaxLength);
-        return new DescriptionVo(trimmed!);
+        return new DescriptionVo(trimmed);
     }
 
     public override string ToString() => Value;
