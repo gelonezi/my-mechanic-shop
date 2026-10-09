@@ -18,11 +18,13 @@
     <Content Include="..\..\MyMechanicShop.Catalog.abpmdl">
       <Pack>true</Pack>
       <PackagePath>content\</PackagePath>
+      <Visible>false</Visible>
     </Content>
     <None Remove="..\..\**\*.abppkg*" />
     <Content Include="..\..\**\*.abppkg*">
       <Pack>true</Pack>
       <PackagePath>content\</PackagePath>
+      <Visible>false</Visible>
     </Content>
   </ItemGroup>
 
