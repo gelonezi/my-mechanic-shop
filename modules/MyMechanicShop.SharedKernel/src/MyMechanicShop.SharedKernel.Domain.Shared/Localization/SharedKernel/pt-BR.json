@@ -1,0 +1,33 @@
+{
+  "culture": "pt-BR",
+  "texts": {
+    "Enum:ProductUnit.0": "Indefinido",
+    "Enum:ProductUnit.1": "Unidade",
+    "Enum:ProductUnit.2": "Par",
+    "Enum:ProductUnit.3": "Kit",
+    "Enum:ProductUnit.4": "Caixa",
+    "Enum:ProductUnit.5": "Pacote",
+    "Enum:ProductUnit.10": "Grama",
+    "Enum:ProductUnit.11": "Quilograma",
+    "Enum:ProductUnit.20": "Mililitro",
+    "Enum:ProductUnit.21": "Litro",
+    "Enum:ProductUnit.22": "Metro cúbico",
+    "Enum:ProductUnit.30": "Centímetro",
+    "Enum:ProductUnit.31": "Metro",
+    "Enum:ProductUnit.40": "Metro quadrado",
+
+    "Enum:ServiceUnit.0": "Indefinido",
+    "Enum:ServiceUnit.1": "Preço fechado",
+    "Enum:ServiceUnit.10": "Hora",
+    "Enum:ServiceUnit.20": "Quilômetro",
+
+    "Enum:Currency.0": "Indefinido",
+    "Enum:Currency.986": "Real brasileiro",
+    "Enum:Currency.840": "Dólar americano",
+    "Enum:Currency.978": "Euro",
+
+    "Enum:EanFormat.0": "Indefinido",
+    "Enum:EanFormat.8": "EAN-8",
+    "Enum:EanFormat.13": "EAN-13"
+  }
+}

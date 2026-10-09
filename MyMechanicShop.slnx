@@ -35,4 +35,12 @@
         <Project Path="modules/MyMechanicShop.Catalog/test/MyMechanicShop.Catalog.EntityFrameworkCore.Tests/MyMechanicShop.Catalog.EntityFrameworkCore.Tests.csproj" />
         <Project Path="modules/MyMechanicShop.Catalog/test/MyMechanicShop.Catalog.Application.Tests/MyMechanicShop.Catalog.Application.Tests.csproj" />
     </Folder>
+    <Folder Name="/modules/MyMechanicShop.SharedKernel/" />
+    <Folder Name="/modules/MyMechanicShop.SharedKernel/src/">
+        <Project Path="modules/MyMechanicShop.SharedKernel/src/MyMechanicShop.SharedKernel.Domain.Shared/MyMechanicShop.SharedKernel.Domain.Shared.csproj" />
+        <Project Path="modules/MyMechanicShop.SharedKernel/src/MyMechanicShop.SharedKernel.Domain/MyMechanicShop.SharedKernel.Domain.csproj" />
+    </Folder>
+    <Folder Name="/modules/MyMechanicShop.SharedKernel/test/">
+        <Project Path="modules/MyMechanicShop.SharedKernel/test/MyMechanicShop.SharedKernel.Domain.Tests/MyMechanicShop.SharedKernel.Domain.Tests.csproj" />
+    </Folder>
 </Solution>

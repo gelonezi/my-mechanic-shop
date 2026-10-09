@@ -42,3 +42,9 @@ paths:
 - `appsettings.secrets.json` is ignored everywhere. It is what ABP's
   `AddAppSettingsSecretsJson()` loads, so it is where real connection strings and
   OpenIddict client secrets belong — never commit one.
+- Because it is never committed, every `.csproj` that copies it to the output (DbMigrator,
+  TestBase, ConsoleTestApp) does so with `Condition="Exists('appsettings.secrets.json')"`.
+  Without the condition a fresh clone fails to build with `MSB3030` — silently fine on any
+  machine that has the file. All three load it with `optional: true` (ABP's
+  `AddAppSettingsSecretsJson` defaults to it), so a missing file is fine at runtime. A new
+  project that copies it needs the same condition.

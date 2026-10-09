@@ -1,26 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <Import Project="..\..\common.props" />
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>MyMechanicShop.Catalog</RootNamespace>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" Version="10.6.0" />
     <PackageReference Include="Volo.Abp.Validation" Version="10.6.0" />
+    <ProjectReference Include="../../../MyMechanicShop.SharedKernel/src/MyMechanicShop.SharedKernel.Domain.Shared/MyMechanicShop.SharedKernel.Domain.Shared.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.9" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Localization\Catalog\*.json" />
     <Content Remove="Localization\Catalog\*.json" />
   </ItemGroup>
-
 </Project>

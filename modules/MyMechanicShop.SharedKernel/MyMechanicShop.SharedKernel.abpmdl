@@ -1,0 +1,22 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "MyMechanicShop.SharedKernel.Domain.Shared": {
+      "path": "src/MyMechanicShop.SharedKernel.Domain.Shared/MyMechanicShop.SharedKernel.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.SharedKernel.Domain": {
+      "path": "src/MyMechanicShop.SharedKernel.Domain/MyMechanicShop.SharedKernel.Domain.abppkg",
+      "folder": "src"
+    },
+    "MyMechanicShop.SharedKernel.Domain.Tests": {
+      "path": "test/MyMechanicShop.SharedKernel.Domain.Tests/MyMechanicShop.SharedKernel.Domain.Tests.abppkg",
+      "folder": "test"
+    }
+  }
+}

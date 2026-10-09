@@ -1,0 +1,14 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/MyMechanicShop.SharedKernel.Domain.Shared/MyMechanicShop.SharedKernel.Domain.Shared.csproj" />
+    <Project Path="src/MyMechanicShop.SharedKernel.Domain/MyMechanicShop.SharedKernel.Domain.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/MyMechanicShop.SharedKernel.Domain.Tests/MyMechanicShop.SharedKernel.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,40 +1,38 @@
-using MyMechanicShop.SharedKernel;
-using Volo.Abp.Modularity;
-using Volo.Abp.Localization;
-using MyMechanicShop.Catalog.Localization;
+﻿using Volo.Abp.Modularity;
 using Volo.Abp.Domain;
-using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
-using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Localization.ExceptionHandling;
+using Volo.Abp.Localization;
+using MyMechanicShop.SharedKernel.Localization;
+using Volo.Abp.Validation.Localization;
 
-namespace MyMechanicShop.Catalog;
+namespace MyMechanicShop.SharedKernel;
 
 [DependsOn(
-    typeof(SharedKernelDomainSharedModule),
     typeof(AbpValidationModule),
     typeof(AbpDddDomainSharedModule)
 )]
-public class CatalogDomainSharedModule : AbpModule
+public class SharedKernelDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<CatalogDomainSharedModule>();
+            options.FileSets.AddEmbedded<SharedKernelDomainSharedModule>();
         });
 
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources
-                .Add<CatalogResource>("en")
+                .Add<SharedKernelResource>("en")
                 .AddBaseTypes(typeof(AbpValidationResource))
-                .AddVirtualJson("/Localization/Catalog");
+                .AddVirtualJson("/Localization/SharedKernel");
         });
 
         Configure<AbpExceptionLocalizationOptions>(options =>
         {
-            options.MapCodeNamespace("Catalog", typeof(CatalogResource));
+            options.MapCodeNamespace("SharedKernel", typeof(SharedKernelResource));
         });
     }
 }

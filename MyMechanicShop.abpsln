@@ -13,6 +13,9 @@
     },
     "MyMechanicShop.Catalog": {
       "path": "modules/MyMechanicShop.Catalog/MyMechanicShop.Catalog.abpmdl"
+    },
+    "MyMechanicShop.SharedKernel": {
+      "path": "modules/MyMechanicShop.SharedKernel/MyMechanicShop.SharedKernel.abpmdl"
     }
   },
   "runProfiles": {

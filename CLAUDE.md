@@ -7,11 +7,26 @@ General ABP conventions live in `.claude/rules/framework/` and `.claude/rules/te
 scoped by `paths:`. This repo's own conventions live in `.claude/rules/project/` under the
 same mechanism — this file keeps only what is true regardless of which file you open.
 
+## Always prefer what ABP already provides
+
+**Before writing a custom mechanism, check whether ABP ships one — and use it.** This is a
+study project of ABP; a custom equivalent duplicates what the framework already localizes,
+tests and documents. Verify in the installed package or the docs, and say which ABP
+mechanism is being reused. Examples already in this repo:
+
+- user input validation → DataAnnotations on DTOs (`[Required]`, `[StringLength(XxxConsts.MaxLength)]`):
+  localized 400s from `AbpValidationResource`, already translated to pt-BR and 20 other languages
+- domain invariants → `Check.NotNullOrWhiteSpace(value, nameof(value), maxLength: …)`, as ABP's own entities do
+- business rules → `BusinessException` + namespaced error code + `MapCodeNamespace` (not for plain validation)
+- enum display text → localization keys `Enum:<Type>.<numeric value>`; enums start with `Undefined = 0`
+- value objects → ABP's `ValueObject` base class
+
 ## Where this repo's conventions live
 
 | Topic | Rule | Loads when touching |
 | --- | --- | --- |
-| `.slnx` vs `.abpsln`; installing local modules | `project/solution-and-modules.md` | `*.csproj`, `*.slnx`, `*.abpmdl`, `*Module.cs` |
+| `.slnx` vs `.abpsln`; installing local modules; creating modules/packages with the CLI | `project/solution-and-modules.md` | `*.csproj`, `*.slnx`, `*.abpmdl`, `*Module.cs` |
+| Shared Kernel: what may be shared; value object and enum conventions | `project/shared-kernel.md` | `modules/MyMechanicShop.SharedKernel/**`, `*Vo.cs`, `Enums/*.cs` |
 | One database per module; DbMigrator owns every migration | `project/databases-and-migrations.md` | `*.EntityFrameworkCore/**`, `*DbContext*.cs`, `Migrations/**`, `appsettings*.json` |
 | Auto API controller naming; Swagger tag vs URL; proxy generation | `project/auto-api-controllers.md` | `*HttpApiModule*.cs`, `*AppService*.cs`, `*.abprun.json` |
 | Two Angular workspaces; module UI ships as an npm package | `project/angular-workspaces.md` | `angular/**`, `public-api.ts` |
