@@ -26,7 +26,7 @@ mechanism is being reused. Examples already in this repo:
 | Topic | Rule | Loads when touching |
 | --- | --- | --- |
 | `.slnx` vs `.abpsln`; installing local modules; creating modules/packages with the CLI | `project/solution-and-modules.md` | `*.csproj`, `*.slnx`, `*.abpmdl`, `*Module.cs` |
-| Shared Kernel: what may be shared; value object and enum conventions | `project/shared-kernel.md` | `modules/MyMechanicShop.SharedKernel/**`, `*Vo.cs`, `Enums/*.cs` |
+| Shared Kernel: what may be shared; value object and enum conventions; mapping VOs in EF Core | `project/shared-kernel.md` | `modules/MyMechanicShop.SharedKernel/**`, `*Vo.cs`, `Enums/*.cs`, `*.EntityFrameworkCore/**/Configurations/*.cs` |
 | One database per module; DbMigrator owns every migration | `project/databases-and-migrations.md` | `*.EntityFrameworkCore/**`, `*DbContext*.cs`, `Migrations/**`, `appsettings*.json` |
 | Auto API controller naming; Swagger tag vs URL; proxy generation | `project/auto-api-controllers.md` | `*HttpApiModule*.cs`, `*AppService*.cs`, `*.abprun.json` |
 | Two Angular workspaces; module UI ships as an npm package | `project/angular-workspaces.md` | `angular/**`, `public-api.ts` |
@@ -80,7 +80,7 @@ jobs, not for running the app.
 
 ```
 dotnet build MyMechanicShop.slnx
-dotnet test  MyMechanicShop.slnx          # 4 tests; see the Tests section
+dotnet test  MyMechanicShop.slnx          # 60 tests; see project/testing.md
 ```
 
 ```

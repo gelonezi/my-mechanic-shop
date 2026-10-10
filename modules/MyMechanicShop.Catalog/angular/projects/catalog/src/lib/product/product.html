@@ -15,12 +15,13 @@
   <div class="card-body">
     <ngx-datatable [rows]="products().items" [count]="products().totalCount" [list]="list" default>
       <ngx-datatable-column [name]="'Catalog::Name' | abpLocalization" prop="name" />
-      <ngx-datatable-column [name]="'Catalog::Price' | abpLocalization" prop="price">
+      <ngx-datatable-column [name]="'Catalog::Brand' | abpLocalization" prop="brand" />
+      <ngx-datatable-column [name]="'Catalog::Ean' | abpLocalization" prop="ean" />
+      <ngx-datatable-column [name]="'Catalog::Unit' | abpLocalization" prop="unit">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {{ row.price | currency }}
+          {{ 'SharedKernel::Enum:ProductUnit.' + row.unit | abpLocalization }}
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column [name]="'Catalog::StockCount' | abpLocalization" prop="stockCount" />
 
       <!-- Actions last so the buttons sit on the right-hand edge of the row.
            sortable=false because there is nothing to sort by, and a fixed width keeps
@@ -73,13 +74,33 @@
       </div>
 
       <div class="mt-2">
-        <label class="form-label" for="product-price">{{ 'Catalog::Price' | abpLocalization }}</label>
-        <input type="number" id="product-price" class="form-control" formControlName="price" />
+        <label class="form-label" for="product-brand">{{ 'Catalog::Brand' | abpLocalization }}</label>
+        <input type="text" id="product-brand" class="form-control" formControlName="brand" />
       </div>
 
       <div class="mt-2">
-        <label class="form-label" for="product-stock">{{ 'Catalog::StockCount' | abpLocalization }}</label>
-        <input type="number" id="product-stock" class="form-control" formControlName="stockCount" />
+        <label class="form-label" for="product-ean">{{ 'Catalog::Ean' | abpLocalization }}</label>
+        <input type="text" id="product-ean" class="form-control" formControlName="ean" inputmode="numeric" />
+      </div>
+
+      <div class="mt-2">
+        <label class="form-label" for="product-unit">{{ 'Catalog::Unit' | abpLocalization }}</label>
+        <!-- [ngValue], not value: value would hand the form a string ("1"), and the API
+             expects the enum's number. The disabled placeholder is ProductUnit.Undefined (0),
+             which Validators.min keeps invalid until a real unit is picked. -->
+        <select id="product-unit" class="form-select" formControlName="unit">
+          <option [ngValue]="0" disabled>-</option>
+          @for (option of unitOptions; track option.value) {
+            <option [ngValue]="option.value">
+              {{ 'SharedKernel::Enum:ProductUnit.' + option.value | abpLocalization }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="mt-2">
+        <label class="form-label" for="product-description">{{ 'Catalog::Description' | abpLocalization }}</label>
+        <textarea id="product-description" class="form-control" rows="3" formControlName="description"></textarea>
       </div>
     </form>
   </ng-template>

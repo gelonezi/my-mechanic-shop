@@ -1,13 +1,18 @@
+import type { ProductUnit } from '../my-mechanic-shop/shared-kernel/enums/product-unit.enum';
+import type { EntityDto } from '@abp/ng.core';
 
 export interface CreateUpdateProductDto {
   name: string;
-  price: number;
-  stockCount?: number;
+  brand?: string | null;
+  ean?: string | null;
+  description?: string | null;
+  unit?: ProductUnit;
 }
 
-export interface ProductDto {
-  id?: string;
+export interface ProductDto extends EntityDto<string> {
   name?: string;
-  price?: number;
-  stockCount?: number;
+  brand?: string | null;
+  ean?: string | null;
+  description?: string | null;
+  unit?: ProductUnit;
 }

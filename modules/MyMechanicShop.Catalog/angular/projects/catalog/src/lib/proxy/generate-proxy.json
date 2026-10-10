@@ -1,7 +1,6 @@
 {
-  "generated": [
-    "catalog"
-  ],
+  "generated": ["catalog"],
+  "resourceApi": false,
   "modules": {
     "abp": {
       "rootPath": "abp",
@@ -113,11 +112,7 @@
                 "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
                 "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -168,11 +163,7 @@
                 "type": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
                 "typeSimple": "Volo.Abp.AspNetCore.Mvc.MultiTenancy.FindTenantResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -253,11 +244,7 @@
                 "type": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel",
                 "typeSimple": "Volo.Abp.Http.Modeling.ApplicationApiDescriptionModel",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -353,11 +340,7 @@
                 "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto",
                 "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationConfigurationDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -468,11 +451,7 @@
                 "type": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto",
                 "typeSimple": "Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations.ApplicationLocalizationDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -643,11 +622,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -749,11 +724,7 @@
                 "type": "System.Boolean",
                 "typeSimple": "boolean",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -962,11 +933,7 @@
                 "type": "Volo.Abp.Account.ProfileDto",
                 "typeSimple": "Volo.Abp.Account.ProfileDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1017,11 +984,7 @@
                 "type": "Volo.Abp.Account.ProfileDto",
                 "typeSimple": "Volo.Abp.Account.ProfileDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1138,11 +1101,7 @@
                 "type": "Volo.Abp.Account.Web.Areas.Account.Controllers.Models.AbpLoginResult",
                 "typeSimple": "Volo.Abp.Account.Web.Areas.Account.Controllers.Models.AbpLoginResult",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1216,11 +1175,7 @@
                 "type": "Volo.Abp.Account.Web.Areas.Account.Controllers.Models.AbpLoginResult",
                 "typeSimple": "Volo.Abp.Account.Web.Areas.Account.Controllers.Models.AbpLoginResult",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1240,7 +1195,7 @@
       "remoteServiceName": "Catalog",
       "controllers": {
         "MyMechanicShop.Catalog.Products.ProductAppService": {
-          "controllerName": "products",
+          "controllerName": "Products",
           "controllerGroupName": "Product",
           "isRemoteService": true,
           "isIntegrationService": false,
@@ -1425,11 +1380,7 @@
                 "type": "MyMechanicShop.Catalog.Products.ProductDto",
                 "typeSimple": "MyMechanicShop.Catalog.Products.ProductDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1506,11 +1457,7 @@
                 "type": "MyMechanicShop.Catalog.Products.ProductDto",
                 "typeSimple": "MyMechanicShop.Catalog.Products.ProductDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1612,11 +1559,7 @@
                 "type": "MyMechanicShop.Catalog.Products.ProductDto",
                 "typeSimple": "MyMechanicShop.Catalog.Products.ProductDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -1697,16 +1640,542 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.Products.ProductDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.Products.ProductDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
               "authorizeDatas": [],
               "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<MyMechanicShop.Catalog.Products.ProductDto,MyMechanicShop.Catalog.Products.ProductDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            }
+          }
+        },
+        "MyMechanicShop.Catalog.StoreProducts.StoreProductAppService": {
+          "controllerName": "StoreProducts",
+          "controllerGroupName": "StoreProduct",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductAppService",
+          "summary": null,
+          "remarks": null,
+          "description": null,
+          "displayName": null,
+          "interfaces": [
+            {
+              "type": "MyMechanicShop.Catalog.StoreProducts.IStoreProductAppService",
+              "name": "IStoreProductAppService",
+              "methods": [
+                {
+                  "name": "GetListAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                      "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null,
+                      "summary": null,
+                      "description": null,
+                      "displayName": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.StoreProducts.StoreProductDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.StoreProducts.StoreProductDto>",
+                    "summary": null,
+                    "contentTypes": null,
+                    "isRemoteStream": false
+                  }
+                },
+                {
+                  "name": "GetAvailableProductsAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                      "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "isOptional": false,
+                      "defaultValue": null,
+                      "summary": null,
+                      "description": null,
+                      "displayName": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.Products.ProductDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.Products.ProductDto>",
+                    "summary": null,
+                    "contentTypes": null,
+                    "isRemoteStream": false
+                  }
+                },
+                {
+                  "name": "ActivateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto, MyMechanicShop.Catalog.Application.Contracts",
+                      "type": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto",
+                      "typeSimple": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto",
+                      "isOptional": false,
+                      "defaultValue": null,
+                      "summary": null,
+                      "description": null,
+                      "displayName": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                    "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                    "summary": null,
+                    "contentTypes": null,
+                    "isRemoteStream": false
+                  }
+                },
+                {
+                  "name": "UpdatePriceAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null,
+                      "summary": null,
+                      "description": null,
+                      "displayName": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto, MyMechanicShop.Catalog.Application.Contracts",
+                      "type": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+                      "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+                      "isOptional": false,
+                      "defaultValue": null,
+                      "summary": null,
+                      "description": null,
+                      "displayName": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                    "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                    "summary": null,
+                    "contentTypes": null,
+                    "isRemoteStream": false
+                  }
+                },
+                {
+                  "name": "DeactivateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null,
+                      "summary": null,
+                      "description": null,
+                      "displayName": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                    "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                    "summary": null,
+                    "contentTypes": null,
+                    "isRemoteStream": false
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/catalog/store-products",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.StoreProducts.StoreProductDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.StoreProducts.StoreProductDto>",
+                "summary": null,
+                "contentTypes": ["text/plain", "application/json", "text/json"],
+                "isRemoteStream": false
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "Catalog.StoreProducts",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyMechanicShop.Catalog.StoreProducts.IStoreProductAppService",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            },
+            "GetAvailableProductsAsyncByInput": {
+              "uniqueName": "GetAvailableProductsAsyncByInput",
+              "name": "GetAvailableProductsAsync",
+              "httpMethod": "GET",
+              "url": "api/catalog/store-products/available-products",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.Products.ProductDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<MyMechanicShop.Catalog.Products.ProductDto>",
+                "summary": null,
+                "contentTypes": ["text/plain", "application/json", "text/json"],
+                "isRemoteStream": false
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "Catalog.StoreProducts",
+                  "roles": null
+                },
+                {
+                  "policy": "Catalog.StoreProducts.Activate",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyMechanicShop.Catalog.StoreProducts.IStoreProductAppService",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            },
+            "ActivateAsyncByInput": {
+              "uniqueName": "ActivateAsyncByInput",
+              "name": "ActivateAsync",
+              "httpMethod": "POST",
+              "url": "api/catalog/store-products/activate",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto, MyMechanicShop.Catalog.Application.Contracts",
+                  "type": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto",
+                  "typeSimple": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto",
+                  "typeSimple": "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": "",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "returnValue": {
+                "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                "summary": null,
+                "contentTypes": ["text/plain", "application/json", "text/json"],
+                "isRemoteStream": false
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "Catalog.StoreProducts",
+                  "roles": null
+                },
+                {
+                  "policy": "Catalog.StoreProducts.Activate",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyMechanicShop.Catalog.StoreProducts.IStoreProductAppService",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            },
+            "UpdatePriceAsyncByIdAndInput": {
+              "uniqueName": "UpdatePriceAsyncByIdAndInput",
+              "name": "UpdatePriceAsync",
+              "httpMethod": "PUT",
+              "url": "api/catalog/store-products/{id}/price",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto, MyMechanicShop.Catalog.Application.Contracts",
+                  "type": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+                  "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": "",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+                  "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": "",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "returnValue": {
+                "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                "summary": null,
+                "contentTypes": ["text/plain", "application/json", "text/json"],
+                "isRemoteStream": false
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "Catalog.StoreProducts",
+                  "roles": null
+                },
+                {
+                  "policy": "Catalog.StoreProducts.Edit",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyMechanicShop.Catalog.StoreProducts.IStoreProductAppService",
+              "summary": null,
+              "remarks": null,
+              "description": null,
+              "displayName": null
+            },
+            "DeactivateAsyncById": {
+              "uniqueName": "DeactivateAsyncById",
+              "name": "DeactivateAsync",
+              "httpMethod": "POST",
+              "url": "api/catalog/store-products/{id}/deactivate",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": "",
+                  "summary": null,
+                  "description": null,
+                  "displayName": null
+                }
+              ],
+              "returnValue": {
+                "type": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                "typeSimple": "MyMechanicShop.Catalog.StoreProducts.StoreProductDto",
+                "summary": null,
+                "contentTypes": ["text/plain", "application/json", "text/json"],
+                "isRemoteStream": false
+              },
+              "allowAnonymous": false,
+              "authorizeDatas": [
+                {
+                  "policy": "Catalog.StoreProducts",
+                  "roles": null
+                },
+                {
+                  "policy": "Catalog.StoreProducts.Deactivate",
+                  "roles": null
+                }
+              ],
+              "implementFrom": "MyMechanicShop.Catalog.StoreProducts.IStoreProductAppService",
               "summary": null,
               "remarks": null,
               "description": null,
@@ -1919,11 +2388,7 @@
                 "type": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
                 "typeSimple": "Volo.Abp.FeatureManagement.GetFeatureListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -2291,11 +2756,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -2406,11 +2867,7 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -2461,11 +2918,7 @@
                 "type": "Volo.Abp.Identity.IdentityRoleDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityRoleDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -2516,11 +2969,7 @@
                 "type": "Volo.Abp.Identity.IdentityRoleDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityRoleDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -2597,11 +3046,7 @@
                 "type": "Volo.Abp.Identity.IdentityRoleDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityRoleDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -2988,11 +3433,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3103,11 +3544,7 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.Identity.IdentityUserDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.Identity.IdentityUserDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3158,11 +3595,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3239,11 +3672,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3345,11 +3774,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3400,11 +3825,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3427,11 +3848,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Identity.IdentityRoleDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3559,11 +3976,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3614,11 +4027,7 @@
                 "type": "Volo.Abp.Identity.IdentityUserDto",
                 "typeSimple": "Volo.Abp.Identity.IdentityUserDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3783,11 +4192,7 @@
                 "type": "Volo.Abp.Users.UserData",
                 "typeSimple": "Volo.Abp.Users.UserData",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3838,11 +4243,7 @@
                 "type": "Volo.Abp.Users.UserData",
                 "typeSimple": "Volo.Abp.Users.UserData",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -3953,11 +4354,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Users.UserData>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<Volo.Abp.Users.UserData>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4008,11 +4405,7 @@
                 "type": "System.Int64",
                 "typeSimple": "number",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4297,11 +4690,7 @@
                 "type": "Volo.Abp.TenantManagement.TenantDto",
                 "typeSimple": "Volo.Abp.TenantManagement.TenantDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4397,11 +4786,7 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.TenantManagement.TenantDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Volo.Abp.TenantManagement.TenantDto>",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4452,11 +4837,7 @@
                 "type": "Volo.Abp.TenantManagement.TenantDto",
                 "typeSimple": "Volo.Abp.TenantManagement.TenantDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4533,11 +4914,7 @@
                 "type": "Volo.Abp.TenantManagement.TenantDto",
                 "typeSimple": "Volo.Abp.TenantManagement.TenantDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4639,11 +5016,7 @@
                 "type": "System.String",
                 "typeSimple": "string",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -4709,7 +5082,7 @@
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "bindingSourceId": "Body",
                   "descriptorName": "",
                   "summary": null,
                   "description": null,
@@ -5293,11 +5666,7 @@
                 "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -5400,11 +5769,7 @@
                 "type": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.GetPermissionListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -5558,11 +5923,7 @@
                 "type": "Volo.Abp.PermissionManagement.GetResourceProviderListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.GetResourceProviderListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -5691,11 +6052,7 @@
                 "type": "Volo.Abp.PermissionManagement.SearchProviderKeyListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.SearchProviderKeyListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -5746,11 +6103,7 @@
                 "type": "Volo.Abp.PermissionManagement.GetResourcePermissionDefinitionListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.GetResourcePermissionDefinitionListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -5827,11 +6180,7 @@
                 "type": "Volo.Abp.PermissionManagement.GetResourcePermissionListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.GetResourcePermissionListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -5960,11 +6309,7 @@
                 "type": "Volo.Abp.PermissionManagement.GetResourcePermissionWithProviderListResultDto",
                 "typeSimple": "Volo.Abp.PermissionManagement.GetResourcePermissionWithProviderListResultDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -6304,11 +6649,7 @@
                 "type": "Volo.Abp.SettingManagement.EmailSettingsDto",
                 "typeSimple": "Volo.Abp.SettingManagement.EmailSettingsDto",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -6500,11 +6841,7 @@
                 "type": "System.String",
                 "typeSimple": "string",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -6527,11 +6864,7 @@
                 "type": "System.Collections.Generic.List<Volo.Abp.NameValue>",
                 "typeSimple": "[Volo.Abp.NameValue]",
                 "summary": null,
-                "contentTypes": [
-                  "text/plain",
-                  "application/json",
-                  "text/json"
-                ],
+                "contentTypes": ["text/plain", "application/json", "text/json"],
                 "isRemoteStream": false
               },
               "allowAnonymous": null,
@@ -6613,7 +6946,7 @@
           "typeSimple": "string",
           "isRequired": true,
           "minLength": 0,
-          "maxLength": 100,
+          "maxLength": 128,
           "minimum": null,
           "maximum": null,
           "regex": null,
@@ -6623,31 +6956,63 @@
           "displayName": null
         },
         {
-          "name": "Price",
+          "name": "Brand",
           "jsonName": null,
-          "type": "System.Single",
-          "typeSimple": "number",
-          "isRequired": true,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": "0",
-          "maximum": "2147483647",
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 128,
+          "minimum": null,
+          "maximum": null,
           "regex": null,
-          "isNullable": false,
+          "isNullable": true,
           "summary": null,
           "description": null,
           "displayName": null
         },
         {
-          "name": "StockCount",
+          "name": "Ean",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 13,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 1024,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "Unit",
+          "jsonName": null,
+          "type": "MyMechanicShop.SharedKernel.Enums.ProductUnit",
+          "typeSimple": "enum",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
-          "minimum": "0",
-          "maximum": "2147483647",
+          "minimum": null,
+          "maximum": null,
           "regex": null,
           "isNullable": false,
           "summary": null,
@@ -6661,28 +7026,12 @@
       "displayName": null
     },
     "MyMechanicShop.Catalog.Products.ProductDto": {
-      "baseType": null,
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Guid>",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
       "genericArguments": null,
       "properties": [
-        {
-          "name": "Id",
-          "jsonName": null,
-          "type": "System.Guid",
-          "typeSimple": "string",
-          "isRequired": false,
-          "minLength": null,
-          "maxLength": null,
-          "minimum": null,
-          "maximum": null,
-          "regex": null,
-          "isNullable": false,
-          "summary": null,
-          "description": null,
-          "displayName": null
-        },
         {
           "name": "Name",
           "jsonName": null,
@@ -6700,9 +7049,224 @@
           "displayName": null
         },
         {
-          "name": "Price",
+          "name": "Brand",
           "jsonName": null,
-          "type": "System.Single",
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "Ean",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "Unit",
+          "jsonName": null,
+          "type": "MyMechanicShop.SharedKernel.Enums.ProductUnit",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        }
+      ],
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
+    "MyMechanicShop.Catalog.StoreProducts.ActivateStoreProductDto": {
+      "baseType": "MyMechanicShop.Catalog.StoreProducts.StorePriceDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "ProductId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        }
+      ],
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
+    "MyMechanicShop.Catalog.StoreProducts.StorePriceDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "PriceAmount",
+          "jsonName": null,
+          "type": "System.Decimal",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": "0",
+          "maximum": "79228162514264337593543950335",
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "PriceCurrency",
+          "jsonName": null,
+          "type": "MyMechanicShop.SharedKernel.Enums.Currency",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        }
+      ],
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
+    "MyMechanicShop.Catalog.StoreProducts.StoreProductDto": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "ProductId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "ProductName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "ProductBrand",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "ProductUnit",
+          "jsonName": null,
+          "type": "MyMechanicShop.SharedKernel.Enums.ProductUnit",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "PriceAmount",
+          "jsonName": null,
+          "type": "System.Decimal",
           "typeSimple": "number",
           "isRequired": false,
           "minLength": null,
@@ -6716,10 +7280,26 @@
           "displayName": null
         },
         {
-          "name": "StockCount",
+          "name": "PriceCurrency",
           "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
+          "type": "MyMechanicShop.SharedKernel.Enums.Currency",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": false,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        },
+        {
+          "name": "IsActive",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -6732,6 +7312,45 @@
           "displayName": null
         }
       ],
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
+    "MyMechanicShop.SharedKernel.Enums.Currency": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": ["Undefined", "Usd", "Eur", "Brl"],
+      "enumValues": [0, 840, 978, 986],
+      "genericArguments": null,
+      "properties": null,
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
+    "MyMechanicShop.SharedKernel.Enums.ProductUnit": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "Undefined",
+        "Unit",
+        "Pair",
+        "Kit",
+        "Box",
+        "Package",
+        "Gram",
+        "Kilogram",
+        "Milliliter",
+        "Liter",
+        "CubicMeter",
+        "Centimeter",
+        "Meter",
+        "SquareMeter"
+      ],
+      "enumValues": [0, 1, 2, 3, 4, 5, 10, 11, 20, 21, 22, 30, 31, 40],
+      "genericArguments": null,
+      "properties": null,
       "summary": null,
       "remarks": null,
       "description": null,
@@ -7347,13 +7966,7 @@
         "LockedOut",
         "RequiresTwoFactor"
       ],
-      "enumValues": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
+      "enumValues": [1, 2, 3, 4, 5],
       "genericArguments": null,
       "properties": null,
       "summary": null,
@@ -7422,14 +8035,53 @@
       "description": null,
       "displayName": null
     },
+    "Volo.Abp.Application.Dtos.EntityDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [],
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
+    "Volo.Abp.Application.Dtos.EntityDto<T0>": {
+      "baseType": "Volo.Abp.Application.Dtos.EntityDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": ["TKey"],
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "TKey",
+          "typeSimple": "TKey",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true,
+          "summary": null,
+          "description": null,
+          "displayName": null
+        }
+      ],
+      "summary": null,
+      "remarks": null,
+      "description": null,
+      "displayName": null
+    },
     "Volo.Abp.Application.Dtos.ExtensibleAuditedEntityDto<T0>": {
       "baseType": "Volo.Abp.Application.Dtos.ExtensibleCreationAuditedEntityDto<TPrimaryKey>",
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "LastModificationTime",
@@ -7474,9 +8126,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "CreationTime",
@@ -7533,9 +8183,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TKey"
-      ],
+      "genericArguments": ["TKey"],
       "properties": [
         {
           "name": "Id",
@@ -7564,9 +8212,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "TPrimaryKey"
-      ],
+      "genericArguments": ["TPrimaryKey"],
       "properties": [
         {
           "name": "IsDeleted",
@@ -7743,9 +8389,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "Items",
@@ -7803,9 +8447,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "TotalCount",
@@ -13350,14 +13992,8 @@
     "Volo.Abp.MultiTenancy.TenantUserSharingStrategy": {
       "baseType": "System.Enum",
       "isEnum": true,
-      "enumNames": [
-        "Isolated",
-        "Shared"
-      ],
-      "enumValues": [
-        0,
-        1
-      ],
+      "enumNames": ["Isolated", "Shared"],
+      "enumValues": [0, 1],
       "genericArguments": null,
       "properties": null,
       "summary": null,
@@ -13382,9 +14018,7 @@
       "isEnum": false,
       "enumNames": null,
       "enumValues": null,
-      "genericArguments": [
-        "T"
-      ],
+      "genericArguments": ["T"],
       "properties": [
         {
           "name": "Name",

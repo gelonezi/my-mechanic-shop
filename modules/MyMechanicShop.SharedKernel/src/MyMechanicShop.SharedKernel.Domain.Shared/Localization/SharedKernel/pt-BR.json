@@ -28,6 +28,8 @@
 
     "Enum:EanFormat.0": "Indefinido",
     "Enum:EanFormat.8": "EAN-8",
-    "Enum:EanFormat.13": "EAN-13"
+    "Enum:EanFormat.13": "EAN-13",
+
+    "InvalidEan": "O campo {0} não é um código de barras EAN-8 ou EAN-13 válido."
   }
 }
