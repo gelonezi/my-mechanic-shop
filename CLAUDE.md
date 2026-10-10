@@ -65,6 +65,34 @@ abp run -p Default      # profile named explicitly
 abp run --no-build      # skip the build step
 ```
 
+> **`abp run` is broken on ABP Studio CLI 3.1.4** (the version this solution upgraded to;
+> 3.1.4 is also the newest published, so there is nothing to upgrade to). It exits
+> immediately, before starting anything, with
+> *"The type initializer for 'ReactiveUI.Reactive.ReactiveNotifyPropertyChangedMixins'
+> threw an exception → ReactiveUI has not been initialized"* — a bug inside the CLI's own
+> `SolutionRunCommandBase`: ReactiveUI 21 requires `RxAppBuilder` initialization and the CLI
+> never calls it. Nothing in this repo can fix it, and `abp install-libs`/`abp update` do not
+> (it is not a missing prerequisite). It worked on 3.1.1.
+>
+> Until it is fixed upstream, either downgrade the global tool:
+>
+> ```
+> dotnet tool update -g Volo.Abp.Studio.Cli --version 3.1.1
+> ```
+>
+> or start the three pieces by hand, which is only equivalent **if** `dist/catalog` is current
+> and the proxies are already generated — the two jobs `abp run` otherwise does for you:
+>
+> ```
+> docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait
+> cd src/MyMechanicShop.HttpApi.Host && dotnet run      # migrates + seeds in Development
+> cd angular && npx yarn start                          # ng serve on :4200
+> cd modules/MyMechanicShop.Catalog/angular && npx yarn ng build catalog --watch
+> ```
+>
+> The `cd` into the host project is load-bearing, for the same reason as the DbMigrator's:
+> the content root is the working directory, so from elsewhere it finds no `appsettings.json`.
+
 **`abp run` ignores the profile's `tasks` and `workflows`** — those are ABP Studio
 (GUI/agent) features, and it cannot hold one app back until another exits. So the
 database is migrated by the **host itself**: in Development, `MyMechanicShopHttpApiHostModule`
