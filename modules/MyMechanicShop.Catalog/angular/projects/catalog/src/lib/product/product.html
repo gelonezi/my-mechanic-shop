@@ -5,7 +5,13 @@
         <h5 class="card-title">{{ 'Catalog::Menu:Products' | abpLocalization }}</h5>
       </div>
       <div class="text-end col col-md-6">
-        <button id="create" class="btn btn-primary" type="button" (click)="createProduct()">
+        <button
+          id="create"
+          *abpPermission="'Catalog.Products.Create'"
+          class="btn btn-primary"
+          type="button"
+          (click)="createProduct()"
+        >
           <i class="fa fa-plus me-1"></i>
           <span>{{ 'Catalog::NewProduct' | abpLocalization }}</span>
         </button>
@@ -36,6 +42,7 @@
           <div class="d-flex gap-2 justify-content-end">
             <button
               type="button"
+              *abpPermission="'Catalog.Products.Edit'"
               class="btn btn-sm btn-outline-primary"
               [title]="'AbpUi::Edit' | abpLocalization"
               (click)="editProduct(row.id)"
@@ -45,6 +52,7 @@
             </button>
             <button
               type="button"
+              *abpPermission="'Catalog.Products.Delete'"
               class="btn btn-sm btn-outline-danger"
               [title]="'AbpUi::Delete' | abpLocalization"
               (click)="deleteProduct(row)"

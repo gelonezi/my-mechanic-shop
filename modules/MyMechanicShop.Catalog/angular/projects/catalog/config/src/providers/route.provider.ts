@@ -28,11 +28,19 @@ export function configureRoutes() {
       order: 3,
     },
     /* parentName nests this under the Catalog entry, so the menu reads
-     * Catalog > Products. Stock Control becomes a second child later. */
+     * Catalog > Products. Stock Control becomes a second child later.
+     *
+     * requiredPolicy hides the entry unless the permission is granted — RoutesService
+     * filters on it, so this is declarative, not an *ngIf. It belongs on the CHILD and
+     * deliberately not on the Catalog parent above: Catalog.Products is a Host-side
+     * permission (MultiTenancySides.Host), so a tenant user can never hold it. Gating
+     * the parent on it would hide the whole Catalog menu from every tenant — including
+     * the My Store page that comes next, which is Tenant-side. */
     {
       path: '/catalog/products',
       name: eCatalogRouteNames.Products,
       parentName: eCatalogRouteNames.Catalog,
+      requiredPolicy: 'Catalog.Products',
       layout: eLayoutType.application,
       order: 1,
     },

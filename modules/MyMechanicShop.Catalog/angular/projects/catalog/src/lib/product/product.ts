@@ -3,6 +3,7 @@ import {
   LocalizationPipe,
   PagedAndSortedResultRequestDto,
   PagedResultDto,
+  PermissionDirective,
 } from '@abp/ng.core';
 import {
   Confirmation,
@@ -32,6 +33,10 @@ import { MyMechanicShop, Products } from '../proxy';
     ModalCloseDirective,
     ReactiveFormsModule,
     LocalizationPipe,
+    /* *abpPermission — a structural directive, so a button the user may not use is never
+     * created rather than merely hidden. Standalone, hence imported here; in the old
+     * NgModule world it arrived via CoreModule. */
+    PermissionDirective,
   ],
   templateUrl: './product.html',
   /* ListService is provided PER COMPONENT, not in root: its state is this page's
