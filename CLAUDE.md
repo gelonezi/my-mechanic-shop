@@ -1,6 +1,6 @@
 # MyMechanicShop
 
-ABP Framework 10.6.0 on .NET 10. Layered DDD (`app` template), Angular UI, PostgreSQL
+ABP Framework 10.7.0 on .NET 10. Layered DDD (`app` template), Angular UI, PostgreSQL
 (Docker), multi-tenancy on. Scaffolded with ABP Studio CLI 3.1.1 — on SQLite, since replaced.
 
 General ABP conventions live in `.claude/rules/framework/` and `.claude/rules/template/`,
