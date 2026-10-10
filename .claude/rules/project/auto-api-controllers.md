@@ -93,6 +93,12 @@ script normalizes the folder to LF afterwards and `.gitattributes` pins `**/prox
 `eol=lf`, so an unchanged API leaves `git status` clean; a real API change is a real diff.
 The library watcher picks the rewrite up and `ng serve` reloads.
 
+That clean-tree guarantee holds **per CLI version**. Generators differ in formatting between
+versions — 3.1.4 wraps its output prettier-style (expanded arrays, trailing commas) where 3.1.1
+does not — so the first run after changing CLI version rewrites every proxy file with a large
+diff that changes no exported member. Commit it and the tree is stable again. This repo pins
+the CLI to 3.1.1 (see CLAUDE.md), so the committed proxies are in that version's format.
+
 Keep the urls in `dev-app/src/environments/environment.ts` as plain string literals. The
 schematic parses that file statically, so a `const` indirection fails with
 `Cannot resolve API URL for "Catalog" remote service name`.
