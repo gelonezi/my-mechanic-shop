@@ -30,12 +30,16 @@ public class StoreProduct : AuditedAggregateRoot<Guid>, IMultiTenant
         // For EF Core.
     }
 
+    /* Assigns Price directly rather than calling the virtual SetPrice: an overridable
+     * member invoked from a constructor would run a consumer's override against a
+     * half-built object (Sonar csharpsquid:S1699). Reactivate below may call it freely —
+     * the object is fully constructed by then. */
     internal StoreProduct(Guid id, Guid? tenantId, Guid productId, MonetaryVo price)
         : base(id)
     {
         TenantId = tenantId;
         ProductId = productId;
-        SetPrice(price);
+        Price = Check.NotNull(price, nameof(price));
         IsActive = true;
     }
 

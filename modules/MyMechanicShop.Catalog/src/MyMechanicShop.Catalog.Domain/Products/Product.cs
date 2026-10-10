@@ -33,11 +33,16 @@ public class Product : FullAuditedAggregateRoot<Guid>
         // For EF Core.
     }
 
+    /* Assigns directly instead of calling SetName/SetUnit. Those are virtual (this is a
+     * reusable module: see .claude/rules/template/module.md), and calling an overridable
+     * member from a constructor means a consumer's override runs before its own
+     * constructor body — on a half-built object (Sonar csharpsquid:S1699). The guard is
+     * shared with SetUnit through ValidateUnit rather than duplicated. */
     public Product(Guid id, NameVo name, ProductUnit unit)
         : base(id)
     {
-        SetName(name);
-        SetUnit(unit);
+        Name = Check.NotNull(name, nameof(name));
+        Unit = ValidateUnit(unit);
     }
 
     public virtual Product SetName(NameVo name)
@@ -66,12 +71,20 @@ public class Product : FullAuditedAggregateRoot<Guid>
 
     public virtual Product SetUnit(ProductUnit unit)
     {
+        Unit = ValidateUnit(unit);
+        return this;
+    }
+
+    /* protected so a derived entity can reuse the invariant, static so it cannot be
+     * overridden — the constructor depends on it, which is the whole point of S1699.
+     * Overriding the behaviour is still possible through the virtual SetUnit above. */
+    protected static ProductUnit ValidateUnit(ProductUnit unit)
+    {
         if (unit == ProductUnit.Undefined || !Enum.IsDefined(unit))
         {
             throw new ArgumentException($"{unit} is not a valid product unit.", nameof(unit));
         }
 
-        Unit = unit;
-        return this;
+        return unit;
     }
 }
