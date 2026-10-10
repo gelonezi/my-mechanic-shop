@@ -7,7 +7,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="10.7.0" />
     <ProjectReference Include="../MyMechanicShop.SharedKernel.Domain.Shared/MyMechanicShop.SharedKernel.Domain.Shared.csproj" />
   </ItemGroup>
 </Project>

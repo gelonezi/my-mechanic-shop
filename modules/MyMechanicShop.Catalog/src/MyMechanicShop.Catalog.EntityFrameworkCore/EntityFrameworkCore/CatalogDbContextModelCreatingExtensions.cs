@@ -11,5 +11,6 @@ public static class CatalogDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
         builder.ConfigureProducts();
+        builder.ConfigureStoreProducts();
     }
 }

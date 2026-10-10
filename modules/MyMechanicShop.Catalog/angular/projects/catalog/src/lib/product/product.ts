@@ -12,11 +12,10 @@ import {
   NgxDatatableDefaultDirective,
   NgxDatatableListDirective,
 } from '@abp/ng.theme.shared';
-import { CurrencyPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { Products } from '../proxy';
+import { MyMechanicShop, Products } from '../proxy';
 
 @Component({
   selector: 'lib-product',
@@ -33,7 +32,6 @@ import { Products } from '../proxy';
     ModalCloseDirective,
     ReactiveFormsModule,
     LocalizationPipe,
-    CurrencyPipe,
   ],
   templateUrl: './product.html',
   /* ListService is provided PER COMPONENT, not in root: its state is this page's
@@ -44,7 +42,14 @@ export class Product {
   /* Public because the template passes it to [list]. */
   readonly list = inject(ListService);
 
-  private readonly productsService = inject(Products.productsService);
+  /* For the Unit <select>. The generator writes these next to every enum it emits, via
+   * ABP's mapEnumToOptions; the template localizes each key as Enum:ProductUnit.<value>.
+   * Undefined (0) is left out: the API rejects it, so it must not be offered. */
+  protected readonly unitOptions = MyMechanicShop.SharedKernel.Enums.productUnitOptions.filter(
+    option => option.value !== MyMechanicShop.SharedKernel.Enums.ProductUnit.Undefined,
+  );
+
+  private readonly productsService = inject(Products.ProductsService);
   private readonly confirmation = inject(ConfirmationService);
 
   /* Declared before `form`, because class fields initialise in source order and
@@ -101,13 +106,22 @@ export class Product {
    * gives the empty create form.
    *
    * nonNullable: without it every control is typed string | null, and getRawValue()
-   * would not satisfy CreateUpdateProductDto, whose name and price are required. The
-   * ?? fallbacks are needed because every ProductDto member is optional in the proxy. */
+   * would not satisfy CreateUpdateProductDto, whose name is required. The ?? fallbacks
+   * are needed because every ProductDto member is optional in the proxy.
+   *
+   * The maxLength values mirror the DTO's [StringLength]s; the server stays the
+   * authority (it also checks the EAN digit and rejects Unit = Undefined). */
   private buildForm(product?: Products.ProductDto) {
+    const { ProductUnit } = MyMechanicShop.SharedKernel.Enums;
     return this.fb.nonNullable.group({
-      name: [product?.name ?? '', Validators.required],
-      price: [product?.price ?? 0, Validators.required],
-      stockCount: [product?.stockCount ?? 0, Validators.required],
+      name: [product?.name ?? '', [Validators.required, Validators.maxLength(128)]],
+      brand: [product?.brand ?? '', Validators.maxLength(128)],
+      ean: [product?.ean ?? '', Validators.maxLength(13)],
+      description: [product?.description ?? '', Validators.maxLength(1024)],
+      unit: [
+        product?.unit ?? ProductUnit.Undefined,
+        [Validators.required, Validators.min(ProductUnit.Unit)],
+      ],
     });
   }
 

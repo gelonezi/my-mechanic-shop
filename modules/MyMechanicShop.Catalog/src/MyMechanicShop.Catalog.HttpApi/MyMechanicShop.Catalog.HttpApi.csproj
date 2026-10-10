@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.6.0"/>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.7.0"/>
     <ProjectReference Include="..\MyMechanicShop.Catalog.Application.Contracts\MyMechanicShop.Catalog.Application.Contracts.csproj" />
     <ProjectReference Include="..\MyMechanicShop.Catalog.Application\MyMechanicShop.Catalog.Application.csproj" />
   </ItemGroup>
