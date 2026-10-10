@@ -7,7 +7,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="10.7.0" />
     <ProjectReference Include="..\MyMechanicShop.Catalog.Domain.Shared\MyMechanicShop.Catalog.Domain.Shared.csproj" />
     <ProjectReference Include="../../../MyMechanicShop.SharedKernel/src/MyMechanicShop.SharedKernel.Domain/MyMechanicShop.SharedKernel.Domain.csproj" />
   </ItemGroup>

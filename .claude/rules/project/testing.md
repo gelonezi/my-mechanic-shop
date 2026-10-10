@@ -25,9 +25,14 @@ Module tests are self-contained and run from the module's own solution. Keep it 
 
 ## Tests
 
-`dotnet test MyMechanicShop.slnx` runs **4 tests**: 3 in
-`MyMechanicShop.EntityFrameworkCore.Tests`, 1 in
-`MyMechanicShop.Catalog.EntityFrameworkCore.Tests`.
+`dotnet test MyMechanicShop.slnx` runs **60 tests**: 3 in
+`MyMechanicShop.EntityFrameworkCore.Tests`, 17 in
+`MyMechanicShop.Catalog.EntityFrameworkCore.Tests`, 40 in
+`MyMechanicShop.SharedKernel.Domain.Tests`. A module's own `.slnx` runs just its share.
+
+The kernel's tests are plain unit tests — concrete classes, no ABP application, no database —
+because its VOs and validators need neither. Catalog's are integration tests and follow the
+pattern below.
 
 `Domain.Tests` and `Application.Tests` report *"no tests available"* and that is
 **correct, not a failure**. The ABP template writes its sample tests as abstract generic

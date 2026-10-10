@@ -6,9 +6,24 @@
     "Menu:Catalog": "Catalog",
     "Menu:Products": "Products",
     "Name": "Name",
+    "Brand": "Brand",
+    "Ean": "EAN",
+    "Description": "Description",
+    "Unit": "Unit",
     "Price": "Price",
-    "StockCount": "Stock",
     "Actions": "Actions",
-    "NewProduct": "New product"
+    "NewProduct": "New product",
+
+    "Permission:Catalog": "Catalog",
+    "Permission:Products": "Products",
+    "Permission:Products.Create": "Create",
+    "Permission:Products.Edit": "Edit",
+    "Permission:Products.Delete": "Delete",
+    "Permission:StoreProducts": "Store products",
+    "Permission:StoreProducts.Activate": "Activate",
+    "Permission:StoreProducts.Edit": "Change price",
+    "Permission:StoreProducts.Deactivate": "Deactivate",
+
+    "Catalog:ProductAlreadyActive": "This product is already active in your store."
   }
 }

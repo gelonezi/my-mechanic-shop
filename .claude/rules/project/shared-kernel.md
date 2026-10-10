@@ -3,6 +3,7 @@ paths:
   - "**/MyMechanicShop.SharedKernel/**"
   - "**/*Vo.cs"
   - "**/Enums/*.cs"
+  - "**/*.EntityFrameworkCore/**/Configurations/*.cs"
 ---
 
 ## Shared Kernel: what every module may share
@@ -19,7 +20,7 @@ Catalog.Domain        ─► SharedKernel.Domain        ◄─ (next module).Dom
 
 | Project | Holds |
 | --- | --- |
-| `SharedKernel.Domain.Shared` | enums, `*Consts` (max lengths), `CurrencyExtensions`, `SharedKernelResource` + `Localization/SharedKernel/{en,pt-BR}.json` |
+| `SharedKernel.Domain.Shared` | enums, `*Consts` (max lengths), validators DTOs need (`EanValidator`), `CurrencyExtensions`, `SharedKernelResource` + `Localization/SharedKernel/{en,pt-BR}.json` |
 | `SharedKernel.Domain` | value objects (`NameVo`, `DescriptionVo`, `MonetaryVo`, `EanVo`) |
 
 No Application, HttpApi or EF layer. DTOs in a module's `Application.Contracts` see only
@@ -46,8 +47,11 @@ top of `MonetaryVo`.
 - `Create` normalizes (trim, upper-case) and guards with ABP's `Check` (`NotNullOrWhiteSpace(…,
   maxLength)`, `Length`, `Range`) — an `ArgumentException`, i.e. a 500: a bug, not bad input.
   User input is rejected earlier by the DTO (DataAnnotations; a localized 400). When a rule can't
-  be expressed as a DataAnnotation, the VO exposes a static `IsValid` for the DTO to call
-  (`EanVo.IsValid`: GS1 mod-10 check digit).
+  be expressed as a DataAnnotation, it lives as a static validator in **`Domain.Shared`**
+  (`EanValidator.IsValid`: GS1 mod-10 check digit) — DTOs see only `Domain.Shared`, so a method
+  on the VO would be out of their reach. The DTO calls it from `IValidatableObject.Validate`
+  (message from `SharedKernelResource`), and the VO's own `IsValid` delegates to it: one rule,
+  two layers.
 - Money is `decimal`, never `float`/`double`. `MonetaryVo` does not round: a unit price may need
   more places than the currency's `GetDecimals()`; round totals when presenting or charging.
 
@@ -64,6 +68,30 @@ top of `MonetaryVo`.
 - `Currency` is a closed list. To accept a new one: the ISO numeric code in the enum, a row in
   `CurrencyExtensions` (code, symbol, decimals — kept in code, not taken from ICU), and its names
   in both JSON files.
+
+### Persisting value objects (EF Core)
+
+Each module maps the kernel's VOs in its own EF configuration, as **complex types**
+(`ComplexProperty`), not owned types (`OwnsOne`): no hidden key, value semantics — EF's
+recommendation for VOs since EF 10. They are columns of the owner's table; name them after the
+owner's property, or EF names them `Name_Value`:
+
+```csharp
+p.ComplexProperty(x => x.Name, n => n.Property(v => v.Value)
+    .HasColumnName(nameof(Product.Name)).IsRequired().HasMaxLength(NameConsts.MaxLength));
+p.ComplexProperty(x => x.Brand, n => n.Property(v => v.Value)        // NameVo? — optional
+    .HasColumnName(nameof(Product.Brand)).HasMaxLength(NameConsts.MaxLength));
+```
+
+- **Optional VOs** (`NameVo? Brand`) need EF 10, and work because each kernel VO has at least one
+  non-nullable property: an all-`NULL` set of columns reads back as a `null` VO. Verified by
+  `ProductRepository_Tests` (round-trip, missing ones come back `null`).
+- Multi-field VOs map each field: `MonetaryVo` → `PriceAmount` with `HasPrecision(18, 4)` and
+  `PriceCurrency` (`StoreProductsConfigurations`).
+- LINQ goes through the VO: `p.Name.Value`, `s.Price.Amount` — fine inside joins and projections.
+- **Sorting by DTO field names breaks**: ABP's `CrudAppService` passes `Sorting` straight to
+  Dynamic LINQ, and `name` is not a property path any more (`Name.Value` is). Override
+  `ApplySorting` and translate through a field → path map (`ProductAppService.SortablePaths`).
 
 ### Using the kernel from a new module
 

@@ -1,0 +1,5 @@
+using MyMechanicShop.Catalog.StoreProducts;
+
+namespace MyMechanicShop.Catalog.EntityFrameworkCore.Applications;
+
+public class EfCoreStoreProductAppService_Tests : StoreProductAppService_Tests<CatalogEntityFrameworkCoreTestModule>;

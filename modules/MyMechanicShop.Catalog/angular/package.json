@@ -10,11 +10,11 @@
   },
   "private": true,
   "dependencies": {
-    "@abp/ng.core": "~10.6.0",
-    "@abp/ng.oauth": "~10.6.0",
-    "@abp/ng.theme.shared": "~10.6.0",
-    "@abp/ng.components": "~10.6.0",
-    "@volo/abp.commercial.ng.ui": "~10.6.0",
+    "@abp/ng.core": "~10.7.0",
+    "@abp/ng.oauth": "~10.7.0",
+    "@abp/ng.theme.shared": "~10.7.0",
+    "@abp/ng.components": "~10.7.0",
+    "@volo/abp.commercial.ng.ui": "~10.7.0",
     "@angular/animations": "~22.0.2",
     "@angular/aria": "~22.0.2",
     "@angular/common": "~22.0.2",
@@ -30,7 +30,7 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@abp/ng.schematics": "~10.6.0",
+    "@abp/ng.schematics": "~10.7.0",
     "@angular/build": "~22.0.0",
     "@angular-eslint/builder": "~22.0.0",
     "@angular-eslint/schematics": "~22.0.0",
