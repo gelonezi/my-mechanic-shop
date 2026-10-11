@@ -36,7 +36,7 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/catalog/tsconfig.spec.json",
-            "buildTarget": "projects/catalog:build",
+            "buildTarget": "catalog:build",
             "runner": "vitest"
           }
         },
