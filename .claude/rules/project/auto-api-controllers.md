@@ -4,6 +4,7 @@ paths:
   - "**/*AppService*.cs"
   - "**/*RemoteServiceConsts*.cs"
   - "**/proxy/**/*.ts"
+  - "**/*.Application.Contracts/**/*.cs"
 ---
 
 ## Auto API controller naming (Catalog)

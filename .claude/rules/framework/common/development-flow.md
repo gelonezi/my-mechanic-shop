@@ -107,17 +107,12 @@ public class BookRepository : EfCoreRepository<MyDbContext, Book, Guid>, IBookRe
 ```
 
 ### 5. Run Migration
-```bash
-cd src/MyProject.EntityFrameworkCore
-
-# Add migration
-dotnet ef migrations add Added_Book
-
-# Apply migration (choose one):
-dotnet run --project ../MyProject.DbMigrator   # Recommended - also seeds data
-# OR
-dotnet ef database update  # EF Core command only
-```
+In this repo every DbContext keeps its migrations next to it: the host's in
+`src/MyMechanicShop.EntityFrameworkCore/Migrations/ABP/`, a module's in its own
+`*.EntityFrameworkCore/Migrations/`. The DbMigrator applies them all. Commands and checks:
+the `ef-migration` skill and `project/databases-and-migrations.md`. Never
+`dotnet run --project …DbMigrator` from another folder: the DbMigrator would find no
+`appsettings.json`.
 
 ### 6. Application.Contracts
 Create DTOs and service interface:
@@ -265,19 +260,15 @@ public class BookAppService_Tests : MyProjectApplicationTestBase
 
 ### Build Solution
 ```bash
-dotnet build
+dotnet build MyMechanicShop.slnx
 ```
 
 ### Run Migrations
-```bash
-cd src/MyProject.EntityFrameworkCore
-dotnet ef migrations add MigrationName
-dotnet run --project ../MyProject.DbMigrator  # Apply migration + seed data
-```
+See step 5: the `ef-migration` skill.
 
 ### Generate Angular Proxies
 ```bash
-abp generate-proxy -t ng
+just proxies   # a module's proxies, into its Angular library; needs `just api` running
 ```
 
 ## Checklist for New Features
@@ -287,7 +278,7 @@ abp generate-proxy -t ng
 - [ ] Custom repository interface in Domain (only if custom queries needed)
 - [ ] EF Core configuration added
 - [ ] Custom repository implementation (only if interface defined)
-- [ ] Migration generated and applied (use DbMigrator)
+- [ ] Migration generated next to its DbContext and applied (DbMigrator, or `just api` in Development)
 - [ ] Mapperly mapper created and registered
 - [ ] DTOs created in Application.Contracts
 - [ ] Service interface defined
