@@ -1,0 +1,20 @@
+{
+  "application": {
+    "baseUrl": "https://mymechanicshop.gelonezi.com"
+  },
+  "oAuthConfig": {
+    "issuer": "https://mymechanicshop-api.gelonezi.com/",
+    "redirectUri": "https://mymechanicshop.gelonezi.com"
+  },
+  "apis": {
+    "default": {
+      "url": "https://mymechanicshop-api.gelonezi.com"
+    },
+    "Catalog": {
+      "url": "https://mymechanicshop-api.gelonezi.com"
+    },
+    "AbpAccountPublic": {
+      "url": "https://mymechanicshop-api.gelonezi.com/"
+    }
+  }
+}

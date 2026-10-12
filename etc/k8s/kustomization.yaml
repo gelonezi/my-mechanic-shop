@@ -1,0 +1,19 @@
+# The whole application on the home server's k3s:
+# https://mymechanicshop.gelonezi.com (Angular) and https://mymechanicshop-api.gelonezi.com (API, login, Swagger).
+# Cloudflare Tunnel (cloudflared on the host) -> Traefik on localhost:80 -> these Services.
+# Secrets are created once on the cluster, never committed (see README.md here).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: mymechanicshop
+
+resources:
+  - postgresql.yaml
+  - api.yaml
+  - angular.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  # ABP's remoteEnv: the Angular image fetches it at /getEnvConfig and merges it over environment.prod.ts
+  - name: angular-env
+    files:
+      - dynamic-env.json

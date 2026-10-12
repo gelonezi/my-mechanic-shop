@@ -1,0 +1,27 @@
+# Traefik (k3s's ingress) routes by host; cloudflared on the host sends both hostnames to localhost:80
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mymechanicshop
+spec:
+  rules:
+    - host: mymechanicshop.gelonezi.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: angular
+                port:
+                  number: 8080
+    - host: mymechanicshop-api.gelonezi.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  number: 8080

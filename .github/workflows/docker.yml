@@ -1,7 +1,8 @@
 name: Docker images
 
 # Pull requests only build, so a broken Dockerfile fails before merging; main also pushes
-# rogeriogelonezi/mymechanicshop-<image> to Docker Hub as :latest and :<commit sha>.
+# rogeriogelonezi/mymechanicshop-<image> to Docker Hub as :latest and :<commit sha>,
+# then deploys that commit to the home server's k3s (etc/k8s).
 on:
   push:
     branches: [main]
@@ -54,3 +55,29 @@ jobs:
             rogeriogelonezi/mymechanicshop-${{ matrix.image }}:${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}
+
+  deploy:
+    name: Deploy (home server)
+    needs: image
+    if: github.event_name != 'pull_request'
+    # The self-hosted runner on the home server; its kubeconfig is the namespace-scoped
+    # deployer ServiceAccount (etc/k8s/cluster/deployer.yaml)
+    runs-on: [self-hosted, mymechanicshop]
+    concurrency: deploy
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # Pin every image to this commit, so a rollout is reproducible and :latest never drifts
+      - name: Apply
+        run: |
+          kubectl kustomize etc/k8s \
+            | sed -E "s#(mymechanicshop-(api|dbmigrator|angular)):latest#\1:${GITHUB_SHA}#" \
+            | kubectl apply -f -
+
+      # The API pod migrates in its init container before it starts
+      - name: Wait for the rollout
+        run: |
+          kubectl -n mymechanicshop rollout status deployment/api --timeout=10m
+          kubectl -n mymechanicshop rollout status deployment/angular --timeout=5m

@@ -1,0 +1,17 @@
+# k3s's way to configure its bundled Traefik. cloudflared (on the host) sends X-Forwarded-Proto:
+# https; by default Traefik replaces it with its own http, and the API would then advertise
+# http:// endpoints. Trust it from the node itself and from the pod network, where k3s's
+# service load balancer forwards the connection from. Applied once by the cluster admin.
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    ports:
+      web:
+        forwardedHeaders:
+          trustedIPs:
+            - 127.0.0.1/32
+            - 10.42.0.0/16
