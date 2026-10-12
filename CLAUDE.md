@@ -69,9 +69,9 @@ to `dotnet run` and pnpm.
 ```
 just                # list the recipes
 just infra          # satellite applications in Docker (PostgreSQL 18 on 127.0.0.1:5432), waits until healthy
-just api            # infra + MVC client libs if missing, then `dotnet run` in src/MyMechanicShop.HttpApi.Host (https://localhost:44390)
+just api            # infra + MVC client libs if missing, then `dotnet run` in src/MyMechanicShop.HttpApi.Host (https://localhost:44390); opens /swagger once healthy
 just libs           # abp install-libs for the host (its MVC login page); rerun after an ABP upgrade
-just web            # frozen pnpm install, builds Catalog once, then its watcher + ng serve (http://localhost:4200)
+just web            # frozen pnpm install, builds Catalog once, then its watcher + ng serve --open (http://localhost:4200)
 just web-install    # pnpm install --frozen-lockfile
 just catalog-build  # builds the Catalog library into dist/catalog once
 just proxies        # regenerates Catalog's Angular proxies; needs `just api` running

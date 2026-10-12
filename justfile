@@ -4,6 +4,7 @@ set windows-shell := ["pwsh.exe", "-NoLogo", "-NoProfile", "-Command"]
 
 compose := "docker compose -f etc/docker/infrastructure/postgresql.yml"
 host := "src/MyMechanicShop.HttpApi.Host"
+api_url := "https://localhost:44390"
 app := "./angular"
 catalog := "./modules/MyMechanicShop.Catalog/angular"
 
@@ -15,10 +16,8 @@ default:
 infra:
     {{ compose }} up -d --wait
 
-# Run the API on https://localhost:44390; in Development it migrates and seeds every database first
-[working-directory: 'src/MyMechanicShop.HttpApi.Host']
-api: infra libs-if-missing
-    dotnet run
+# Run the API on https://localhost:44390 and open Swagger once it answers; in Development it migrates and seeds every database first
+api: infra libs-if-missing api-dev
 
 # Restore the API's MVC client libraries (the login page) into wwwroot/libs; rerun after an ABP upgrade
 libs:
@@ -28,7 +27,7 @@ libs:
 @libs-if-missing:
     {{ if path_exists(justfile_directory() / host / "wwwroot/libs/abp") == "true" { "echo 'MVC client libraries present (just libs refreshes them)'" } else { "just libs" } }}
 
-# Run the Angular app on http://localhost:4200, rebuilding the Catalog library on every change
+# Run the Angular app on http://localhost:4200 and open it, rebuilding the Catalog library on every change
 web: web-install catalog-build web-dev
 
 # Install the Angular workspaces exactly as locked (one pnpm workspace at the repo root)
@@ -42,7 +41,7 @@ catalog-build:
 # Regenerate the Catalog Angular proxies from the running API (start it with `just api`)
 [working-directory: 'modules/MyMechanicShop.Catalog/angular']
 proxies: && proxies-lf
-    curl -sSkf --max-time 5 https://localhost:44390/health-status
+    curl -sSkf --max-time 5 {{ api_url }}/health-status
     abp generate-proxy -t ng -m catalog -s dev-app --target catalog -a Catalog
 
 # The generator writes some files CRLF. .gitattributes pins proxy/ to LF in the repository;
@@ -60,6 +59,21 @@ proxies-lf:
 
 [parallel]
 [private]
+api-dev: api-run swagger-open
+
+[private]
+[working-directory: 'src/MyMechanicShop.HttpApi.Host']
+api-run:
+    dotnet run
+
+# `dotnet run` ignores launchBrowser: wait until the API answers, then open Swagger
+[private]
+swagger-open:
+    curl -skf --retry 300 --retry-delay 1 --retry-all-errors {{ api_url }}/health-status
+    {{ if os() == "windows" { "Start-Process" } else if os() == "macos" { "open" } else { "xdg-open" } }} {{ api_url }}/swagger
+
+[parallel]
+[private]
 web-dev: catalog-watch web-serve
 
 [private]
@@ -68,4 +82,4 @@ catalog-watch:
 
 [private]
 web-serve:
-    pnpm --filter {{ app }} exec ng serve
+    pnpm --filter {{ app }} exec ng serve --open
