@@ -14,6 +14,7 @@
 ## Project for Practice in Realistic Scenarios and Goals
 
 **Main Concepts:**
+
 - **Core Architecture:** Modular Monolith.
 - **Core Design**: [ABP Framework](https://abp.io) as a layered ***app template***.
 - **Projects Design**: Domain-Driven Design with each business area as a local ABP module with its own database.
@@ -22,22 +23,18 @@
 | ------------------- | ---------------------------------------------------- |
 | Backend             | C#, .NET, ABP Framework, EF Core                     |
 | Frontend            | Angular,  ABP's Angular packages, LeptonX Lite theme |
-| Database            | PostgreSQL, each module with it's own database       |
+| Database            | PostgreSQL, each module with its own database        |
 | Auth                | OpenIddict (ABP Account module), multi-tenancy       |
 | Tooling             | just, pnpm, ABP Studio CLI                           |
 
 ## Localhost Prerequisites
 
-* [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node.js](https://nodejs.org/en) `^24.15.0` (Angular 22's requirement)
-* [pnpm](https://pnpm.io) 12: `corepack enable pnpm` (Corepack ships with Node 24; on Windows
-  it needs an elevated terminal) or `winget install pnpm.pnpm`. The exact version is pinned
-  in the root `package.json`, and pnpm switches to it on its own
-* [Docker Desktop / Engine](https://www.docker.com/), **running**
-* [just](https://just.systems) (`winget install Casey.Just`, `brew install just`, …); on
-  Windows the recipes run in [PowerShell 7](https://learn.microsoft.com/powershell/) (`pwsh`)
-* [ABP Studio CLI](https://abp.io): scaffolding, proxy generation, and `abp install-libs` for
-  the API's login page libraries (`just api` runs it on the first start)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet)
+- [Node.js](https://nodejs.org/en) `^24.15.0` (Angular 22's requirement)
+- [pnpm](https://pnpm.io) 12
+- [Docker Desktop / Engine](https://www.docker.com/), **running**
+- [just](https://just.systems)
+- [ABP Studio CLI](https://abp.io)
 
 ## Getting started
 
@@ -48,116 +45,102 @@ just api    # terminal 1
 just web    # terminal 2
 ```
 
-| Recipe | What it does |
-| --- | --- |
-| `just` | lists the recipes |
-| `just infra` | starts the satellite applications in Docker ([`etc/docker/infrastructure/`](etc/docker/infrastructure/postgresql.yml): PostgreSQL 18 on `127.0.0.1:5432`) and waits until they are healthy |
-| `just api` | runs `infra` (and `libs` when `wwwroot/libs` is missing), then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`, its content root |
-| `just libs` | `abp install-libs` for the API: fills `wwwroot/libs` with the login page's client libraries (rerun after an ABP upgrade) |
-| `just web` | installs the Angular workspaces (frozen lockfile), builds the Catalog library once, then runs its watcher and `ng serve` side by side |
-| `just web-install` | `pnpm install --frozen-lockfile` |
-| `just catalog-build` | builds the Catalog Angular library into `dist/catalog` once |
-| `just proxies` | regenerates Catalog's Angular proxies from the running API (`just api` must be up) |
+| Recipe               | Usage   | What it does                                                                                   |
+| -------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `just`               | often   | Lists the recipes                                                                              |
+| `just infra`         | dev     | Starts the satellite applications in Docker and waits until they are healthy                   |
+| `just api`           | often   | Runs `infra` (and `libs` if missing), then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`   |
+| `just libs`          |         | `abp install-libs` for the API. Also fills `wwwroot/libs`                                      |
+| `just web`           | often   | Installs the Angular workspaces, builds the modules library, then runs `ng serve` side by side |
+| `just web-install`   |         | `pnpm install --frozen-lockfile`                                                               |
+| `just catalog-build` |         | Builds the Catalog Angular library into `dist/catalog` once                                    |
+| `just proxies`       | web-dev | Regenerates Catalog's Angular proxies from the running API                                     |
 
-Open **http://localhost:4200** for the app. The API and Swagger UI are on **https://localhost:44390**. Log in as `admin`, with ABP's
-default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`). In Development
-the host **migrates and seeds every database on startup**.
+Open **<http://localhost:4200>** for the app. The API and Swagger UI are on **<https://localhost:44390>**.
+Log in as `admin`, with ABP's default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`).
+In Development the host **migrates and seeds every database on startup**.
 
-PostgreSQL keeps running after the host stops; `docker compose -f
-etc/docker/infrastructure/postgresql.yml down` stops it, and the data survives in a Docker
-volume.
+PostgreSQL keeps running after the host stops. The data survives in a Docker volume.
 
 ## Database
 
 PostgreSQL 18 runs in Docker with two databases on one server:
 
-| Database | Connection string | Owner |
-| --- | --- | --- |
-| `MyMechanicShop` | `Default` | ABP's framework modules (Identity, OpenIddict, tenants, …) |
-| `MyMechanicShopCatalog` | `Catalog` | the Catalog module |
+| Database                | Connection string | Owner                                                      |
+| ----------------------- | ----------------- | ---------------------------------------------------------- |
+| `MyMechanicShop`        | `Default`         | ABP's framework modules (Identity, OpenIddict, tenants, …) |
+| `MyMechanicShopCatalog` | `Catalog`         | The Catalog module                                         |
 
-* The local server is **passwordless on purpose** (`trust` auth, reachable from this machine
-  only), so no credential is committed. Real environments supply connection strings through
-  environment variables (`ConnectionStrings__Default`) or an `appsettings.secrets.json`, which
-  is gitignored.
-* Reset everything: `docker compose -f etc/docker/infrastructure/postgresql.yml down -v`. The
-  next host start recreates and reseeds both databases.
-* Add a migration. Each project owns its DbContext's migrations, and the DbMigrator applies
-  them all:
+**Stop PostgreSQL** (the data is kept):
 
-  ```bash
-  # host, from src/MyMechanicShop.EntityFrameworkCore
-  dotnet ef migrations add <Name> --context MyMechanicShopDbContext --output-dir Migrations/ABP
-  # Catalog module, from modules/MyMechanicShop.Catalog/src/MyMechanicShop.Catalog.EntityFrameworkCore
-  dotnet ef migrations add <Name> --output-dir Migrations
-  ```
+```bash
+docker compose -f etc/docker/infrastructure/postgresql.yml down
+```
 
-* Outside Development the host does not migrate: run the DbMigrator before starting it,
-  from its own folder (`cd src/MyMechanicShop.DbMigrator && dotnet run`).
+**Reset everything** (`-v` also deletes the data volume):
+
+```bash
+docker compose -f etc/docker/infrastructure/postgresql.yml down -v
+```
+
+Next host start recreates and reseeds all databases.
+
+- Add a migration. Each project owns its DbContext's migrations, and the DbMigrator applies them all:
+
+```bash
+# host, from src/MyMechanicShop.EntityFrameworkCore
+dotnet ef migrations add <Name> --context MyMechanicShopDbContext --output-dir Migrations/ABP
+# Catalog module, from modules/MyMechanicShop.Catalog/src/MyMechanicShop.Catalog.EntityFrameworkCore
+dotnet ef migrations add <Name> --output-dir Migrations
+```
+
+- Outside Development the host does not migrate. For production, provide the connection strings and run the DbMigrator:
+
+```bash
+cd src/MyMechanicShop.DbMigrator && dotnet run
+```
 
 ## Solution structure
 
-```
-├── src/                          host application (layered: Domain.Shared → Domain →
-│   │                             Application.Contracts → Application → HttpApi → Host)
-│   ├── MyMechanicShop.HttpApi.Host     the API
-│   ├── MyMechanicShop.DbMigrator       applies every database's migrations and seeds
-│   └── MyMechanicShop.EntityFrameworkCore   the host's DbContext and its migrations
-├── modules/
-│   └── MyMechanicShop.Catalog/   local ABP module: its own layered projects (its EF
-│       │                         project owns its migrations), tests and
-│       └── angular/              Angular library (@my-mechanic-shop/catalog)
-├── angular/                      the Angular application
-├── test/                         host test projects
-└── etc/
-    └── docker/infrastructure/    PostgreSQL compose file
-```
+```mermaid
+flowchart TD
+    app["<b>angular/</b><br/>Angular application"]
+    host["<b>src/</b><br/>host application<br/>HttpApi.Host · DbMigrator"]
+    catalogUi["<b>modules/Catalog/angular</b><br/>Angular library"]
+    catalog["<b>modules/Catalog</b><br/>business module"]
+    kernel["<b>modules/SharedKernel</b><br/>value objects · enums"]
 
-The Angular app consumes each module's UI as a built npm package (`dist/`), exactly as it
-would from a registry, so the library must be rebuilt after a change. `just web` keeps it
-rebuilt; `just catalog-build` builds it once. Both Angular folders are one pnpm workspace
-with a single `node_modules` at the repo root.
+    subgraph pg["PostgreSQL · etc/docker/infrastructure"]
+        hostDb[("MyMechanicShop")]
+        catalogDb[("MyMechanicShopCatalog")]
+    end
 
-## Tests
-
-```bash
-dotnet test MyMechanicShop.slnx
+    app -- HTTP --> host
+    app -- "dist/catalog" --> catalogUi
+    host --> catalog --> kernel
+    host --> hostDb
+    catalog --> catalogDb
 ```
 
-Tests use SQLite **in memory** — one database per module — so they need no Docker.
-
-## Workflow and code quality
-
-* `main` is protected: every change goes through a pull request, squash-merged, with titles
-  following [Conventional Commits](https://www.conventionalcommits.org) (`feat:`, `fix:`,
-  `refactor:`, `chore:`, `docs:`, …).
-* Pull requests are checked by **CodeQL** (C# and TypeScript) and
-  **[SonarQube Cloud](https://sonarcloud.io/project/overview?id=gelonezi_my-mechanic-shop)**
-  automatic analysis; the badges at the top link to each metric. Generated code — EF
-  migrations and Angular proxies — is excluded in [`.sonarcloud.properties`](.sonarcloud.properties).
-  Automatic analysis does not collect test coverage, so there is no coverage badge.
-
-  [![SonarQube Cloud](https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg)](https://sonarcloud.io/summary/new_code?id=gelonezi_my-mechanic-shop)
-* This repository's conventions, including the traps found along the way, are documented in
-  [`CLAUDE.md`](CLAUDE.md) and [`.claude/rules/project/`](.claude/rules/project/).
+- Each box under `src/` and `modules/` is a set of layered ABP projects: `Domain.Shared` → `Domain` → `Application.Contracts` → `Application` → `EntityFrameworkCore` → `HttpApi`
+- SharedKernel has only the two Domain layers.
+- Each EntityFrameworkCore project owns its database's migrations.
+- Tests live in `test/` (host) and in each module's own `test/`.
+- The Angular app consumes each module's UI as a built npm package (`dist/`), exactly as it would from a registry, so the library must be rebuilt after a change.
+- `just web` keeps it rebuilt; `just catalog-build` builds it once. Both Angular folders are one pnpm workspace with a single `node_modules` at the repo root.
 
 ## Deploying
 
 Deploying follows ABP's [deployment documentation](https://abp.io/docs/latest/Deployment/Index).
-Production needs its own signing certificate: ABP expects an `openiddict.pfx` file, which
-can be created with
+
+Production needs its own signing certificate: ABP expects an `openiddict.pfx` file, which can be created with:
 
 ```bash
 dotnet dev-certs https -v -ep openiddict.pfx -p <certificate password>
 ```
 
-and whose password is read from `AuthServer:CertificatePassPhrase`. Two RSA certificates,
-distinct from the HTTPS one (one for encryption, one for signing), are recommended — see
-[OpenIddict certificate configuration](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
-and ABP's [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment).
+Password is read from `AuthServer:CertificatePassPhrase`.
+Two RSA certificates, distinct from the HTTPS one (one for encryption, one for signing), are recommended. See:
 
-## Resources
-
-* [Angular application README](angular/README.md)
-* [ABP layered application template](https://abp.io/docs/latest/solution-templates/layered-web-application)
-* [ABP Web Application Development Tutorial](https://abp.io/docs/latest/tutorials/book-store/part-1)
+- [OpenIddict certificate configuration](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios)
+- and ABP's [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment).
