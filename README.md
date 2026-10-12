@@ -47,14 +47,14 @@ just web    # terminal 2
 
 | Recipe               | Usage   | What it does                                                                                   |
 | -------------------- | ------- | ---------------------------------------------------------------------------------------------- |
-| `just`               | often   | Lists the recipes                                                                              |
+| `just`               |         | Lists the recipes                                                                              |
 | `just infra`         | dev     | Starts the satellite applications in Docker and waits until they are healthy                   |
 | `just api`           | often   | Runs `infra` (and `libs` if missing), then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`   |
 | `just libs`          |         | `abp install-libs` for the API. Also fills `wwwroot/libs`                                      |
 | `just web`           | often   | Installs the Angular workspaces, builds the modules library, then runs `ng serve` side by side |
 | `just web-install`   |         | `pnpm install --frozen-lockfile`                                                               |
 | `just catalog-build` |         | Builds the Catalog Angular library into `dist/catalog` once                                    |
-| `just proxies`       | web-dev | Regenerates Catalog's Angular proxies from the running API                                     |
+| `just proxies`       | dev     | Regenerates Catalog's Angular proxies from the running API                                     |
 
 Open **<http://localhost:4200>** for the app. The API and Swagger UI are on **<https://localhost:44390>**.
 Log in as `admin`, with ABP's default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`).
