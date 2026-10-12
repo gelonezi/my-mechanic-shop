@@ -30,21 +30,20 @@ Four things wire the library into the host, all of them required:
 1. `angular/tsconfig.json` `paths` maps `@my-mechanic-shop/catalog` and
    `@my-mechanic-shop/catalog/*` to `../modules/MyMechanicShop.Catalog/angular/dist/catalog`
    — the **ng-packagr output**, not the source, so the host consumes exactly the package it
-   would get from npm. Cost: the library must be rebuilt after every change. `abp run`
-   pays it: the `MyMechanicShop.Catalog.Angular` app in the run profile is
-   `modules/<Name>/angular/watch.ps1`, a long-running `ng build catalog --watch` that
-   rewrites `dist/` on every source change (regenerated proxies included), and the host's
-   `ng serve` recompiles from there (verified: a template edit is served within ~1 s).
-   Outside `abp run`, `yarn ng build catalog` by hand.
+   would get from npm. Cost: the library must be rebuilt after every change. Nothing
+   does that automatically any more (`abp run` used to, and how the frontend runs is not
+   decided yet). Either `yarn ng build catalog` once, or `modules/<Name>/angular/watch.ps1`,
+   a long-running `ng build catalog --watch` that rewrites `dist/` on every source change
+   (regenerated proxies included). The host's `ng serve` recompiles from there (verified:
+   a template edit is served within ~1 s).
 
    **`"deleteDestPath": false` in the library's `ng-package.json` is load-bearing.** By
-   default ng-packagr empties `dist/` at the start of every build. `abp run` starts the
-   watcher and `ng serve` at the same moment, so `ng serve` compiled against the empty
-   folder, failed with `TS2307: Cannot find module '@my-mechanic-shop/catalog'` — and stayed
-   failed after `dist/` was rewritten: it caches the failed resolution. Under `abp run`,
-   whose runner hides app output, that showed only as Angular stuck on *Starting*.
-   The same applies on a fresh clone, where `dist/` does not exist yet: if :4200 fails to
-   resolve the package, restart the Angular app once the watcher's first build is done.
+   default ng-packagr empties `dist/` at the start of every build. A watcher and `ng serve`
+   started at the same moment (as `abp run` used to) then has `ng serve` compile against
+   the empty folder and fail with `TS2307: Cannot find module '@my-mechanic-shop/catalog'`.
+   It stays failed after `dist/` is rewritten, because it caches the failed resolution.
+   The same applies on a fresh clone, where `dist/` does not exist yet: build the library
+   first, or restart `ng serve` once the watcher's first build is done.
 2. `angular/src/environments/environment.ts` *and* `environment.prod.ts` each need a
    `Catalog` entry, because the generated services declare `apiName = 'Catalog'`. **This is
    the microservice seam**: when Catalog becomes its own pod, these urls are what change.

@@ -6,15 +6,6 @@ using Volo.Abp.Domain.Values;
 
 namespace MyMechanicShop.SharedKernel.ValueObjects;
 
-/// <summary>
-/// A GS1 EAN-8 or EAN-13 barcode: digits only, with a valid check digit.
-/// </summary>
-/// <remarks>
-/// Only <see cref="Value"/> is stored; <see cref="Format"/> follows from its length.
-/// User input should be checked with <see cref="IsValid"/> in the DTO, so a bad code is a 400;
-/// <see cref="Create"/> throws <see cref="ArgumentException"/>, a domain invariant.
-/// Compare with <see cref="ValueObject.ValueEquals"/>.
-/// </remarks>
 public sealed class EanVo : ValueObject
 {
     public string Value { get; private set; } = null!;
@@ -23,7 +14,6 @@ public sealed class EanVo : ValueObject
 
     private EanVo()
     {
-        // For EF Core.
     }
 
     private EanVo(string value)
@@ -45,7 +35,6 @@ public sealed class EanVo : ValueObject
         return new EanVo(trimmed);
     }
 
-    /// <inheritdoc cref="EanValidator.IsValid"/>
     public static bool IsValid(string? value) => EanValidator.IsValid(value);
 
     public override string ToString() => Value;

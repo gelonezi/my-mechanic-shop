@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Application;
 using Volo.Abp.Mapperly;
 using Volo.Abp.Modularity;
-using Volo.Abp.Application;
 
 namespace MyMechanicShop.Catalog;
 
@@ -10,7 +10,7 @@ namespace MyMechanicShop.Catalog;
     typeof(CatalogApplicationContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpMapperlyModule)
-    )]
+)]
 public class CatalogApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)

@@ -4,11 +4,6 @@ using Volo.Abp.Mapperly;
 
 namespace MyMechanicShop.Catalog.Products.Mappers;
 
-/// <summary>
-/// Entity → DTO only. The reverse is built by hand in <see cref="ProductAppService"/>, because
-/// value objects are created through their factories (<c>NameVo.Create</c>), which Mapperly does
-/// not call.
-/// </summary>
 [Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
 public partial class ProductToProductDtoMapper : MapperBase<Product, ProductDto>
 {

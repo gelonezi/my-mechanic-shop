@@ -7,7 +7,6 @@ using Volo.Abp.Validation.Localization;
 
 namespace MyMechanicShop.Catalog.StoreProducts;
 
-/// <summary>The price a shop charges for a product. Base of the activate and change-price inputs.</summary>
 public class StorePriceDto : IValidatableObject
 {
     [Range(typeof(decimal), "0", "79228162514264337593543950335")]
@@ -20,7 +19,8 @@ public class StorePriceDto : IValidatableObject
         if (!PriceCurrency.IsAccepted())
         {
             var l = validationContext.GetRequiredService<IStringLocalizer<AbpValidationResource>>();
-            yield return new ValidationResult(l["The {0} field is required.", nameof(PriceCurrency)], [nameof(PriceCurrency)]);
+            yield return new ValidationResult(l["The {0} field is required.", nameof(PriceCurrency)],
+                [nameof(PriceCurrency)]);
         }
     }
 }

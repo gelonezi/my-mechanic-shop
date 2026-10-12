@@ -1,14 +1,3 @@
-# CodeQL analysis.
-#
-# Required by the `main` ruleset's code_scanning rule (CodeQL, security alerts at
-# high_or_higher, other alerts at errors). Without a run of this workflow no pull
-# request can merge into main.
-#
-# build-mode: none is deliberate for C#. The default (autobuild) would have to
-# restore and build the whole ABP solution on the runner — ABP's NuGet feed, .NET 10
-# and the module projects — which is slow and brittle for a check whose only job is
-# to produce alerts. Buildless analysis reads the source directly.
-
 name: CodeQL
 
 on:
@@ -25,7 +14,6 @@ jobs:
     name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
     permissions:
-      # Required to upload results to the code scanning API.
       security-events: write
       packages: read
       actions: read

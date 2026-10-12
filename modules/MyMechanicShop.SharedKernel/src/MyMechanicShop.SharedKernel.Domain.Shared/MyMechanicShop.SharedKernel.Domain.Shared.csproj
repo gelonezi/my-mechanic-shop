@@ -1,10 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     
     <Import Project="..\..\common.props" />
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <Nullable>enable</Nullable>
         <RootNamespace>MyMechanicShop.SharedKernel</RootNamespace>
         <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -12,17 +10,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" Version="10.7.0"/>
-        <PackageReference Include="Volo.Abp.Validation" Version="10.7.0"/>
+        <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" />
+        <PackageReference Include="Volo.Abp.Validation" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="10.0.*"/>
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Localization\SharedKernel\*.json"/>
-        <Content Remove="Localization\SharedKernel\*.json"/>
+        <EmbeddedResource Include="Localization\SharedKernel\*.json" />
+        <Content Remove="Localization\SharedKernel\*.json" />
     </ItemGroup>
 
 </Project>

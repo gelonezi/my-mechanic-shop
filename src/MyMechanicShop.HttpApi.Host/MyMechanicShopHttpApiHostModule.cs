@@ -1,46 +1,40 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
-using OpenIddict.Validation.AspNetCore;
-using OpenIddict.Server.AspNetCore;
+using Microsoft.OpenApi;
 using MyMechanicShop.Data;
 using MyMechanicShop.EntityFrameworkCore;
-using MyMechanicShop.MultiTenancy;
 using MyMechanicShop.HealthChecks;
-using Microsoft.OpenApi;
+using MyMechanicShop.MultiTenancy;
+using OpenIddict.Server.AspNetCore;
+using OpenIddict.Validation.AspNetCore;
 using Volo.Abp;
-using Volo.Abp.Studio;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.Autofac;
-using Volo.Abp.Localization;
-using Volo.Abp.Modularity;
-using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
-using Microsoft.AspNetCore.Hosting;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
-using Volo.Abp.Identity;
+using Volo.Abp.Autofac;
+using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
-using Volo.Abp.Swashbuckle;
-using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Studio;
+using Volo.Abp.Studio.Client.AspNetCore;
+using Volo.Abp.Swashbuckle;
+using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.VirtualFileSystem;
 
 namespace MyMechanicShop;
 
@@ -55,7 +49,7 @@ namespace MyMechanicShop;
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule)
-    )]
+)]
 public class MyMechanicShopHttpApiHostModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -75,10 +69,7 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
 
         if (!hostingEnvironment.IsDevelopment())
         {
-            PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
-            {
-                options.AddDevelopmentEncryptionAndSigningCertificate = false;
-            });
+            PreConfigure<AbpOpenIddictAspNetCoreOptions>(options => { options.AddDevelopmentEncryptionAndSigningCertificate = false; });
 
             PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
             {
@@ -101,11 +92,8 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
 
         if (!configuration.GetValue<bool>("AuthServer:RequireHttpsMetadata"))
         {
-            Configure<OpenIddictServerAspNetCoreOptions>(options =>
-            {
-                options.DisableTransportSecurityRequirement = true;
-            });
-            
+            Configure<OpenIddictServerAspNetCoreOptions>(options => { options.DisableTransportSecurityRequirement = true; });
+
             Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
@@ -135,20 +123,14 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
     {
         if (hostingEnvironment.IsProduction())
         {
-            Configure<AbpStudioClientOptions>(options =>
-            {
-                options.IsLinkEnabled = false;
-            });
+            Configure<AbpStudioClientOptions>(options => { options.IsLinkEnabled = false; });
         }
     }
 
     private static void ConfigureAuthentication(ServiceConfigurationContext context)
     {
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
-        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
-        {
-            options.IsDynamicClaimsEnabled = true;
-        });
+        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options => { options.IsDynamicClaimsEnabled = true; });
     }
 
     private void ConfigureUrls(IConfiguration configuration)
@@ -168,10 +150,7 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
         {
             options.StyleBundles.Configure(
                 LeptonXLiteThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
+                bundle => { bundle.AddFiles("/global-styles.css"); }
             );
 
             options.ScriptBundles.Configure(
@@ -197,20 +176,20 @@ public class MyMechanicShopHttpApiHostModule : AbpModule
         {
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}MyMechanicShop.Domain.Shared"));
+                options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath,
+                    $"..{Path.DirectorySeparatorChar}MyMechanicShop.Domain.Shared"));
                 options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}MyMechanicShop.Domain"));
-                options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}MyMechanicShop.Application.Contracts"));
-                options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}MyMechanicShop.Application"));
+                options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopApplicationContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath,
+                    $"..{Path.DirectorySeparatorChar}MyMechanicShop.Application.Contracts"));
+                options.FileSets.ReplaceEmbeddedByPhysical<MyMechanicShopApplicationModule>(Path.Combine(hostingEnvironment.ContentRootPath,
+                    $"..{Path.DirectorySeparatorChar}MyMechanicShop.Application"));
             });
         }
     }
 
     private void ConfigureConventionalControllers()
     {
-        Configure<AbpAspNetCoreMvcOptions>(options =>
-        {
-            options.ConventionalControllers.Create(typeof(MyMechanicShopApplicationModule).Assembly);
-        });
+        Configure<AbpAspNetCoreMvcOptions>(options => { options.ConventionalControllers.Create(typeof(MyMechanicShopApplicationModule).Assembly); });
     }
 
     private static void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)

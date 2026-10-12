@@ -1,13 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props" />
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <RootNamespace>MyMechanicShop.Catalog</RootNamespace>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="10.7.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" />
     <ProjectReference Include="..\MyMechanicShop.Catalog.Domain.Shared\MyMechanicShop.Catalog.Domain.Shared.csproj" />
     <ProjectReference Include="../../../MyMechanicShop.SharedKernel/src/MyMechanicShop.SharedKernel.Domain/MyMechanicShop.SharedKernel.Domain.csproj" />
   </ItemGroup>

@@ -15,12 +15,8 @@ static class Program
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
-#if DEBUG
-                .MinimumLevel.Override("MyMechanicShop", LogEventLevel.Debug)
-#else
-                .MinimumLevel.Override("MyMechanicShop", LogEventLevel.Information)
-#endif
-                .Enrich.FromLogContext()
+            .MinimumLevel.Override("MyMechanicShop", LogEventLevel.Debug)
+            .Enrich.FromLogContext()
             .WriteTo.Async(c => c.File("Logs/logs.txt"))
             .WriteTo.Async(c => c.Console())
             .CreateLogger();
@@ -32,8 +28,5 @@ static class Program
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()
             .ConfigureLogging((context, logging) => logging.ClearProviders())
-            .ConfigureServices((hostContext, services) =>
-            {
-                services.AddHostedService<DbMigratorHostedService>();
-            });
+            .ConfigureServices((hostContext, services) => { services.AddHostedService<DbMigratorHostedService>(); });
 }

@@ -29,13 +29,13 @@ public class EanVo_Tests
     }
 
     [Theory]
-    [InlineData("4006381333932")]     // EAN-13, wrong check digit
-    [InlineData("96385075")]          // EAN-8, wrong check digit
-    [InlineData("123456789012")]      // 12 digits
-    [InlineData("12345678901234")]    // 14 digits
-    [InlineData("40063813339A1")]     // a letter
-    [InlineData("4006381 333931")]    // inner space
-    [InlineData("０１２３４５６５")]  // full-width digits: char.IsDigit accepts them, IsAsciiDigit does not
+    [InlineData("4006381333932")] // EAN-13, wrong check digit
+    [InlineData("96385075")] // EAN-8, wrong check digit
+    [InlineData("123456789012")] // 12 digits
+    [InlineData("12345678901234")] // 14 digits
+    [InlineData("40063813339A1")] // a letter
+    [InlineData("4006381 333931")] // inner space
+    [InlineData("０１２３４５６５")] // full-width digits: char.IsDigit accepts them, IsAsciiDigit does not
     [InlineData("")]
     [InlineData(null)]
     public void IsValid_Should_Reject(string? code)

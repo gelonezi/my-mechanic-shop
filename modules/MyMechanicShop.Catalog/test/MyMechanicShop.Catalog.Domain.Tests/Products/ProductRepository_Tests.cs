@@ -10,10 +10,6 @@ using Xunit;
 
 namespace MyMechanicShop.Catalog.Products;
 
-/* Write repository tests in this project, as abstract classes.
- * Then inherit these abstract classes from EF Core & MongoDB test projects.
- * In this way, both database providers are tested with the same set of tests.
- */
 public abstract class ProductRepository_Tests<TStartupModule> : CatalogDomainTestBase<TStartupModule>
     where TStartupModule : IAbpModule
 {

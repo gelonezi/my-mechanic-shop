@@ -1,5 +1,4 @@
-﻿using MyMechanicShop.EntityFrameworkCore;
-using Xunit;
+﻿using Xunit;
 
 namespace MyMechanicShop.EntityFrameworkCore;
 

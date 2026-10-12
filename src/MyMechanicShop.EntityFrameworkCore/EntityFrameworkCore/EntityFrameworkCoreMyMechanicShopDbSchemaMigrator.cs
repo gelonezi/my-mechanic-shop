@@ -7,25 +7,11 @@ using Volo.Abp.DependencyInjection;
 
 namespace MyMechanicShop.EntityFrameworkCore;
 
-public class EntityFrameworkCoreMyMechanicShopDbSchemaMigrator
-    : IMyMechanicShopDbSchemaMigrator, ITransientDependency
+public class EntityFrameworkCoreMyMechanicShopDbSchemaMigrator(IServiceProvider serviceProvider) : IMyMechanicShopDbSchemaMigrator, ITransientDependency
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public EntityFrameworkCoreMyMechanicShopDbSchemaMigrator(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     public async Task MigrateAsync()
     {
-        /* We intentionally resolving the MyMechanicShopDbContext
-         * from IServiceProvider (instead of directly injecting it)
-         * to properly get the connection string of the current tenant in the
-         * current scope.
-         */
-
-        await _serviceProvider
+        await serviceProvider
             .GetRequiredService<MyMechanicShopDbContext>()
             .Database
             .MigrateAsync();

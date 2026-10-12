@@ -12,19 +12,14 @@ namespace MyMechanicShop.Catalog.StoreProducts;
 /// Activates catalog products in the current shop, enforcing one <see cref="StoreProduct"/> per
 /// shop and product.
 /// </summary>
-public class StoreProductManager : DomainService
+public class StoreProductManager(
+    IRepository<StoreProduct, Guid> storeProductRepository,
+    IRepository<Product, Guid> productRepository)
+    : DomainService
 {
-    protected IRepository<StoreProduct, Guid> StoreProductRepository { get; }
+    protected IRepository<StoreProduct, Guid> StoreProductRepository { get; } = storeProductRepository;
 
-    protected IRepository<Product, Guid> ProductRepository { get; }
-
-    public StoreProductManager(
-        IRepository<StoreProduct, Guid> storeProductRepository,
-        IRepository<Product, Guid> productRepository)
-    {
-        StoreProductRepository = storeProductRepository;
-        ProductRepository = productRepository;
-    }
+    protected IRepository<Product, Guid> ProductRepository { get; } = productRepository;
 
     /// <summary>
     /// Starts selling <paramref name="productId"/> in the current shop at <paramref name="price"/>.

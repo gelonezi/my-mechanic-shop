@@ -7,10 +7,6 @@ namespace MyMechanicShop.Catalog.EntityFrameworkCore.Configurations;
 
 internal static class ProductsConfigurations
 {
-    /* Value objects are EF Core complex types (not owned types): they have value semantics and no
-     * hidden identity, which is what EF recommends for them since EF 10. Each one is stored as
-     * columns of the product's own table, named after the property (Name, not Name_Value);
-     * optional ones (Brand, Ean, Description) are nullable columns, null meaning "no value object". */
     internal static void ConfigureProducts(this ModelBuilder builder)
     {
         builder.Entity<Product>(p =>

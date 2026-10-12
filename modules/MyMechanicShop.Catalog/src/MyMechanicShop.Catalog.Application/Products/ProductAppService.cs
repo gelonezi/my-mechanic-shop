@@ -12,14 +12,10 @@ using Volo.Abp.Domain.Repositories;
 
 namespace MyMechanicShop.Catalog.Products;
 
-/// <summary>
-/// The global catalog, maintained by the host's system administrator (host-only permissions).
-/// </summary>
 public class ProductAppService
     : CrudAppService<Product, ProductDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateProductDto>,
         IProductAppService
 {
-    /// <summary>DTO property (as the client sends it in <c>sorting</c>) → entity path.</summary>
     private static readonly Dictionary<string, string> SortablePaths = new(StringComparer.OrdinalIgnoreCase)
     {
         [nameof(ProductDto.Name)] = $"{nameof(Product.Name)}.{nameof(NameVo.Value)}",
@@ -42,7 +38,6 @@ public class ProductAppService
         DeletePolicyName = CatalogPermissions.Products.Delete;
     }
 
-    /// <summary>Builds the value objects; the input was already validated by the DTO.</summary>
     protected override Task<Product> MapToEntityAsync(CreateUpdateProductDto createInput)
     {
         var product = new Product(GuidGenerator.Create(), NameVo.Create(createInput.Name), createInput.Unit);
@@ -65,10 +60,6 @@ public class ProductAppService
             .SetDescription(string.IsNullOrWhiteSpace(input.Description) ? null : DescriptionVo.Create(input.Description));
     }
 
-    /// <summary>
-    /// The client sorts by DTO properties (<c>name desc</c>), but the entity's are value objects:
-    /// <c>OrderBy("Name")</c> would order by an object, which EF cannot translate.
-    /// </summary>
     protected override IQueryable<Product> ApplySorting(IQueryable<Product> query, PagedAndSortedResultRequestDto input)
     {
         if (string.IsNullOrWhiteSpace(input.Sorting))

@@ -24,7 +24,8 @@ public class DescriptionVo_Tests
     [Fact]
     public void Should_Accept_Exactly_MaxLength_And_Reject_One_More()
     {
-        DescriptionVo.Create(new string('x', DescriptionConsts.MaxLength)).Value.Length.ShouldBe(DescriptionConsts.MaxLength);
+        DescriptionVo.Create(new string('x', DescriptionConsts.MaxLength)).Value.Length
+            .ShouldBe(DescriptionConsts.MaxLength);
         Should.Throw<ArgumentException>(() => DescriptionVo.Create(new string('x', DescriptionConsts.MaxLength + 1)));
     }
 }
