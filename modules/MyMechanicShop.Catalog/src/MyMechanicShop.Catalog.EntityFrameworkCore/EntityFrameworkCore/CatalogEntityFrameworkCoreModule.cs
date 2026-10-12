@@ -14,7 +14,7 @@ public class CatalogEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<CatalogDbContext>(options =>
         {
-            options.AddDefaultRepositories<ICatalogDbContext>(includeAllEntities: true);
+            options.AddDefaultRepositories<ICatalogDbContext>();
         });
     }
 }
