@@ -14,7 +14,7 @@ x-connection-strings: &connection-strings
 services:
   # Outside Development the API does not migrate: this runs first, migrates and seeds, then exits
   dbmigrator:
-    image: gelonezi/mymechanicshop-dbmigrator:latest
+    image: rogeriogelonezi/mymechanicshop-dbmigrator:latest
     build:
       context: ../..
       dockerfile: src/MyMechanicShop.DbMigrator/Dockerfile
@@ -25,7 +25,7 @@ services:
         condition: service_healthy
 
   api:
-    image: gelonezi/mymechanicshop-api:latest
+    image: rogeriogelonezi/mymechanicshop-api:latest
     build:
       context: ../..
       dockerfile: src/MyMechanicShop.HttpApi.Host/Dockerfile
@@ -46,7 +46,7 @@ services:
     restart: unless-stopped
 
   angular:
-    image: gelonezi/mymechanicshop-angular:latest
+    image: rogeriogelonezi/mymechanicshop-angular:latest
     build:
       context: ../..
       dockerfile: angular/Dockerfile
