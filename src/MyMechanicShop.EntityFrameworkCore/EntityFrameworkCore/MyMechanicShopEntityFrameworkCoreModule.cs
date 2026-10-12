@@ -44,7 +44,7 @@ public class MyMechanicShopEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<MyMechanicShopDbContext>(options =>
         {
-            options.AddDefaultRepositories(includeAllEntities: true);
+            options.AddDefaultRepositories();
         });
 
         if (AbpStudioAnalyzeHelper.IsInAnalyzeMode)
