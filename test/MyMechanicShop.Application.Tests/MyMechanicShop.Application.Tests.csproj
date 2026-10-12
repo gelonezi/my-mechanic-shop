@@ -1,8 +1,5 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\common.props" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <RootNamespace>MyMechanicShop</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
@@ -10,6 +7,6 @@
     <ProjectReference Include="..\MyMechanicShop.Domain.Tests\MyMechanicShop.Domain.Tests.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
   </ItemGroup>
 </Project>

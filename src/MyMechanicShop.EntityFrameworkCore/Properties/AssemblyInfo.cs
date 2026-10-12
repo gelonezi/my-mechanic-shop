@@ -1,2 +1,2 @@
 ﻿using System.Runtime.CompilerServices;
-[assembly:InternalsVisibleToAttribute("MyMechanicShop.EntityFrameworkCore.Tests")]
+[assembly: InternalsVisibleToAttribute("MyMechanicShop.EntityFrameworkCore.Tests")]

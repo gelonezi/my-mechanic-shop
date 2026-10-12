@@ -1,0 +1,23 @@
+<Project>
+
+  <!--
+    Imported AFTER the project body, the SDK defaults and the NuGet-generated props,
+    so appends and removals here see the final values and items.
+  -->
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <Target Name="NoWarnOnRazorViewImportedTypeConflicts" BeforeTargets="RazorCoreCompile">
+    <PropertyGroup>
+      <NoWarn>$(NoWarn);0436</NoWarn>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <None Remove="**\*.abppkg" />
+    <None Remove="**\*.abppkg.analyze.json" />
+    <Content Remove="$(UserProfile)\.nuget\packages\*\*\contentFiles\any\*\*.abppkg*" />
+  </ItemGroup>
+
+</Project>

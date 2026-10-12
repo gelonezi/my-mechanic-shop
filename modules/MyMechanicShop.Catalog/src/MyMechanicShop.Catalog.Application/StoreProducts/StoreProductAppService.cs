@@ -12,13 +12,12 @@ using Volo.Abp.Domain.Repositories;
 
 namespace MyMechanicShop.Catalog.StoreProducts;
 
-/// <summary>
-/// The current shop's products. Tenant-only permissions; the tenant filter scopes every
-/// <see cref="StoreProduct"/> query to the current shop. The shop reads the catalog through
-/// <see cref="GetAvailableProductsAsync"/>, never through the host's ProductAppService.
-/// </summary>
 [Authorize(CatalogPermissions.StoreProducts.Default)]
-public class StoreProductAppService : CatalogAppService, IStoreProductAppService
+public class StoreProductAppService(
+    IRepository<StoreProduct, Guid> storeProductRepository,
+    IRepository<Product, Guid> productRepository,
+    StoreProductManager storeProductManager)
+    : CatalogAppService, IStoreProductAppService
 {
     private static readonly Dictionary<string, string> SortablePaths = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -29,21 +28,11 @@ public class StoreProductAppService : CatalogAppService, IStoreProductAppService
         [nameof(StoreProductDto.IsActive)] = nameof(StoreProductDto.IsActive),
     };
 
-    protected IRepository<StoreProduct, Guid> StoreProductRepository { get; }
+    protected IRepository<StoreProduct, Guid> StoreProductRepository { get; } = storeProductRepository;
 
-    protected IRepository<Product, Guid> ProductRepository { get; }
+    protected IRepository<Product, Guid> ProductRepository { get; } = productRepository;
 
-    protected StoreProductManager StoreProductManager { get; }
-
-    public StoreProductAppService(
-        IRepository<StoreProduct, Guid> storeProductRepository,
-        IRepository<Product, Guid> productRepository,
-        StoreProductManager storeProductManager)
-    {
-        StoreProductRepository = storeProductRepository;
-        ProductRepository = productRepository;
-        StoreProductManager = storeProductManager;
-    }
+    protected StoreProductManager StoreProductManager { get; } = storeProductManager;
 
     public virtual async Task<PagedResultDto<StoreProductDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
@@ -58,7 +47,8 @@ public class StoreProductAppService : CatalogAppService, IStoreProductAppService
     }
 
     [Authorize(CatalogPermissions.StoreProducts.Activate)]
-    public virtual async Task<PagedResultDto<ProductDto>> GetAvailableProductsAsync(PagedAndSortedResultRequestDto input)
+    public virtual async Task<PagedResultDto<ProductDto>> GetAvailableProductsAsync(
+        PagedAndSortedResultRequestDto input)
     {
         var activeProductIds = (await StoreProductRepository.GetQueryableAsync())
             .Where(s => s.IsActive)
@@ -105,10 +95,6 @@ public class StoreProductAppService : CatalogAppService, IStoreProductAppService
         return await GetDtoAsync(id);
     }
 
-    /// <summary>
-    /// Store products joined with their catalog product. Both tables are in the Catalog database,
-    /// so this is one SQL query. Products the host soft-deleted drop out through the join.
-    /// </summary>
     protected virtual async Task<IQueryable<StoreProductDto>> CreateStoreProductDtoQueryAsync()
     {
         var storeProducts = await StoreProductRepository.GetQueryableAsync();

@@ -7,14 +7,9 @@ using Volo.Abp.Identity;
 
 namespace MyMechanicShop.HealthChecks;
 
-public class MyMechanicShopDatabaseCheck : IHealthCheck, ITransientDependency
+public class MyMechanicShopDatabaseCheck(IIdentityRoleRepository identityRoleRepository) : IHealthCheck, ITransientDependency
 {
-    protected readonly IIdentityRoleRepository IdentityRoleRepository;
-
-    public MyMechanicShopDatabaseCheck(IIdentityRoleRepository identityRoleRepository)
-    {
-        IdentityRoleRepository = identityRoleRepository;
-    }
+    protected readonly IIdentityRoleRepository IdentityRoleRepository = identityRoleRepository;
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {

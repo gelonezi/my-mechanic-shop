@@ -7,37 +7,25 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using MyMechanicShop.Catalog.Data;
+using MyMechanicShop.MultiTenancy;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
-using MyMechanicShop.MultiTenancy;
 using Volo.Abp.TenantManagement;
 
 namespace MyMechanicShop.Data;
 
-public class MyMechanicShopDbMigrationService : ITransientDependency
+public class MyMechanicShopDbMigrationService(
+    IDataSeeder dataSeeder,
+    ITenantRepository tenantRepository,
+    ICurrentTenant currentTenant,
+    IEnumerable<IMyMechanicShopDbSchemaMigrator> dbSchemaMigrators,
+    ICatalogDbSchemaMigrator catalogDbSchemaMigrator)
+    : ITransientDependency
 {
-    public ILogger<MyMechanicShopDbMigrationService> Logger { get; set; }
-
-    private readonly IDataSeeder _dataSeeder;
-    private readonly IEnumerable<IMyMechanicShopDbSchemaMigrator> _dbSchemaMigrators;
-    private readonly ITenantRepository _tenantRepository;
-    private readonly ICurrentTenant _currentTenant;
-
-    public MyMechanicShopDbMigrationService(
-        IDataSeeder dataSeeder,
-        ITenantRepository tenantRepository,
-        ICurrentTenant currentTenant,
-        IEnumerable<IMyMechanicShopDbSchemaMigrator> dbSchemaMigrators)
-    {
-        _dataSeeder = dataSeeder;
-        _tenantRepository = tenantRepository;
-        _currentTenant = currentTenant;
-        _dbSchemaMigrators = dbSchemaMigrators;
-
-        Logger = NullLogger<MyMechanicShopDbMigrationService>.Instance;
-    }
+    public ILogger<MyMechanicShopDbMigrationService> Logger { get; set; } = NullLogger<MyMechanicShopDbMigrationService>.Instance;
 
     public async Task MigrateAsync()
     {
@@ -57,13 +45,13 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
 
         if (MultiTenancyConsts.IsEnabled)
         {
-            
-            var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
+
+            var tenants = await tenantRepository.GetListAsync(includeDetails: true);
 
             var migratedDatabaseSchemas = new HashSet<string>();
             foreach (var tenant in tenants)
             {
-                using (_currentTenant.Change(tenant.Id))
+                using (currentTenant.Change(tenant.Id))
                 {
                     if (tenant.ConnectionStrings.Any())
                     {
@@ -92,18 +80,20 @@ public class MyMechanicShopDbMigrationService : ITransientDependency
     private async Task MigrateDatabaseSchemaAsync(Tenant? tenant = null)
     {
         Logger.LogInformation("Migrating schema for {Database} database...", DescribeDatabase(tenant));
-        
-        foreach (var migrator in _dbSchemaMigrators)
+
+        foreach (var migrator in dbSchemaMigrators)
         {
             await migrator.MigrateAsync();
         }
+
+        await catalogDbSchemaMigrator.MigrateAsync();
     }
 
     private async Task SeedDataAsync(Tenant? tenant = null)
     {
         Logger.LogInformation("Executing {Database} database seed...", DescribeDatabase(tenant));
-        
-        await _dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
+
+        await dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
             .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName,
                 MyMechanicShopConsts.AdminEmailDefaultValue)
             .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName,

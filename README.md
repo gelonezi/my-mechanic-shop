@@ -1,5 +1,6 @@
 # MyMechanicShop
 
+[![CodeQL](https://github.com/gelonezi/my-mechanic-shop/actions/workflows/codeql.yml/badge.svg)](https://github.com/gelonezi/my-mechanic-shop/actions/workflows/codeql.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gelonezi_my-mechanic-shop)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=security_rating)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=security_rating)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=reliability_rating)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=reliability_rating)
@@ -9,64 +10,50 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=code_smells)](https://sonarcloud.io/project/issues?id=gelonezi_my-mechanic-shop&resolved=false&types=CODE_SMELL)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=duplicated_lines_density)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=gelonezi_my-mechanic-shop&metric=ncloc)](https://sonarcloud.io/component_measures?id=gelonezi_my-mechanic-shop&metric=ncloc)
-[![CodeQL](https://github.com/gelonezi/my-mechanic-shop/actions/workflows/codeql.yml/badge.svg)](https://github.com/gelonezi/my-mechanic-shop/actions/workflows/codeql.yml)
 
-A study project: a **modular monolith** for a mechanic shop, built on the
-[ABP Framework](https://abp.io) layered (`app`) template with Domain-Driven Design. Each
-business area is a local ABP module with its own database; the first one, **Catalog**,
-manages products.
+## Project for Practice in Realistic Scenarios and Goals
 
-| | |
-| --- | --- |
-| Backend | ABP Framework 10.6, .NET 10, EF Core |
-| Frontend | Angular 22 with ABP's Angular packages, LeptonX Lite theme |
-| Database | PostgreSQL 18 in Docker — one database per module |
-| Auth | OpenIddict (ABP Account module), multi-tenancy enabled |
-| Tooling | ABP Studio CLI 3.1 (`abp run`), yarn |
+**Main Concepts:**
+- **Core Architecture:** Modular Monolith.
+- **Core Design**: [ABP Framework](https://abp.io) as a layered ***app template***.
+- **Projects Design**: Domain-Driven Design with each business area as a local ABP module with its own database.
 
-## Prerequisites
+| High Level Slice    | Driven Concepts                                      |
+| ------------------- | ---------------------------------------------------- |
+| Backend             | C#, .NET, ABP Framework, EF Core                     |
+| Frontend            | Angular,  ABP's Angular packages, LeptonX Lite theme |
+| Database            | PostgreSQL, each module with it's own database       |
+| Auth                | OpenIddict (ABP Account module), multi-tenancy       |
+| Tooling             | ABP Studio CLI (scaffolding, proxies), yarn          |
+
+## Localhost Prerequisites
 
 * [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node.js](https://nodejs.org/en) `^22.22.3` or `^24.15.0` (Angular 22's requirement); yarn is
+* [Node.js](https://nodejs.org/en) `^24.15.0` (Angular 22's requirement); yarn is
   fetched through `npx`
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/), **running**
-* ABP Studio CLI: `dotnet tool install -g Volo.Abp.Studio.Cli`
+* [Docker Desktop / Engine](https://www.docker.com/), **running**
+* [ABP Studio CLI](https://abp.io)
 
 ## Getting started
 
 ```bash
 git clone https://github.com/gelonezi/my-mechanic-shop.git
 cd my-mechanic-shop
-./etc/scripts/initialize-solution.ps1   # once per clone
-abp run
+docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait
+cd src/MyMechanicShop.HttpApi.Host
+dotnet run
 ```
 
-`initialize-solution.ps1` builds the solution, starts PostgreSQL, runs `abp install-libs`
-(the host's `wwwroot/libs` is not committed), migrates and seeds the databases with the
-DbMigrator, and creates the `openiddict.pfx` certificate.
+The API and Swagger UI are on **https://localhost:44390**. Log in as `admin`, with ABP's
+default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`). In Development
+the host **migrates and seeds every database on startup**. Run it from its own folder: the
+working directory is its content root, where it finds `appsettings.json`.
 
-Then open **http://localhost:4200** and log in as `admin`, with ABP's default admin password
-(`MyMechanicShopConsts.AdminPasswordDefaultValue`). The API and Swagger UI are on
-**https://localhost:44390**.
+PostgreSQL keeps running after the host stops; `docker compose -f
+etc/docker/infrastructure/postgresql.yml down` stops it, and the data survives in a Docker
+volume.
 
-Stop with **Ctrl+C** and wait for *All applications stopped* before running `abp run` again.
-
-## What `abp run` starts
-
-`abp run` uses the `Default` run profile, [`etc/abp-studio/run-profiles/Default.abprun.json`](etc/abp-studio/run-profiles/Default.abprun.json).
-It builds the .NET projects, starts the containers, then all applications:
-
-| Entry | What it does |
-| --- | --- |
-| *Containers* | [`etc/docker/infrastructure/postgresql.yml`](etc/docker/infrastructure/postgresql.yml) — PostgreSQL 18 on `127.0.0.1:5432`; removed on Ctrl+C, data kept in a Docker volume |
-| `MyMechanicShop.HttpApi.Host` | the API; in Development it **migrates and seeds the databases on startup** |
-| `MyMechanicShop.Angular` | `ng serve` on http://localhost:4200 |
-| `MyMechanicShop.Catalog.Angular` | `ng build catalog --watch`, rebuilding the Catalog UI library on every change |
-| `MyMechanicShop.Catalog.Proxies` | waits for the host, regenerates Catalog's Angular proxies, then exits (shown as *Stopped*) |
-
-`abp run --no-build` skips the .NET build. The runner hides each application's console
-output: an entry stuck on *Starting* means its process failed — run its command by hand to
-see why.
+How the Angular frontend runs is still to be decided.
 
 ## Database
 
@@ -83,37 +70,40 @@ PostgreSQL 18 runs in Docker with two databases on one server:
   is gitignored.
 * Reset everything: `docker compose -f etc/docker/infrastructure/postgresql.yml down -v`. The
   next host start recreates and reseeds both databases.
-* Add a migration, from `src/MyMechanicShop.EntityFrameworkCore`:
+* Add a migration. Each project owns its DbContext's migrations, and the DbMigrator applies
+  them all:
 
   ```bash
+  # host, from src/MyMechanicShop.EntityFrameworkCore
   dotnet ef migrations add <Name> --context MyMechanicShopDbContext --output-dir Migrations/ABP
-  dotnet ef migrations add <Name> --context CatalogDbContext --output-dir Migrations/Catalog
+  # Catalog module, from modules/MyMechanicShop.Catalog/src/MyMechanicShop.Catalog.EntityFrameworkCore
+  dotnet ef migrations add <Name> --output-dir Migrations
   ```
 
-* Outside Development the host does not migrate: run `src/MyMechanicShop.DbMigrator`
-  (`etc/scripts/migrate-database.ps1`) before starting it.
+* Outside Development the host does not migrate: run the DbMigrator before starting it,
+  from its own folder (`cd src/MyMechanicShop.DbMigrator && dotnet run`).
 
 ## Solution structure
 
 ```
 ├── src/                          host application (layered: Domain.Shared → Domain →
 │   │                             Application.Contracts → Application → HttpApi → Host)
-│   ├── MyMechanicShop.HttpApi.Host     the API, run by abp run
-│   ├── MyMechanicShop.DbMigrator       migrates and seeds every database
-│   └── MyMechanicShop.EntityFrameworkCore   DbContexts and the migrations of every module
+│   ├── MyMechanicShop.HttpApi.Host     the API
+│   ├── MyMechanicShop.DbMigrator       applies every database's migrations and seeds
+│   └── MyMechanicShop.EntityFrameworkCore   the host's DbContext and its migrations
 ├── modules/
-│   └── MyMechanicShop.Catalog/   local ABP module: its own layered projects, tests and
+│   └── MyMechanicShop.Catalog/   local ABP module: its own layered projects (its EF
+│       │                         project owns its migrations), tests and
 │       └── angular/              Angular library (@my-mechanic-shop/catalog)
 ├── angular/                      the Angular application
 ├── test/                         host test projects
 └── etc/
-    ├── abp-studio/run-profiles/  what abp run starts
-    ├── docker/infrastructure/    PostgreSQL compose file
-    └── scripts/                  initialize-solution.ps1, migrate-database.ps1
+    └── docker/infrastructure/    PostgreSQL compose file
 ```
 
 The Angular app consumes each module's UI as a built npm package (`dist/`), exactly as it
-would from a registry; `abp run` keeps it rebuilt.
+would from a registry, so the library must be rebuilt after a change
+(`yarn ng build catalog`, or `watch.ps1` in the library's workspace).
 
 ## Tests
 

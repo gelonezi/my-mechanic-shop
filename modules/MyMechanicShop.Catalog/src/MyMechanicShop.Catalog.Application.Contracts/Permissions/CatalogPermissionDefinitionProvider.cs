@@ -11,15 +11,12 @@ public class CatalogPermissionDefinitionProvider : PermissionDefinitionProvider
     {
         var catalog = context.AddGroup(CatalogPermissions.GroupName, L("Permission:Catalog"));
 
-        // Host only: the global catalog is maintained by the system administrator. A permission
-        // defined for the host side does not exist for tenants — their admins cannot see or grant it.
         var products = catalog.AddPermission(
             CatalogPermissions.Products.Default, L("Permission:Products"), MultiTenancySides.Host);
         products.AddChild(CatalogPermissions.Products.Create, L("Permission:Products.Create"), MultiTenancySides.Host);
         products.AddChild(CatalogPermissions.Products.Edit, L("Permission:Products.Edit"), MultiTenancySides.Host);
         products.AddChild(CatalogPermissions.Products.Delete, L("Permission:Products.Delete"), MultiTenancySides.Host);
 
-        // Tenant only: each shop activates catalog products and sets its own prices.
         var storeProducts = catalog.AddPermission(
             CatalogPermissions.StoreProducts.Default, L("Permission:StoreProducts"), MultiTenancySides.Tenant);
         storeProducts.AddChild(CatalogPermissions.StoreProducts.Activate, L("Permission:StoreProducts.Activate"), MultiTenancySides.Tenant);

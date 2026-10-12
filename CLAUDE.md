@@ -25,15 +25,15 @@ mechanism is being reused. Examples already in this repo:
 
 | Topic | Rule | Loads when touching |
 | --- | --- | --- |
-| `.slnx` vs `.abpsln`; installing local modules; creating modules/packages with the CLI | `project/solution-and-modules.md` | `*.csproj`, `*.slnx`, `*.abpmdl`, `*Module.cs` |
+| `.slnx` vs `.abpsln`; `Directory.Build.*` + central package versions; installing local modules; creating modules/packages with the CLI | `project/solution-and-modules.md` | `*.csproj`, `*.slnx`, `*.abpmdl`, `*Module.cs`, `Directory.*.props`/`.targets`, `common.props` |
 | Shared Kernel: what may be shared; value object and enum conventions; mapping VOs in EF Core | `project/shared-kernel.md` | `modules/MyMechanicShop.SharedKernel/**`, `*Vo.cs`, `Enums/*.cs`, `*.EntityFrameworkCore/**/Configurations/*.cs` |
-| One database per module; DbMigrator owns every migration | `project/databases-and-migrations.md` | `*.EntityFrameworkCore/**`, `*DbContext*.cs`, `Migrations/**`, `appsettings*.json` |
-| Auto API controller naming; Swagger tag vs URL; proxy generation | `project/auto-api-controllers.md` | `*HttpApiModule*.cs`, `*AppService*.cs`, `*.abprun.json` |
+| One database per module; each module creates its own migrations, DbMigrator runs them all | `project/databases-and-migrations.md` | `*.EntityFrameworkCore/**`, `*DbContext*.cs`, `Migrations/**`, `appsettings*.json` |
+| Auto API controller naming; Swagger tag vs URL; proxy generation | `project/auto-api-controllers.md` | `*HttpApiModule*.cs`, `*AppService*.cs` |
 | Two Angular workspaces; module UI ships as an npm package | `project/angular-workspaces.md` | `angular/**`, `public-api.ts` |
 | Test discovery; one in-memory database per module | `project/testing.md` | `test/**`, `*Tests*/**`, `*TestModule*.cs` |
 | `.editorconfig`, `.gitignore` | `project/repo-config-files.md` | `.editorconfig`, `.gitignore` |
 
-Four failures documented in those rules are **silent** — they report success or nothing at
+Three failures documented in those rules are **silent** — they report success or nothing at
 all. Worth knowing they exist before the rule that explains them loads:
 
 - a module's database can be created empty while the migrator logs
@@ -41,98 +41,31 @@ all. Worth knowing they exist before the rule that explains them loads:
 - registering a module in `angular/scripts/symlink-config.ps1` makes `ng build <lib>`
   die with exit 1 and **no output**
 - `dotnet test` exits 0 for a project that discovers no tests
-- under `abp run`, an app stuck on *Starting* means its process failed — the runner hides
-  app output; run its command by hand (e.g. `yarn start` in `angular/`) to see the error
 
 ## Commands
 
-`abp run` from the repo root is the primary way to start the solution. Docker Desktop must
-be running. It builds the .NET projects, starts the `containers` of the `Default` run
-profile (`etc/abp-studio/run-profiles/Default.abprun.json`), then every entry under
-`applications`, all at once:
-
-| Application | What it is |
-| --- | --- |
-| *Containers* | `etc/docker/infrastructure/postgresql.yml` — PostgreSQL 18 on localhost:5432 |
-| `MyMechanicShop.HttpApi.Host` | the API on https://localhost:44390 |
-| `MyMechanicShop.Angular` | `angular/start.ps1` → `ng serve` on http://localhost:4200 |
-| `MyMechanicShop.Catalog.Angular` | `ng build catalog --watch`, keeping `dist/catalog` current |
-| `MyMechanicShop.Catalog.Proxies` | waits for the host, regenerates Catalog's proxies, exits (*Stopped*) |
+The backend runs with **`dotnet run`**; Docker Desktop must be running. `abp run` and ABP
+Studio run profiles are **not** used (the profile and its `etc/scripts/` were removed). The
+`abp` CLI is still used for scaffolding and proxy generation. How the frontend runs is
+not decided yet.
 
 ```
-abp run                 # Default profile
-abp run -p Default      # profile named explicitly
-abp run --no-build      # skip the build step
+docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait   # PostgreSQL 18 on 127.0.0.1:5432
+cd src/MyMechanicShop.HttpApi.Host && dotnet run                          # API on https://localhost:44390
 ```
 
-> **Stay on ABP Studio CLI 3.1.1 — `abp run` is broken on 3.1.4.** The solution targets ABP
-> **10.7.0**; the CLI version is independent of it, and 3.1.1 drives a 10.7.0 solution without
-> complaint (it does not mind `.abpsln` recording `AbpStudio: 3.1.4`). Downgrade after any
-> accidental upgrade — `dotnet tool update` refuses to move backwards, so uninstall first:
->
-> ```
-> dotnet tool uninstall -g Volo.Abp.Studio.Cli
-> dotnet tool install -g Volo.Abp.Studio.Cli --version 3.1.1
-> ```
->
-> On 3.1.4 `abp run` exits before starting anything with *"The type initializer for
-> 'ReactiveUI.Reactive.ReactiveNotifyPropertyChangedMixins' threw an exception → ReactiveUI has
-> not been initialized"* — a bug inside the CLI's own `SolutionRunCommandBase`: ReactiveUI 21
-> requires `RxAppBuilder` initialization and the CLI never calls it. **Do not re-investigate
-> from the project side.** Ruled out by testing: a run profile stripped to `containers` +
-> `applications` fails identically, so it is not our `tasks`/`workflows`; the tool pins `net10.0`
-> and .NET 10 runtimes are installed, so it is not roll-forward onto .NET 11; the tool store
-> holds one version and `~/.abp/cli` only a token, so it is not a stale extension;
-> `abp install-libs` / `abp update` do not help, as it is not a missing prerequisite. 3.1.4 was
-> the newest published version at the time, with no prerelease carrying a fix.
->
-> **Cost of staying on 3.1.1:** its proxy generator formats its output differently from 3.1.4's
-> (expanded arrays and arguments, no trailing commas), so proxies generated by one version show
-> up as a large but purely cosmetic diff under the other. The exported surface is identical.
-> The "an unchanged API leaves `git status` clean" invariant in `project/auto-api-controllers.md`
-> therefore holds **per CLI version**, not across a version change; the committed proxies are
-> whatever the current CLI produces.
->
-> `abp run` needs a **real console** either way. Started from a shell that gives its child no
-> console handle it dies in Spectre.Console with `IOException: invalid handle` out of
-> `Console.WindowWidth` (older builds: `set_CursorVisible`). From a terminal it is fine; to
-> launch it from a tool-driven shell on Windows, give it its own console:
-> `Start-Process powershell -ArgumentList '-NoExit','-Command','cd <repo>; abp run'`.
->
-> Starting the pieces by hand is only equivalent **if** `dist/catalog` is current and the
-> proxies are already generated — the two jobs `abp run` otherwise does for you:
->
-> ```
-> docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait
-> cd src/MyMechanicShop.HttpApi.Host && dotnet run      # migrates + seeds in Development
-> cd angular && npx yarn start                          # ng serve on :4200
-> cd modules/MyMechanicShop.Catalog/angular && npx yarn ng build catalog --watch
-> ```
->
-> The `cd` into the host project is load-bearing, for the same reason as the DbMigrator's:
-> the content root is the working directory, so from elsewhere it finds no `appsettings.json`.
+The `cd` is load-bearing. The content root is the working directory, so from anywhere else
+the host (and the DbMigrator) finds no `appsettings.json`. In Development the host
+migrates and seeds every database before it listens: `MyMechanicShopHttpApiHostModule` runs
+the DbMigrator's own migration service, ~3 s per start when there is nothing to migrate.
+Outside Development, run `cd src/MyMechanicShop.DbMigrator && dotnet run` first.
 
-**`abp run` ignores the profile's `tasks` and `workflows`** — those are ABP Studio
-(GUI/agent) features, and it cannot hold one app back until another exits. So the
-database is migrated by the **host itself**: in Development, `MyMechanicShopHttpApiHostModule`
-runs the DbMigrator's own migration service before it starts listening (~3 s per start
-when there is nothing to migrate). Any launcher gets this, not only `abp run`. The
-workflow's `GenerateAngularProxies` step for the host's own `app` proxies never runs.
-Its runner hides each app's console output and needs a real terminal: it crashes on
-`set_CursorVisible` when started without one.
-
-Do not substitute a hand-rolled `dotnet run` plus a dev server for this — that skips the
-library watcher and the Catalog proxy generation. The commands below are for narrower
-jobs, not for running the app.
+The Catalog Angular library and its proxies are no longer rebuilt or regenerated for you;
+see `project/angular-workspaces.md` and `project/auto-api-controllers.md`.
 
 ```
 dotnet build MyMechanicShop.slnx
 dotnet test  MyMechanicShop.slnx          # 60 tests; see project/testing.md
-```
-
-```
-etc/scripts/initialize-solution.ps1        # prepare the solution for development
-etc/scripts/migrate-database.ps1           # dotnet run in src/MyMechanicShop.DbMigrator (non-Development, or without the host)
 ```
 
 Angular is **yarn, not npm**: both workspaces ship a `yarn.lock` and no

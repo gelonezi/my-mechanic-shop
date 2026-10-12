@@ -6,34 +6,20 @@ using Volo.Abp.MultiTenancy;
 
 namespace MyMechanicShop.Catalog.StoreProducts;
 
-/// <summary>
-/// A catalog <see cref="Products.Product"/> activated in a shop (tenant), with the price that shop
-/// charges. At most one per shop and product; created through <see cref="StoreProductManager"/>.
-/// </summary>
-/// <remarks>
-/// Not soft-deletable: a shop stops selling a product by deactivating it, which keeps the unique
-/// (TenantId, ProductId) index simple. Stock is not here — it belongs to a future Inventory module.
-/// </remarks>
-public class StoreProduct : AuditedAggregateRoot<Guid>, IMultiTenant
+public sealed class StoreProduct : AuditedAggregateRoot<Guid>, IMultiTenant
 {
-    public virtual Guid? TenantId { get; protected set; }
+    public Guid? TenantId { get; }
 
-    /// <summary>The catalog product, referenced by id (another aggregate).</summary>
-    public virtual Guid ProductId { get; protected set; }
+    public Guid ProductId { get; private set; }
 
-    public virtual MonetaryVo Price { get; protected set; } = null!;
+    public MonetaryVo Price { get; private set; } = null!;
 
-    public virtual bool IsActive { get; protected set; }
+    public bool IsActive { get; private set; }
 
-    protected StoreProduct()
+    private StoreProduct()
     {
-        // For EF Core.
     }
 
-    /* Assigns Price directly rather than calling the virtual SetPrice: an overridable
-     * member invoked from a constructor would run a consumer's override against a
-     * half-built object (Sonar csharpsquid:S1699). Reactivate below may call it freely —
-     * the object is fully constructed by then. */
     internal StoreProduct(Guid id, Guid? tenantId, Guid productId, MonetaryVo price)
         : base(id)
     {
@@ -43,19 +29,18 @@ public class StoreProduct : AuditedAggregateRoot<Guid>, IMultiTenant
         IsActive = true;
     }
 
-    public virtual StoreProduct SetPrice(MonetaryVo price)
+    public StoreProduct SetPrice(MonetaryVo price)
     {
         Price = Check.NotNull(price, nameof(price));
         return this;
     }
 
-    public virtual StoreProduct Deactivate()
+    public StoreProduct Deactivate()
     {
         IsActive = false;
         return this;
     }
 
-    /// <summary>Sells a deactivated product again, at the given price.</summary>
     internal StoreProduct Reactivate(MonetaryVo price)
     {
         SetPrice(price);

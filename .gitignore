@@ -1,17 +1,3 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Single .gitignore for the whole repository: .NET host, modules/** and both
-# Angular workspaces.
-#
-# Do NOT add per-project .gitignore files. Unlike .editorconfig there is no
-# "root" switch here: these patterns already apply to every subdirectory, and a
-# nested file would only ADD rules. ABP and the Angular CLI scaffold their own
-# copies into new modules — delete them.
-#
-# Angular patterns below are intentionally UNANCHORED (dist/ not /dist) so they
-# match inside angular/ and modules/<Name>/angular/ rather than only at the
-# repo root.
-# ─────────────────────────────────────────────────────────────────────────────
-
 # ══════════════════════════ Secrets ══════════════════════════
 # ABP loads these via AddAppSettingsSecretsJson(). Never commit them.
 appsettings.secrets.json

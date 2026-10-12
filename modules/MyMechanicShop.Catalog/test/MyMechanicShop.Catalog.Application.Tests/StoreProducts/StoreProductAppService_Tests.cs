@@ -113,7 +113,6 @@ public abstract class StoreProductAppService_Tests<TStartupModule> : CatalogAppl
 
     private Task<ProductDto> CreateCatalogProductAsync(string name, string? brand, ProductUnit unit)
     {
-        // The catalog is host data: created outside any tenant.
         return _productAppService.CreateAsync(new CreateUpdateProductDto { Name = name, Brand = brand, Unit = unit });
     }
 

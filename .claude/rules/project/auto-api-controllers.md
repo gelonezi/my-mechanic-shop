@@ -4,7 +4,6 @@ paths:
   - "**/*AppService*.cs"
   - "**/*RemoteServiceConsts*.cs"
   - "**/proxy/**/*.ts"
-  - "**/*.abprun.json"
 ---
 
 ## Auto API controller naming (Catalog)
@@ -75,29 +74,22 @@ Every flag is load-bearing: `-m` defaults to `app` and silently skips the module
 puts the output in the library rather than in `dev-app`; `-a Catalog` sets the `apiName` the
 generated services declare, which must match the `Catalog` entry in *both* environment files.
 
-`abp run` runs exactly that command on every start, as the `MyMechanicShop.Catalog.Proxies`
-application in `Default.abprun.json` → `etc/scripts/generate-catalog-proxies.ps1` (also fine to
-run by hand). It is an **application**, not a workflow step, for two verified reasons:
-
-- `abp run` starts `applications` only and ignores `tasks` and `workflows`, so a `RunTask`
-  never fires. Applications all start at once, which is why the script polls
-  `/health-status` before generating.
-- The workflow's `GenerateAngularProxies` action only carries url/module/service type/working
-  directory — no `-s`, `--target` or `-a` — so it would generate into `dev-app` with the default
-  `apiName` anyway.
+Run it by hand after any API change, with the host up. `abp run` used to run it on every
+start through `etc/scripts/generate-catalog-proxies.ps1`. Both are gone, and how the frontend
+runs is not decided yet.
 
 The generator deletes and rewrites one folder per controller (`proxy/products/`,
 `proxy/store-products/`), plus one per namespace of the enums the DTOs use — `ProductUnit` and
-`Currency` come from the Shared Kernel — and writes some files CRLF, some LF. The
-script normalizes the folder to LF afterwards and `.gitattributes` pins `**/proxy/**` to
-`eol=lf`, so an unchanged API leaves `git status` clean; a real API change is a real diff.
-The library watcher picks the rewrite up and `ng serve` reloads.
+`Currency` come from the Shared Kernel — and writes some files CRLF, some LF.
+`.gitattributes` pins `**/proxy/**` to `eol=lf`, so the mixed endings never reach the
+repository. (The deleted script also rewrote the folder to LF on disk; check `git status`
+after generating with an unchanged API.) A real API change is a real diff. A running library watcher picks the rewrite up and `ng serve` reloads.
 
 That clean-tree guarantee holds **per CLI version**. Generators differ in formatting between
 versions — 3.1.4 wraps its output prettier-style (expanded arrays, trailing commas) where 3.1.1
 does not — so the first run after changing CLI version rewrites every proxy file with a large
-diff that changes no exported member. Commit it and the tree is stable again. This repo pins
-the CLI to 3.1.1 (see CLAUDE.md), so the committed proxies are in that version's format.
+diff that changes no exported member. Commit it and the tree is stable again. The
+committed proxies are in whatever format the CLI that last generated them produces.
 
 Keep the urls in `dev-app/src/environments/environment.ts` as plain string literals. The
 schematic parses that file statically, so a `const` indirection fails with

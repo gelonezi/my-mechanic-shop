@@ -5,6 +5,10 @@ paths:
   - "**/*.abpmdl"
   - "**/*.abpsln"
   - "**/*Module.cs"
+  - "**/Directory.Build.props"
+  - "**/Directory.Build.targets"
+  - "**/Directory.Packages.props"
+  - "**/common.props"
 ---
 
 ## Two solution views, not kept in sync
@@ -20,6 +24,30 @@ There is no `.sln` — the repo is `.slnx` only (Rider 2025.1+ reads it natively
 Nothing keeps these two in sync. Adding a module updates the `.abpmdl`/`.abpsln`
 side only; the `.slnx` has to be edited by hand or Rider and `dotnet` never see the
 module's projects.
+
+## Shared build settings and package versions
+
+Every project — host and modules alike — picks these up from the repo root on its own,
+with no `<Import>`:
+
+| File | Holds |
+| --- | --- |
+| `Directory.Build.props` | defaults: `TargetFramework`, `Nullable`, `LangVersion`, `Version`, `NuGetAudit`, `AbpProjectType` = `app` |
+| `Directory.Build.targets` | what must run after the SDK: the `CS1591`/`0436` `NoWarn` appends, the `.abppkg` item removals |
+| `Directory.Packages.props` | every package version (central package management) |
+
+A module's own `modules/<Name>/common.props` adds only what is module-specific —
+`AbpProjectType` = `module` and the `ConfigureAwait.Fody`/`Fody` references — and module
+projects keep importing it (`..\..\common.props`). There is no root `common.props`.
+
+So a `.csproj` carries neither versions nor the defaults above:
+
+- `PackageReference` has **no `Version=`** — with one, restore fails with **NU1008**. A
+  package missing from `Directory.Packages.props` fails with **NU1010**; add its
+  `PackageVersion` there. ABP tooling (`new-module`, `new-package`, `add-package`,
+  `install-local-module`) still writes `Version=`: after any of them, strip the attributes
+  and move new versions to the root file.
+- No `TargetFramework`/`Nullable` — set them only to deviate from the root.
 
 ## Local modules
 
@@ -62,10 +90,12 @@ Verified the hard way while creating `MyMechanicShop.SharedKernel`:
   From the repo root that is the host's `MyMechanicShop.abpmdl`, so referencing a package of
   another module fails with `KeyNotFoundException: The given key '<Package>' was not present`.
   `cd modules/<Name>` first.
-- **`new-package` projects import the repo root's `common.props`** (`..\..\..\..\common.props`,
-  `AbpProjectType` = `app`). Copy a module's own `common.props` (Catalog's: `module`,
-  `ConfigureAwait.Fody`) into the new module root, point the imports at `..\..\common.props`,
-  and add a `FodyWeavers.xml` per project. Also: `TargetFrameworks` → `TargetFramework`.
+- **`new-package` projects import a repo-root `common.props`** (`..\..\..\..\common.props`)
+  that no longer exists — the root `Directory.Build.*` files replaced it, so that import
+  breaks the build. Copy an existing module's `common.props` (Catalog's) into the new module
+  root, point the imports at `..\..\common.props`, and add a `FodyWeavers.xml` per project.
+  Then trim the generated `.csproj` as in *Shared build settings* above: drop the
+  `Version=` attributes and the `TargetFramework(s)`/`Nullable` properties.
 - **There is no package builder for test projects.** `lib.test` is the role ABP writes into
   test projects' `.abppkg`, but `abp new-package -t lib.test` fails with *Package builder for
   lib.test is not defined!* — and still adds a `test` folder to the `.abpmdl`. Create the test

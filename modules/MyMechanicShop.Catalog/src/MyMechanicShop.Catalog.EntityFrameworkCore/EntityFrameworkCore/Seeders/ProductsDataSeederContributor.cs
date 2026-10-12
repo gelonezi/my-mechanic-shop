@@ -10,10 +10,6 @@ using Volo.Abp.Guids;
 
 namespace MyMechanicShop.Catalog.EntityFrameworkCore.Seeders;
 
-/// <summary>
-/// Sample products for the global catalog. The data seeder runs once for the host and once per
-/// tenant; the catalog is host data, so tenant runs are skipped.
-/// </summary>
 public class ProductsDataSeederContributor(
     IRepository<Product, Guid> productsRepository,
     IGuidGenerator guidGenerator) : IDataSeedContributor, ITransientDependency

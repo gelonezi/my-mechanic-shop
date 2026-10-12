@@ -1,5 +1,3 @@
-﻿using Volo.Abp;
-
-namespace MyMechanicShop.EntityFrameworkCore;
+﻿namespace MyMechanicShop.EntityFrameworkCore;
 
 public abstract class MyMechanicShopEntityFrameworkCoreTestBase : MyMechanicShopTestBase<MyMechanicShopEntityFrameworkCoreTestModule>;
