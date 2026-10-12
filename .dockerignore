@@ -1,0 +1,20 @@
+# Every image builds from the repository root. Keep build output, local state and secrets out
+# of the context: the Dockerfiles restore and build everything themselves.
+.git
+.github
+.claude
+.idea
+.vs
+.vscode
+**/bin
+**/obj
+**/Logs
+**/node_modules
+**/dist
+**/.angular
+**/wwwroot/libs
+**/appsettings.secrets.json
+**/*.pfx
+etc/docker
+test
+**/test

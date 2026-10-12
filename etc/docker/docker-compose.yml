@@ -1,0 +1,55 @@
+# The whole application in Docker, on the same URLs as `just api` and `just web`:
+# https://localhost:44390 (API, Swagger, login) and http://localhost:4200 (Angular).
+# `just docker` exports the certificate on first use, then builds and starts everything.
+name: mymechanicshop-containers
+
+# The PostgreSQL that `just infra` runs: same project, container and data volume
+include:
+  - infrastructure/postgresql.yml
+
+x-connection-strings: &connection-strings
+  ConnectionStrings__Default: Host=postgresql;Port=5432;Database=MyMechanicShop;User ID=postgres;
+  ConnectionStrings__Catalog: Host=postgresql;Port=5432;Database=MyMechanicShopCatalog;User ID=postgres;
+
+services:
+  # Outside Development the API does not migrate: this runs first, migrates and seeds, then exits
+  dbmigrator:
+    image: gelonezi/mymechanicshop-dbmigrator:latest
+    build:
+      context: ../..
+      dockerfile: src/MyMechanicShop.DbMigrator/Dockerfile
+    environment:
+      <<: *connection-strings
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+  api:
+    image: gelonezi/mymechanicshop-api:latest
+    build:
+      context: ../..
+      dockerfile: src/MyMechanicShop.HttpApi.Host/Dockerfile
+    environment:
+      <<: *connection-strings
+      # The exported development certificate serves HTTPS and signs OpenIddict's tokens
+      ASPNETCORE_HTTPS_PORTS: "8081"
+      Kestrel__Certificates__Default__Path: /app/openiddict.pfx
+      Kestrel__Certificates__Default__Password: ${CERT_PASSWORD:?run just docker}
+      AuthServer__CertificatePassPhrase: ${CERT_PASSWORD:?run just docker}
+    volumes:
+      - ./localhost.pfx:/app/openiddict.pfx:ro
+    ports:
+      - "127.0.0.1:44390:8081"
+    depends_on:
+      dbmigrator:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  angular:
+    image: gelonezi/mymechanicshop-angular:latest
+    build:
+      context: ../..
+      dockerfile: angular/Dockerfile
+    ports:
+      - "127.0.0.1:4200:8080"
+    restart: unless-stopped

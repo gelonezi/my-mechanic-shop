@@ -7,6 +7,7 @@ host := "src/MyMechanicShop.HttpApi.Host"
 api_url := "https://localhost:44390"
 app := "./angular"
 catalog := "./modules/MyMechanicShop.Catalog/angular"
+cert_password := uuid()
 
 # List the recipes
 default:
@@ -56,6 +57,20 @@ proxies-lf:
       const text = fs.readFileSync(file, 'utf8');
       if (text.includes('\r\n')) fs.writeFileSync(file, text.replace(/\r\n/g, '\n'));
     }
+
+# Build the images and run the whole application in Docker, on the same URLs as `api` and `web` (stop those first)
+docker: docker-certs-if-missing
+    docker compose -f etc/docker/docker-compose.yml up -d --build
+
+# Export the HTTPS development certificate for `docker`, with a new password in etc/docker/.env
+[working-directory: 'etc/docker']
+docker-certs:
+    @dotnet dev-certs https -ep localhost.pfx -p {{ cert_password }}
+    @echo "CERT_PASSWORD={{ cert_password }}" > .env
+
+[private]
+@docker-certs-if-missing:
+    {{ if path_exists(justfile_directory() / "etc/docker/.env") == "true" { "echo 'Docker certificate present (just docker-certs renews it)'" } else { "just docker-certs" } }}
 
 [parallel]
 [private]

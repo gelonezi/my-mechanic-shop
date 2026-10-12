@@ -75,8 +75,8 @@ versions are the ones yarn had. Run workspace commands with a path filter:
   back into `angular.json` (an `ng add`, an ABP update) breaks the build with
   `Could not resolve "node_modules/…"`. Fix the path, not the layout.
 - **Dependency install scripts are off** (`allowBuilds: … false` for `esbuild`,
-  `@parcel/watcher`, `lmdb`, `msgpackr-extract`), as `angular/Dockerfile` already did with
-  `--ignore-scripts`. Each ships prebuilt binaries as optional packages. pnpm refuses to
+  `@parcel/watcher`, `lmdb`, `msgpackr-extract`), which also covers the install in
+  `angular/Dockerfile`. Each ships prebuilt binaries as optional packages. pnpm refuses to
   install (`ERR_PNPM_IGNORED_BUILDS`) when a new dependency brings an install script:
   decide with `pnpm approve-builds '<pkg>'` or `'!<pkg>'`, which records it in the file.
 

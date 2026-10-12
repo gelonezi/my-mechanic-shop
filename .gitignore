@@ -1,6 +1,8 @@
 # ══════════════════════════ Secrets ══════════════════════════
 # ABP loads these via AddAppSettingsSecretsJson(). Never commit them.
 appsettings.secrets.json
+# The Docker environment's certificate password (`just docker`); the certificate itself is a *.pfx
+etc/docker/.env
 
 # ══════════════════════ .NET / Visual Studio ══════════════════
 # User-specific files
