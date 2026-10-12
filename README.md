@@ -55,6 +55,8 @@ just web    # terminal 2
 | `just web-install`   |         | `pnpm install --frozen-lockfile`                                                               |
 | `just catalog-build` |         | Builds the Catalog Angular library into `dist/catalog` once                                    |
 | `just proxies`       | dev     | Regenerates Catalog's Angular proxies from the running API                                     |
+| `just docker`        |         | Runs the whole application in Docker from the Docker Hub images, on the same URLs              |
+| `just docker-certs`  |         | Exports the HTTPS dev certificate for `just docker` (it runs this the first time)              |
 
 Open **<http://localhost:4200>** for the app. The API and Swagger UI are on **<https://localhost:44390>**.
 Log in as `admin`, with ABP's default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`).
