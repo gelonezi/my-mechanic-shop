@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: angular
+  template:
+    metadata:
+      labels:
+        app: angular
+    spec:
+      securityContext:
+        runAsNonRoot: true
+      containers:
+        - name: angular
+          image: rogeriogelonezi/mymechanicshop-angular:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: env
+              mountPath: /usr/share/nginx/html/dynamic-env.json
+              subPath: dynamic-env.json
+              readOnly: true
+      volumes:
+        - name: env
+          configMap:
+            name: angular-env
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: angular
+spec:
+  selector:
+    app: angular
+  ports:
+    - port: 8080

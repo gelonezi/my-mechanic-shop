@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MyMechanicShop.Catalog.Data;
@@ -22,7 +23,8 @@ public class MyMechanicShopDbMigrationService(
     ITenantRepository tenantRepository,
     ICurrentTenant currentTenant,
     IEnumerable<IMyMechanicShopDbSchemaMigrator> dbSchemaMigrators,
-    ICatalogDbSchemaMigrator catalogDbSchemaMigrator)
+    ICatalogDbSchemaMigrator catalogDbSchemaMigrator,
+    IConfiguration configuration)
     : ITransientDependency
 {
     public ILogger<MyMechanicShopDbMigrationService> Logger { get; set; } = NullLogger<MyMechanicShopDbMigrationService>.Instance;
@@ -97,7 +99,7 @@ public class MyMechanicShopDbMigrationService(
             .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName,
                 MyMechanicShopConsts.AdminEmailDefaultValue)
             .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName,
-                MyMechanicShopConsts.AdminPasswordDefaultValue)
+                configuration["App:AdminPassword"] ?? MyMechanicShopConsts.AdminPasswordDefaultValue)
         );
     }
 
