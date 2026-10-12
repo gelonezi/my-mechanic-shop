@@ -32,22 +32,27 @@
 * [Node.js](https://nodejs.org/en) `^24.15.0` (Angular 22's requirement); yarn is
   fetched through `npx`
 * [Docker Desktop / Engine](https://www.docker.com/), **running**
-* [ABP Studio CLI](https://abp.io)
+* [just](https://just.systems) (`winget install Casey.Just`, `brew install just`, …); on
+  Windows the recipes run in [PowerShell 7](https://learn.microsoft.com/powershell/) (`pwsh`)
+* [ABP Studio CLI](https://abp.io), for scaffolding and proxy generation only
 
 ## Getting started
 
 ```bash
 git clone https://github.com/gelonezi/my-mechanic-shop.git
 cd my-mechanic-shop
-docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait
-cd src/MyMechanicShop.HttpApi.Host
-dotnet run
+just api
 ```
+
+| Recipe | What it does |
+| --- | --- |
+| `just` | lists the recipes |
+| `just infra` | starts the satellite applications in Docker ([`etc/docker/infrastructure/`](etc/docker/infrastructure/postgresql.yml): PostgreSQL 18 on `127.0.0.1:5432`) and waits until they are healthy |
+| `just api` | runs `infra`, then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`, its content root |
 
 The API and Swagger UI are on **https://localhost:44390**. Log in as `admin`, with ABP's
 default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`). In Development
-the host **migrates and seeds every database on startup**. Run it from its own folder: the
-working directory is its content root, where it finds `appsettings.json`.
+the host **migrates and seeds every database on startup**.
 
 PostgreSQL keeps running after the host stops; `docker compose -f
 etc/docker/infrastructure/postgresql.yml down` stops it, and the data survives in a Docker

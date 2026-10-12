@@ -44,17 +44,20 @@ all. Worth knowing they exist before the rule that explains them loads:
 
 ## Commands
 
-The backend runs with **`dotnet run`**; Docker Desktop must be running. `abp run` and ABP
-Studio run profiles are **not** used (the profile and its `etc/scripts/` were removed). The
-`abp` CLI is still used for scaffolding and proxy generation. How the frontend runs is
-not decided yet.
+Running is done through the root **`justfile`** ([just](https://just.systems)); Docker
+Desktop must be running. `abp run` and ABP Studio run profiles are **not** used. The `abp`
+CLI is still used for scaffolding and proxy generation. The run scripts are being migrated
+recipe by recipe to `dotnet run` and pnpm; how the frontend runs is not decided yet.
 
 ```
-docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait   # PostgreSQL 18 on 127.0.0.1:5432
-cd src/MyMechanicShop.HttpApi.Host && dotnet run                          # API on https://localhost:44390
+just          # list the recipes
+just infra    # satellite applications in Docker (PostgreSQL 18 on 127.0.0.1:5432), waits until healthy
+just api      # runs `infra` first, then `dotnet run` in src/MyMechanicShop.HttpApi.Host (https://localhost:44390)
 ```
 
-The `cd` is load-bearing. The content root is the working directory, so from anywhere else
+On Windows the recipes run in `pwsh` (`set windows-shell`), elsewhere in `sh`, so a recipe
+line must work in both. `api` uses `[working-directory]` instead of a `cd`, and that
+directory is load-bearing. The content root is the working directory, so from anywhere else
 the host (and the DbMigrator) finds no `appsettings.json`. In Development the host
 migrates and seeds every database before it listens: `MyMechanicShopHttpApiHostModule` runs
 the DbMigrator's own migration service, ~3 s per start when there is nothing to migrate.
@@ -65,7 +68,7 @@ see `project/angular-workspaces.md` and `project/auto-api-controllers.md`.
 
 ```
 dotnet build MyMechanicShop.slnx
-dotnet test  MyMechanicShop.slnx          # 60 tests; see project/testing.md
+dotnet test  MyMechanicShop.slnx          # 57 tests; see project/testing.md
 ```
 
 Angular is **yarn, not npm**: both workspaces ship a `yarn.lock` and no
