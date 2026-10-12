@@ -29,7 +29,7 @@ mechanism is being reused. Examples already in this repo:
 | Shared Kernel: what may be shared; value object and enum conventions; mapping VOs in EF Core | `project/shared-kernel.md` | `modules/MyMechanicShop.SharedKernel/**`, `*Vo.cs`, `Enums/*.cs`, `*.EntityFrameworkCore/**/Configurations/*.cs` |
 | One database per module; each module creates its own migrations, DbMigrator runs them all | `project/databases-and-migrations.md` | `*.EntityFrameworkCore/**`, `*DbContext*.cs`, `Migrations/**`, `appsettings*.json` |
 | Auto API controller naming; Swagger tag vs URL; proxy generation | `project/auto-api-controllers.md` | `*HttpApiModule*.cs`, `*AppService*.cs` |
-| Two Angular workspaces; module UI ships as an npm package | `project/angular-workspaces.md` | `angular/**`, `public-api.ts` |
+| Two Angular workspaces in one pnpm workspace; module UI ships as an npm package; root-relative `node_modules` paths | `project/angular-workspaces.md` | `angular/**`, `public-api.ts` |
 | Test discovery; one in-memory database per module | `project/testing.md` | `test/**`, `*Tests*/**`, `*TestModule*.cs` |
 | `.editorconfig`, `.gitignore` | `project/repo-config-files.md` | `.editorconfig`, `.gitignore` |
 
@@ -47,13 +47,20 @@ all. Worth knowing they exist before the rule that explains them loads:
 Running is done through the root **`justfile`** ([just](https://just.systems)); Docker
 Desktop must be running. `abp run` and ABP Studio run profiles are **not** used. The `abp`
 CLI is still used for scaffolding and proxy generation. The run scripts are being migrated
-recipe by recipe to `dotnet run` and pnpm; how the frontend runs is not decided yet.
+recipe by recipe to `dotnet run` and pnpm.
 
 ```
-just          # list the recipes
-just infra    # satellite applications in Docker (PostgreSQL 18 on 127.0.0.1:5432), waits until healthy
-just api      # runs `infra` first, then `dotnet run` in src/MyMechanicShop.HttpApi.Host (https://localhost:44390)
+just                # list the recipes
+just infra          # satellite applications in Docker (PostgreSQL 18 on 127.0.0.1:5432), waits until healthy
+just api            # runs `infra` first, then `dotnet run` in src/MyMechanicShop.HttpApi.Host (https://localhost:44390)
+just web            # frozen pnpm install, builds Catalog once, then its watcher + ng serve (http://localhost:4200)
+just web-install    # pnpm install --frozen-lockfile
+just catalog-build  # builds the Catalog library into dist/catalog once
+just proxies        # regenerates Catalog's Angular proxies; needs `just api` running
 ```
+
+Run `just api` and `just web` in two terminals. `web` runs its watcher and `ng serve`
+together with `[parallel]`.
 
 On Windows the recipes run in `pwsh` (`set windows-shell`), elsewhere in `sh`, so a recipe
 line must work in both. `api` uses `[working-directory]` instead of a `cd`, and that
@@ -63,17 +70,16 @@ migrates and seeds every database before it listens: `MyMechanicShopHttpApiHostM
 the DbMigrator's own migration service, ~3 s per start when there is nothing to migrate.
 Outside Development, run `cd src/MyMechanicShop.DbMigrator && dotnet run` first.
 
-The Catalog Angular library and its proxies are no longer rebuilt or regenerated for you;
-see `project/angular-workspaces.md` and `project/auto-api-controllers.md`.
 
 ```
 dotnet build MyMechanicShop.slnx
 dotnet test  MyMechanicShop.slnx          # 57 tests; see project/testing.md
 ```
 
-Angular is **yarn, not npm**: both workspaces ship a `yarn.lock` and no
-`package-lock.json`, and `angular/start.ps1` is `npx yarn` then `npx yarn start`.
-In `angular/`: `yarn start` (`ng serve`), `yarn test`, `yarn lint`.
+Angular is **pnpm**: one workspace at the repo root (`pnpm-workspace.yaml`, one
+`pnpm-lock.yaml`, pnpm pinned in the root `package.json`) covering both Angular folders.
+Never `yarn` or `npm install` in them. Other commands go through a filter, e.g.
+`pnpm --filter ./angular exec ng test`, `pnpm --filter ./angular exec ng lint`.
 
 ## Notes
 

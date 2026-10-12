@@ -15,9 +15,9 @@
     "lib": ["ES2022", "dom", "esnext.disposable"],
     /* Local module libraries. Points at the ng-packagr OUTPUT, not the source,
        so the host consumes exactly the package it would get from npm once the
-       module is deployed separately. `abp run` keeps it rebuilt (watch.ps1 in
-       modules/MyMechanicShop.Catalog/angular); otherwise run `yarn ng build
-       catalog` there after changing the library. */
+       module is deployed separately. `just web` keeps it rebuilt (ng build
+       catalog --watch); otherwise run `just catalog-build` after changing the
+       library. */
     "paths": {
       "@my-mechanic-shop/catalog": [
         "../modules/MyMechanicShop.Catalog/angular/dist/catalog"

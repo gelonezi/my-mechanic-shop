@@ -1,0 +1,5 @@
+{
+  "name": "my-mechanic-shop",
+  "private": true,
+  "packageManager": "pnpm@12.7.0"
+}

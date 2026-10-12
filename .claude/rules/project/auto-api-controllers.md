@@ -74,16 +74,18 @@ Every flag is load-bearing: `-m` defaults to `app` and silently skips the module
 puts the output in the library rather than in `dev-app`; `-a Catalog` sets the `apiName` the
 generated services declare, which must match the `Catalog` entry in *both* environment files.
 
-Run it by hand after any API change, with the host up. `abp run` used to run it on every
-start through `etc/scripts/generate-catalog-proxies.ps1`. Both are gone, and how the frontend
-runs is not decided yet.
+**`just proxies`** runs it, after any API change, with the API up (`just api` in another
+terminal). It first requests `/health-status`, so a stopped API fails fast with
+`curl: (7) Failed to connect` instead of inside ABP's generator.
 
 The generator deletes and rewrites one folder per controller (`proxy/products/`,
 `proxy/store-products/`), plus one per namespace of the enums the DTOs use — `ProductUnit` and
 `Currency` come from the Shared Kernel — and writes some files CRLF, some LF.
 `.gitattributes` pins `**/proxy/**` to `eol=lf`, so the mixed endings never reach the
-repository. (The deleted script also rewrote the folder to LF on disk; check `git status`
-after generating with an unchanged API.) A real API change is a real diff. A running library watcher picks the rewrite up and `ng serve` reloads.
+repository, and `just proxies` then rewrites the folder to LF on disk too (its private
+`proxies-lf` step). Without that, `git status` lists the CRLF files as modified even though
+`git diff` is empty. Verified: with an unchanged API, `just proxies` leaves `git status`
+clean. A real API change is a real diff. A running library watcher picks the rewrite up and `ng serve` reloads.
 
 That clean-tree guarantee holds **per CLI version**. Generators differ in formatting between
 versions — 3.1.4 wraps its output prettier-style (expanded arrays, trailing commas) where 3.1.1

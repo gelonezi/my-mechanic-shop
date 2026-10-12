@@ -24,13 +24,15 @@
 | Frontend            | Angular,  ABP's Angular packages, LeptonX Lite theme |
 | Database            | PostgreSQL, each module with it's own database       |
 | Auth                | OpenIddict (ABP Account module), multi-tenancy       |
-| Tooling             | ABP Studio CLI (scaffolding, proxies), yarn          |
+| Tooling             | just, pnpm, ABP Studio CLI (scaffolding, proxies)    |
 
 ## Localhost Prerequisites
 
 * [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node.js](https://nodejs.org/en) `^24.15.0` (Angular 22's requirement); yarn is
-  fetched through `npx`
+* [Node.js](https://nodejs.org/en) `^24.15.0` (Angular 22's requirement)
+* [pnpm](https://pnpm.io) 12: `corepack enable pnpm` (Corepack ships with Node 24; on Windows
+  it needs an elevated terminal) or `winget install pnpm.pnpm`. The exact version is pinned
+  in the root `package.json`, and pnpm switches to it on its own
 * [Docker Desktop / Engine](https://www.docker.com/), **running**
 * [just](https://just.systems) (`winget install Casey.Just`, `brew install just`, …); on
   Windows the recipes run in [PowerShell 7](https://learn.microsoft.com/powershell/) (`pwsh`)
@@ -41,7 +43,8 @@
 ```bash
 git clone https://github.com/gelonezi/my-mechanic-shop.git
 cd my-mechanic-shop
-just api
+just api    # terminal 1
+just web    # terminal 2
 ```
 
 | Recipe | What it does |
@@ -49,16 +52,18 @@ just api
 | `just` | lists the recipes |
 | `just infra` | starts the satellite applications in Docker ([`etc/docker/infrastructure/`](etc/docker/infrastructure/postgresql.yml): PostgreSQL 18 on `127.0.0.1:5432`) and waits until they are healthy |
 | `just api` | runs `infra`, then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`, its content root |
+| `just web` | installs the Angular workspaces (frozen lockfile), builds the Catalog library once, then runs its watcher and `ng serve` side by side |
+| `just web-install` | `pnpm install --frozen-lockfile` |
+| `just catalog-build` | builds the Catalog Angular library into `dist/catalog` once |
+| `just proxies` | regenerates Catalog's Angular proxies from the running API (`just api` must be up) |
 
-The API and Swagger UI are on **https://localhost:44390**. Log in as `admin`, with ABP's
+Open **http://localhost:4200** for the app. The API and Swagger UI are on **https://localhost:44390**. Log in as `admin`, with ABP's
 default admin password (`MyMechanicShopConsts.AdminPasswordDefaultValue`). In Development
 the host **migrates and seeds every database on startup**.
 
 PostgreSQL keeps running after the host stops; `docker compose -f
 etc/docker/infrastructure/postgresql.yml down` stops it, and the data survives in a Docker
 volume.
-
-How the Angular frontend runs is still to be decided.
 
 ## Database
 
@@ -107,8 +112,9 @@ PostgreSQL 18 runs in Docker with two databases on one server:
 ```
 
 The Angular app consumes each module's UI as a built npm package (`dist/`), exactly as it
-would from a registry, so the library must be rebuilt after a change
-(`yarn ng build catalog`, or `watch.ps1` in the library's workspace).
+would from a registry, so the library must be rebuilt after a change. `just web` keeps it
+rebuilt; `just catalog-build` builds it once. Both Angular folders are one pnpm workspace
+with a single `node_modules` at the repo root.
 
 ## Tests
 
