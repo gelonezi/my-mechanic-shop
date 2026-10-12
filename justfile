@@ -58,9 +58,9 @@ proxies-lf:
       if (text.includes('\r\n')) fs.writeFileSync(file, text.replace(/\r\n/g, '\n'));
     }
 
-# Build the images and run the whole application in Docker, on the same URLs as `api` and `web` (stop those first)
+# Run the whole application in Docker from the images published on Docker Hub, on the same URLs as `api` and `web` (stop those first)
 docker: docker-certs-if-missing
-    docker compose -f etc/docker/docker-compose.yml up -d --build
+    docker compose -f etc/docker/docker-compose.yml up -d --pull always --no-build
 
 # Export the HTTPS development certificate for `docker`, with a new password in etc/docker/.env
 [working-directory: 'etc/docker']
