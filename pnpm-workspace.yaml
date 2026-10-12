@@ -1,0 +1,15 @@
+packages:
+  - angular
+  - modules/*/angular
+
+# Classic flat node_modules. pnpm's default isolated layout breaks the Angular CLI builders
+# and ABP's schematics (abp generate-proxy), which load packages they don't declare.
+nodeLinker: hoisted
+
+# Dependency install scripts stay off, as in angular/Dockerfile (--ignore-scripts): each of
+# these ships prebuilt binaries as optional packages; the scripts only verify or build from source.
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: false
+  lmdb: false
+  msgpackr-extract: false
