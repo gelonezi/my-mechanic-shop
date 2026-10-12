@@ -3,6 +3,7 @@
 set windows-shell := ["pwsh.exe", "-NoLogo", "-NoProfile", "-Command"]
 
 compose := "docker compose -f etc/docker/infrastructure/postgresql.yml"
+host := "src/MyMechanicShop.HttpApi.Host"
 app := "./angular"
 catalog := "./modules/MyMechanicShop.Catalog/angular"
 
@@ -16,8 +17,16 @@ infra:
 
 # Run the API on https://localhost:44390; in Development it migrates and seeds every database first
 [working-directory: 'src/MyMechanicShop.HttpApi.Host']
-api: infra
+api: infra libs-if-missing
     dotnet run
+
+# Restore the API's MVC client libraries (the login page) into wwwroot/libs; rerun after an ABP upgrade
+libs:
+    abp install-libs -wd {{ host }}
+
+[private]
+@libs-if-missing:
+    {{ if path_exists(justfile_directory() / host / "wwwroot/libs/abp") == "true" { "echo 'MVC client libraries present (just libs refreshes them)'" } else { "just libs" } }}
 
 # Run the Angular app on http://localhost:4200, rebuilding the Catalog library on every change
 web: web-install catalog-build web-dev

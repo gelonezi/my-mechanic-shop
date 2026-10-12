@@ -8,13 +8,12 @@ paths:
 
 ## Host test projects must not reference module test projects
 
-`install-local-module` over-matches test packages. It wires every host test project —
-plus `MyMechanicShop.HttpApi.Client.ConsoleTestApp`, which is an `Exe`, not a test project —
-to all four of the module's `*.Tests` projects, and injects the matching
-`[DependsOn(typeof(Catalog*TestModule))]` into their module classes. Both sides must be
-removed after each install.
+Wire a module into the host's `src/` projects only. ABP's old `install-local-module` also
+linked every host test project (and the `HttpApi.Client.ConsoleTestApp` `Exe`) to the
+module's `*.Tests` projects with `[DependsOn(typeof(Catalog*TestModule))]`; that tool is
+unusable now, but the mistake is easy to repeat by hand.
 
-This is not just noise. `CatalogEntityFrameworkCoreTestModule` builds its own
+It is not just noise. `CatalogEntityFrameworkCoreTestModule` builds its own
 `AbpUnitTestSqliteDatabase` containing only `CatalogDbContext`'s tables and overwrites
 `AbpDbConnectionOptions.ConnectionStrings.Default`. Once the host's `TestBase` depends on
 it, `MyMechanicShop.Domain.Tests` resolves to a database with none of the host's tables,

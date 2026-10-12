@@ -13,17 +13,19 @@ This template follows **Domain-Driven Design (DDD)** principles with strict laye
 ## Solution Structure
 
 ```
-MyProject/
+MyMechanicShop/
 ├── src/
 │   ├── MyMechanicShop.Domain.Shared/        # Constants, enums, localization, ETOs
 │   ├── MyMechanicShop.Domain/               # Entities, repository interfaces, domain services
 │   ├── MyMechanicShop.Application.Contracts/ # DTOs, service interfaces
 │   ├── MyMechanicShop.Application/          # Application service implementations
-│   ├── MyMechanicShop.EntityFrameworkCore/  # EF Core DbContext, repository implementations
+│   ├── MyMechanicShop.EntityFrameworkCore/  # Host DbContext + its migrations (Migrations/ABP)
 │   ├── MyMechanicShop.HttpApi/              # REST API controllers (optional)
 │   ├── MyMechanicShop.HttpApi.Client/       # Client proxies for remote calls
-│   └── angular/                        # Angular SPA
-│   └── MyMechanicShop.DbMigrator/           # Database migration console app
+│   ├── MyMechanicShop.HttpApi.Host/         # The API (`just api`)
+│   └── MyMechanicShop.DbMigrator/           # Applies every database's migrations + seeds
+├── modules/                                 # Local ABP modules (own projects, database, Angular library)
+├── angular/                                 # Angular SPA (`just web`)
 └── test/
     ├── MyMechanicShop.Domain.Tests/
     ├── MyMechanicShop.Application.Tests/
@@ -169,29 +171,32 @@ builder.Entity<Book>(b =>
 });
 ```
 
-### 8. Run DbMigrator
+### 8. Add and apply the migration
 ```bash
 cd src/MyMechanicShop.EntityFrameworkCore
-dotnet ef migrations add Added_Book
-
-cd ../MyMechanicShop.DbMigrator
-dotnet run
+dotnet ef migrations add Added_Book --context MyMechanicShopDbContext --output-dir Migrations/ABP
 ```
+
+Then `just api`: in Development the host applies it before it listens. A module's entity
+gets its migration in the module's own EF project instead (the `ef-migration` skill).
 
 ## DbMigrator
 
 Console application for:
-- Applying database migrations
+- Applying every database's migrations (host and modules)
 - Seeding initial data (admin user, permissions, etc.)
 
-Run before first launch:
+In Development the host runs the DbMigrator's migration service on startup, so `just api` is
+enough. Elsewhere, run it before the host, **from its own folder** (it is its content root;
+`dotnet run --project src/…` finds no `appsettings.json`):
 ```bash
-dotnet run --project src/MyMechanicShop.DbMigrator
+cd src/MyMechanicShop.DbMigrator
+dotnet run
 ```
 
 ## Best Practices
 
-1. **Respect layer boundaries** - Never referenceEntityFrameworkCorefrom Application
+1. **Respect layer boundaries** - Never reference EntityFrameworkCore from Application
 2. **Rich domain model** - Encapsulate business logic in entities
 3. **Repository per aggregate** - One repository per aggregate root only
 4. **DTOs at boundaries** - Never expose entities outside Application layer

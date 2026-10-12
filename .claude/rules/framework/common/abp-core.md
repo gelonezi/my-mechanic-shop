@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.cs"
+---
+
 # ABP Core Conventions
 
 > **Documentation**: https://abp.io/docs/latest

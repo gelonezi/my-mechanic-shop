@@ -26,10 +26,13 @@ src/app/
 
 ## Generate Service Proxies
 ```bash
-abp generate-proxy -t ng
+just proxies   # needs `just api` running
 ```
 
-This generates typed service classes in `src/app/proxy/`.
+In this repo a module's typed services are generated into **its own library**
+(`modules/<Name>/angular/projects/<name>/src/lib/proxy/`), not the app. Every flag matters;
+see `project/auto-api-controllers.md`. The app has no app services of its own yet. When it
+does, `abp generate-proxy -t ng` in `angular/` writes them to `src/app/proxy/`.
 
 ## List Component Pattern
 ```typescript

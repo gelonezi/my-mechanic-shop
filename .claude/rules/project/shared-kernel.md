@@ -95,10 +95,12 @@ p.ComplexProperty(x => x.Brand, n => n.Property(v => v.Value)        // NameVo? 
 
 ### Using the kernel from a new module
 
-```
-abp install-local-module modules/MyMechanicShop.SharedKernel/MyMechanicShop.SharedKernel.abpmdl -t modules/<Name>/<Name>.abpmdl
-```
+By hand (`abp install-local-module` needs the `.abpmdl` files this repo no longer has), exactly
+two links, each with its `[DependsOn]`, as Catalog has them:
 
-Expect exactly two links, `<Name>.Domain.Shared → SharedKernel.Domain.Shared` and
-`<Name>.Domain → SharedKernel.Domain`, each with its `[DependsOn]`. The host needs no install
-of its own: it gets the kernel transitively through the modules.
+| Module project | `ProjectReference` | `[DependsOn]` |
+| --- | --- | --- |
+| `<Name>.Domain.Shared` | `SharedKernel.Domain.Shared` | `SharedKernelDomainSharedModule` |
+| `<Name>.Domain` | `SharedKernel.Domain` | `SharedKernelDomainModule` |
+
+The host needs no link of its own: it gets the kernel transitively through the modules.

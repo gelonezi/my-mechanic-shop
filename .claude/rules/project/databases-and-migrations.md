@@ -25,9 +25,9 @@ The provider is **PostgreSQL**, one server holding one database per module:
 | `MyMechanicShopCatalog` | `Catalog` | `CatalogDbContext` | `modules/MyMechanicShop.Catalog/src/MyMechanicShop.Catalog.EntityFrameworkCore/Migrations/` |
 
 Locally the server is `etc/docker/infrastructure/postgresql.yml` (`postgres:18`, the
-current major; pinned to the major so a minor update never needs `pg_upgrade`). Start it
-with `docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait` before the
-host. `--wait` returns once the container is healthy, ~0.2 s after start (~2 s on a first
+current major; pinned to the major so a minor update never needs `pg_upgrade`). `just infra`
+starts it (`docker compose … up -d --wait`), and `just api` runs `infra` first. `--wait`
+returns once the container is healthy, ~0.2 s after start (~2 s on a first
 `initdb`). It keeps running until `docker compose ... down`. The data lives in the
 `mymechanicshop-postgresql-data` volume and survives `down`. A host started with no
 container fails with `Failed to connect to 127.0.0.1:5432`.
@@ -140,7 +140,9 @@ Under the old shared-interface design the same symptom came from a missing
    ```
 
    The module has one DbContext, so `--context` isn't needed.
-5. Second in-memory database in the test harness (see the testing note below).
+5. Its own in-memory database in the test harness (`project/testing.md`).
+6. Verify from empty databases that its tables exist (the check above). The `add-module`
+   skill walks through all of this, Angular included.
 
 ### Running the migrator
 
@@ -148,7 +150,7 @@ Under the old shared-interface design the same symptom came from a missing
 calls `MyMechanicShopDbMigrationService.MigrateAsync()` — the DbMigrator's own service, so
 migrations, schema migrators and seed contributors are unchanged; only the trigger moved.
 It was added when `abp run` started every app at once and could not hold the host back
-until a DbMigrator process exited. With `dotnet run` it remains a convenience: one command
+until a DbMigrator process exited. Under `just api` it remains a convenience: one command
 gives a migrated host. The pre-initialization phase completes before any module's
 `OnApplicationInitialization` touches the database and before the host listens.
 
@@ -161,9 +163,9 @@ Everywhere else — production, CI, or migrating without starting the host — r
 DbMigrator: `cd src/MyMechanicShop.DbMigrator && dotnet run`. **That `cd` is
 load-bearing**: `Host.CreateDefaultBuilder` uses the working directory as the content
 root, so from anywhere else the DbMigrator finds no `appsettings.json` and therefore no connection strings. The PostgreSQL container must be
-up (`docker compose -f etc/docker/infrastructure/postgresql.yml up -d --wait`).
+up (`just infra`).
 
 Databases are disposable: `docker compose -f etc/docker/infrastructure/postgresql.yml down -v`
-deletes the volume, and the next host start (or DbMigrator run) recreates and reseeds both.
+deletes the volume, and the next `just api` (or DbMigrator run) recreates and reseeds both.
 This is verified to work from scratch.
 

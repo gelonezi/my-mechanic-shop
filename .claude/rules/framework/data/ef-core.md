@@ -134,16 +134,17 @@ public static class BookEfCoreQueryableExtensions
 
 ## Migration Commands
 
+Each DbContext's migrations live next to it, so run `dotnet ef` from the EF project that owns
+the context:
+
 ```bash
-# Navigate to EF Core project
-cd src/MyProject.EntityFrameworkCore
+# Host context, from src/MyMechanicShop.EntityFrameworkCore
+dotnet ef migrations add MigrationName --context MyMechanicShopDbContext --output-dir Migrations/ABP
 
-# Add migration
-dotnet ef migrations add MigrationName
+# A module's context, from modules/<Module>/src/MyMechanicShop.<Module>.EntityFrameworkCore
+dotnet ef migrations add MigrationName --output-dir Migrations
 
-# Apply migration (choose one):
-dotnet run --project ../MyProject.DbMigrator   # Recommended - also seeds data
-dotnet ef database update  # EF Core command only
+# Apply: `just api` (Development) or, from src/MyMechanicShop.DbMigrator, `dotnet run`
 
 # Remove last migration (if not applied)
 dotnet ef migrations remove
@@ -151,6 +152,8 @@ dotnet ef migrations remove
 # Generate SQL script
 dotnet ef migrations script
 ```
+
+Full procedure and checks: the `ef-migration` skill.
 
 > **Note**: ABP templates include `IDesignTimeDbContextFactory` in the EF Core project, so `-s` (startup project) parameter is not needed.
 

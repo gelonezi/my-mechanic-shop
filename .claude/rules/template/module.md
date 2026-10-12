@@ -21,11 +21,15 @@ MyModule/
 │   ├── MyModule.EntityFrameworkCore/ # EF Core implementation
 │   ├── MyModule.HttpApi/            # REST controllers
 │   ├── MyModule.HttpApi.Client/     # Client proxies
+│   └── MyModule.Installer/          # ABP module-installer metadata; nothing references it
 ├── test/
-│   └── MyModule.Tests/
-└── host/
-    └── MyModule.HttpApi.Host/       # Test host application
+│   └── MyModule.*.Tests/            # Run from the module's own .slnx
+└── angular/                         # Angular library + dev-app stub (one pnpm workspace with the app)
 ```
+
+In this repo a module has **no `host/`**: it is developed inside the solution, and the app
+(`src/MyMechanicShop.HttpApi.Host`) is its host. Wiring, scaffolding and cleanup: the
+`add-module` skill and `project/solution-and-modules.md`.
 
 ## Database Independence
 

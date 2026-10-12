@@ -24,7 +24,7 @@
 | Frontend            | Angular,  ABP's Angular packages, LeptonX Lite theme |
 | Database            | PostgreSQL, each module with it's own database       |
 | Auth                | OpenIddict (ABP Account module), multi-tenancy       |
-| Tooling             | just, pnpm, ABP Studio CLI (scaffolding, proxies)    |
+| Tooling             | just, pnpm, ABP Studio CLI                           |
 
 ## Localhost Prerequisites
 
@@ -36,7 +36,8 @@
 * [Docker Desktop / Engine](https://www.docker.com/), **running**
 * [just](https://just.systems) (`winget install Casey.Just`, `brew install just`, …); on
   Windows the recipes run in [PowerShell 7](https://learn.microsoft.com/powershell/) (`pwsh`)
-* [ABP Studio CLI](https://abp.io), for scaffolding and proxy generation only
+* [ABP Studio CLI](https://abp.io): scaffolding, proxy generation, and `abp install-libs` for
+  the API's login page libraries (`just api` runs it on the first start)
 
 ## Getting started
 
@@ -51,7 +52,8 @@ just web    # terminal 2
 | --- | --- |
 | `just` | lists the recipes |
 | `just infra` | starts the satellite applications in Docker ([`etc/docker/infrastructure/`](etc/docker/infrastructure/postgresql.yml): PostgreSQL 18 on `127.0.0.1:5432`) and waits until they are healthy |
-| `just api` | runs `infra`, then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`, its content root |
+| `just api` | runs `infra` (and `libs` when `wwwroot/libs` is missing), then `dotnet run` in `src/MyMechanicShop.HttpApi.Host`, its content root |
+| `just libs` | `abp install-libs` for the API: fills `wwwroot/libs` with the login page's client libraries (rerun after an ABP upgrade) |
 | `just web` | installs the Angular workspaces (frozen lockfile), builds the Catalog library once, then runs its watcher and `ng serve` side by side |
 | `just web-install` | `pnpm install --frozen-lockfile` |
 | `just catalog-build` | builds the Catalog Angular library into `dist/catalog` once |

@@ -2,6 +2,7 @@
 paths:
   - "**/.editorconfig"
   - "**/.gitignore"
+  - "**/.vscode/settings.json"
 ---
 
 # Repo config files: one of each, at the root
@@ -15,6 +16,12 @@ paths:
   rather than `[*]` on purpose. Angular's stock file puts `indent_size = 2` and
   `trim_trailing_whitespace = true` under `[*]`; hoisting that to the root would reindent the
   C# tree and strip trailing whitespace from 9 ABP template files.
+- XML formatters must not wrap `.slnx` lines (a `<Project Path="modules/…">` line runs to
+  ~160 characters). Two editors, two settings: the `[*.slnx]` section in `.editorconfig` for
+  Rider/ReSharper (`resharper_xml_wrap_tags_and_pi = false`, …), and
+  `"xml.format.maxLineWidth": 0` in the root `.vscode/settings.json` for VS Code's Red Hat XML
+  extension, which ignores `.editorconfig`. That setting has `window` scope, so it can't be
+  limited to `.slnx`; it applies to every XML file in VS Code.
 - One `.gitignore`, at the root, covering the whole repo. ABP and the Angular CLI scaffold
   their own into every new module (`modules/<Name>/.gitignore` and
   `modules/<Name>/angular/.gitignore`) — delete both. Unlike `.editorconfig` there is no
