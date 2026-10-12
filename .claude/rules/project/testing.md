@@ -25,19 +25,21 @@ Module tests are self-contained and run from the module's own solution. Keep it 
 
 ## Tests
 
-`dotnet test MyMechanicShop.slnx` runs **60 tests**: 3 in
-`MyMechanicShop.EntityFrameworkCore.Tests`, 17 in
+`dotnet test MyMechanicShop.slnx` runs **57 tests**: 17 in
 `MyMechanicShop.Catalog.EntityFrameworkCore.Tests`, 40 in
-`MyMechanicShop.SharedKernel.Domain.Tests`. A module's own `.slnx` runs just its share.
+`MyMechanicShop.SharedKernel.Domain.Tests`. A module's own `.slnx` runs just its share. The
+host's test projects hold only infrastructure (base classes, fixture, test module) since the
+template's sample tests were deleted, so all of them report *"no tests available"*.
 
 The kernel's tests are plain unit tests — concrete classes, no ABP application, no database —
 because its VOs and validators need neither. Catalog's are integration tests and follow the
 pattern below.
 
-`Domain.Tests` and `Application.Tests` report *"no tests available"* and that is
-**correct, not a failure**. The ABP template writes its sample tests as abstract generic
-classes (`SampleDomainTests<TStartupModule>`), which xUnit cannot instantiate. The EF Core
-test project closes them:
+When host tests come back, follow the template's pattern. Even with tests, `Domain.Tests`
+and `Application.Tests` report *"no tests available"*, and that is **correct, not a
+failure**. The ABP template wrote its sample tests as abstract generic classes
+(`SampleDomainTests<TStartupModule>`), which xUnit cannot instantiate. The EF Core test
+project closes them:
 
 ```csharp
 public class EfCoreSampleDomainTests : SampleDomainTests<MyMechanicShopEntityFrameworkCoreTestModule>;
