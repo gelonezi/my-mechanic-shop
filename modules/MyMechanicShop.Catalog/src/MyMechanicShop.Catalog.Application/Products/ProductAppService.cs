@@ -52,7 +52,7 @@ public class ProductAppService
         return Task.CompletedTask;
     }
 
-    private void SetOptionalFields(Product product, CreateUpdateProductDto input)
+    protected virtual void SetOptionalFields(Product product, CreateUpdateProductDto input)
     {
         product
             .SetBrand(string.IsNullOrWhiteSpace(input.Brand) ? null : NameVo.Create(input.Brand))
